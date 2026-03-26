@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://cpsrkj2jtiap7"]
+
+[node name="Control" type="Control" unique_id=260101406]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background Color" type="ColorRect" parent="." unique_id=2016027142]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+
+[node name="Background Color2" type="ColorRect" parent="." unique_id=585893381]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 486.0
+offset_bottom = 276.0
+color = Color(1, 0, 0, 0.2)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2044030825]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=393837730]
+layout_mode = 2
+
+[node name="Top Half" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1530911070]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Upgrade 3" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half" unique_id=1610932301]
+custom_minimum_size = Vector2(54, 133)
+layout_mode = 2
+
+[node name="Upgrade 2" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half" unique_id=1509140904]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+
+[node name="Upgrade 1" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half" unique_id=608873669]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+
+[node name="Clone" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half" unique_id=1395389864]
+custom_minimum_size = Vector2(133, 0)
+layout_mode = 2
+color = Color(0.6260537, 0.9499089, 0.9943686, 1)
+
+[node name="Research Tab" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Top Half" unique_id=1033636088]
+layout_mode = 2
+
+[node name="Research 1" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=283021266]
+custom_minimum_size = Vector2(169, 42)
+layout_mode = 2
+
+[node name="Research 2" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=754631861]
+custom_minimum_size = Vector2(0, 41.5)
+layout_mode = 2
+
+[node name="Research 3" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=1700521418]
+custom_minimum_size = Vector2(0, 41.5)
+layout_mode = 2
+
+[node name="Bottom Half" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=329802072]
+layout_mode = 2
+
+[node name="Black Hole and Money" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1082785364]
+layout_mode = 2
+
+[node name="Black hole" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Black Hole and Money" unique_id=326432024]
+custom_minimum_size = Vector2(68, 97)
+layout_mode = 2
+color = Color(0.27752772, 0.27752772, 0.27752772, 1)
+
+[node name="Money" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Black Hole and Money" unique_id=1656542389]
+custom_minimum_size = Vector2(64, 32)
+layout_mode = 2
+color = Color(0.015571741, 0.61963785, 0, 1)
+
+[node name="Cloning Tanks" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1829354408]
+custom_minimum_size = Vector2(133, 133)
+layout_mode = 2
+color = Color(0.627451, 0.9490196, 0.99607843, 1)
+
+[node name="Upgrade Tank" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1900054778]
+custom_minimum_size = Vector2(62, 133)
+layout_mode = 2
+color = Color(0.627451, 0.9490196, 0.99607843, 1)
+
+[node name="Tank upgrades" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1625413112]
+custom_minimum_size = Vector2(54, 133)
+layout_mode = 2
+
+[node name="Brain upgrades" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=463031947]
+custom_minimum_size = Vector2(54, 133)
+layout_mode = 2
+
+[node name="Brain and Research" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=285007478]
+layout_mode = 2
+
+[node name="Brain" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1822160779]
+custom_minimum_size = Vector2(89, 42)
+layout_mode = 2
+color = Color(0.97737914, 0.33635962, 0.90791553, 1)
+
+[node name="Brain research" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1207417049]
+custom_minimum_size = Vector2(30, 41.5)
+layout_mode = 2
+
+[node name="Tank research" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1021769550]
+custom_minimum_size = Vector2(30, 41.5)
+layout_mode = 2
