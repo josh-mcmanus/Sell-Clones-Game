@@ -1,0 +1,185 @@
+[gd_scene format=3 uid="uid://c62828eojfvde"]
+
+[ext_resource type="Script" uid="uid://8yctwby1vabk" path="res://Code/Clone.cs" id="1_eeqi5"]
+[ext_resource type="Texture2D" uid="uid://dat1a4562ln4g" path="res://Assets/body part test/torso no left arm.png" id="2_eeqi5"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="3_p7wtv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eeqi5"]
+size = Vector2(42.000004, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7wtv"]
+size = Vector2(42, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8xe5"]
+size = Vector2(32.33333, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_50nb2"]
+size = Vector2(40, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kupc7"]
+size = Vector2(44.000004, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2qdl"]
+size = Vector2(31, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1i2x"]
+size = Vector2(25.913105, 63.439487)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m6ruh"]
+size = Vector2(24, 55)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_810pk"]
+size = Vector2(23.5, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcjsr"]
+size = Vector2(27, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xwu4"]
+size = Vector2(20, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_urumk"]
+size = Vector2(42, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1o3rt"]
+size = Vector2(64, 115.333336)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10mvr"]
+size = Vector2(15, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ano71"]
+size = Vector2(39, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8pxkt"]
+size = Vector2(36, 11.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7m45"]
+size = Vector2(15.5, 9.5)
+
+[node name="Node2D" type="Node2D" unique_id=397786538]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_eeqi5")
+
+[node name="ManTest" type="Sprite2D" parent="." unique_id=1194362875]
+texture = ExtResource("2_eeqi5")
+
+[node name="LArm" type="Area2D" parent="." unique_id=1743877741]
+script = ExtResource("3_p7wtv")
+
+[node name="LShoulder" type="CollisionShape2D" parent="LArm" unique_id=321346226]
+position = Vector2(-53.666668, -98)
+shape = SubResource("RectangleShape2D_eeqi5")
+
+[node name="LForearm" type="Area2D" parent="." unique_id=913437890]
+script = ExtResource("3_p7wtv")
+
+[node name="LForearm" type="CollisionShape2D" parent="LForearm" unique_id=1271412705]
+position = Vector2(-97.66667, -97.5)
+shape = SubResource("RectangleShape2D_p7wtv")
+
+[node name="LHand" type="Area2D" parent="." unique_id=85497423]
+script = ExtResource("3_p7wtv")
+
+[node name="LHand" type="CollisionShape2D" parent="LHand" unique_id=2040764368]
+position = Vector2(-136.83334, -100)
+shape = SubResource("RectangleShape2D_r8xe5")
+
+[node name="RArm" type="Area2D" parent="." unique_id=131506911]
+script = ExtResource("3_p7wtv")
+
+[node name="RShoulder" type="CollisionShape2D" parent="RArm" unique_id=1813418986]
+position = Vector2(55.333336, -98)
+shape = SubResource("RectangleShape2D_50nb2")
+
+[node name="RForearm" type="Area2D" parent="." unique_id=1072935207]
+script = ExtResource("3_p7wtv")
+
+[node name="RForearm" type="CollisionShape2D" parent="RForearm" unique_id=1778232378]
+position = Vector2(98, -97)
+shape = SubResource("RectangleShape2D_kupc7")
+
+[node name="RHand" type="Area2D" parent="." unique_id=1574476419]
+script = ExtResource("3_p7wtv")
+
+[node name="RHand" type="CollisionShape2D" parent="RHand" unique_id=188439100]
+position = Vector2(136.5, -100)
+shape = SubResource("RectangleShape2D_w2qdl")
+
+[node name="LLeg" type="Area2D" parent="." unique_id=774872446]
+script = ExtResource("3_p7wtv")
+
+[node name="LLeg" type="CollisionShape2D" parent="LLeg" unique_id=444667814]
+position = Vector2(-17.971188, 41.219067)
+rotation = 0.09250246
+shape = SubResource("RectangleShape2D_o1i2x")
+
+[node name="LCalf" type="Area2D" parent="." unique_id=1536391411]
+script = ExtResource("3_p7wtv")
+
+[node name="LCalf" type="CollisionShape2D" parent="LCalf" unique_id=508416843]
+position = Vector2(-19, 103.5)
+rotation = -0.09250246
+shape = SubResource("RectangleShape2D_m6ruh")
+
+[node name="LFoot" type="Area2D" parent="." unique_id=1753596483]
+script = ExtResource("3_p7wtv")
+
+[node name="LFoot" type="CollisionShape2D" parent="LFoot" unique_id=1097198617]
+position = Vector2(-9.25, 141)
+shape = SubResource("RectangleShape2D_810pk")
+
+[node name="RLeg" type="Area2D" parent="." unique_id=799276361]
+script = ExtResource("3_p7wtv")
+
+[node name="Rleg" type="CollisionShape2D" parent="RLeg" unique_id=2059421498]
+position = Vector2(12.5, 42.5)
+shape = SubResource("RectangleShape2D_wcjsr")
+
+[node name="RCalf" type="Area2D" parent="." unique_id=1037971468]
+script = ExtResource("3_p7wtv")
+
+[node name="RCalf" type="CollisionShape2D" parent="RCalf" unique_id=1890665912]
+position = Vector2(8, 103)
+rotation = -0.18500489
+shape = SubResource("RectangleShape2D_1xwu4")
+
+[node name="RFoot" type="Area2D" parent="." unique_id=835046519]
+script = ExtResource("3_p7wtv")
+
+[node name="RFoot" type="CollisionShape2D" parent="RFoot" unique_id=728465374]
+position = Vector2(26, 140)
+shape = SubResource("RectangleShape2D_urumk")
+
+[node name="Torso" type="Area2D" parent="." unique_id=190297447]
+script = ExtResource("3_p7wtv")
+
+[node name="Torso" type="CollisionShape2D" parent="Torso" unique_id=979218973]
+position = Vector2(1.333334, -50.333336)
+shape = SubResource("RectangleShape2D_1o3rt")
+
+[node name="Heart" type="Area2D" parent="." unique_id=1362025280]
+script = ExtResource("3_p7wtv")
+
+[node name="Heart" type="CollisionShape2D" parent="Heart" unique_id=19159925]
+position = Vector2(1, -63)
+shape = SubResource("RectangleShape2D_10mvr")
+
+[node name="Lung" type="Area2D" parent="." unique_id=1390888239]
+script = ExtResource("3_p7wtv")
+
+[node name="Lung" type="CollisionShape2D" parent="Lung" unique_id=186617958]
+position = Vector2(0, -83)
+shape = SubResource("RectangleShape2D_ano71")
+
+[node name="Kidney" type="Area2D" parent="." unique_id=778972324]
+script = ExtResource("3_p7wtv")
+
+[node name="Kidney" type="CollisionShape2D" parent="Kidney" unique_id=576287282]
+position = Vector2(0, -40.75)
+shape = SubResource("RectangleShape2D_8pxkt")
+
+[node name="Liver" type="Area2D" parent="." unique_id=2130979790]
+script = ExtResource("3_p7wtv")
+
+[node name="Liver" type="CollisionShape2D" parent="Liver" unique_id=633205787]
+position = Vector2(-5, -29)
+shape = SubResource("RectangleShape2D_e7m45")
