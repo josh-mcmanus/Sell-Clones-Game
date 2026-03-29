@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bl8y5kqojy5fj"]
+
+[ext_resource type="Script" uid="uid://cpvpowuwesfaq" path="res://Code/Dragging.cs" id="1_2ajbp"]
+[ext_resource type="Texture2D" uid="uid://dvbmpe5qup12k" path="res://icon.svg" id="2_tdygm"]
+
+[node name="Draggable" type="Node2D" unique_id=322657369 node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_2ajbp")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1205833372]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_tdygm")

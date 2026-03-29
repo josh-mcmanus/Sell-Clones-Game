@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://i64dulwog8hq"]
+
+[ext_resource type="PackedScene" uid="uid://c2crppqimmqwm" path="res://Scenes/body_part.tscn" id="1_0tha0"]
+[ext_resource type="Script" uid="uid://ctq0f1qnhn8by" path="res://Code/DragTest2.cs" id="1_hllsr"]
+
+[node name="Node2D" type="Node2D" unique_id=171066600]
+script = ExtResource("1_hllsr")
+
+[node name="Area2D" parent="." unique_id=709576988 instance=ExtResource("1_0tha0")]
+
+[node name="Area2D2" parent="." unique_id=1207035851 instance=ExtResource("1_0tha0")]

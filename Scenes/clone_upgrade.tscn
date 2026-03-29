@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cawfyal7qobkd"]
+
+[ext_resource type="PackedScene" uid="uid://c62828eojfvde" path="res://Scenes/clone.tscn" id="1_dm6bm"]
+[ext_resource type="PackedScene" uid="uid://bl8y5kqojy5fj" path="res://Scenes/draggable.tscn" id="2_q61i5"]
+
+[node name="Clone Upgrade" type="Node2D" unique_id=1280454857]
+
+[node name="Clone" parent="." unique_id=397786538 instance=ExtResource("1_dm6bm")]
+
+[node name="Draggable" parent="." unique_id=322657369 instance=ExtResource("2_q61i5")]

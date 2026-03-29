@@ -7,11 +7,13 @@ public partial class Clone : Node2D
 	
 	public override void _Ready()
 	{
+		// Links all children signals in BodyParts.cs
+		// To this manager / parent class functions
 		foreach (Node node in GetChildren())
 		{
 			if (node is BodyParts part)
 			{
-				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
+				// part.UpgradeSiteClicked += OnUpgradeSiteClicked;
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
 			}

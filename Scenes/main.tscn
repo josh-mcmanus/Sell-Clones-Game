@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cpsrkj2jtiap7"]
 
-[ext_resource type="PackedScene" uid="uid://c62828eojfvde" path="res://Scenes/clone.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/clone_upgrade.tscn" id="1_jjgbg"]
 
 [node name="Control" type="Control" unique_id=260101406]
 layout_mode = 3
@@ -64,8 +64,8 @@ layout_mode = 2
 mouse_filter = 2
 color = Color(0.6260537, 0.9499089, 0.9943686, 1)
 
-[node name="Node2D" parent="MarginContainer/VBoxContainer/Top Half/Clone" unique_id=397786538 instance=ExtResource("1_jjgbg")]
-position = Vector2(259, 260)
+[node name="Clone Upgrade" parent="MarginContainer/VBoxContainer/Top Half/Clone" unique_id=1280454857 instance=ExtResource("1_jjgbg")]
+position = Vector2(255, 253)
 
 [node name="Research Tab" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Top Half" unique_id=1033636088]
 layout_mode = 2
