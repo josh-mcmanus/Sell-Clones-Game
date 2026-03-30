@@ -8,18 +8,31 @@ using System;
 
 public partial class BodyParts : Area2D
 {
-	
+	// On Click
 	[Signal]
 	public delegate void UpgradeSiteClickedEventHandler(Area2D area);
 	
-	// [Signal]
-	// public delegate void UpgradeSiteReleasedEventHandler();
+	[Signal]
+	public delegate void UpgradeSiteReleasedEventHandler();
+	
+	// On Hover
+	[Signal]
+	public delegate void BodyPartHoverEventHandler(Area2D area);
+	
+	[Signal]
+	public delegate void BodyPartHoverExitEventHandler(Area2D area);
 	
 	[Signal]
 	public delegate void TorsoHoverEventHandler();
 	
 	[Signal]
 	public delegate void TorsoHoverExitEventHandler();
+	
+	
+	
+	private bool isHovering = false;
+	
+	private Area2D torsoArea;
 	
 	
 	public override void _Ready()
@@ -30,44 +43,43 @@ public partial class BodyParts : Area2D
 	}
 	
 	
-	// Overrites the InputEvent
-	// Emits a signal when clicking on an Area2D
-	// Except the torso
+	// Overrites the InputEvent, emits a signal when clicking on an Area2D
 	private void OnInputEvent(Node viewport, InputEvent @event, long shapeIdx)
 	{
-		if (Name == "Torso")
-		{
-			return;
-		}
-		
 		if (@event.IsActionPressed("left_click"))
 		{
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
 		}
-		// else if (@event.IsActionReleased("left_click"))
-		// {
-		// 	EmitSignal(SignalName.UpgradeSiteReleased);
-		// }
+		else if (@event.IsActionReleased("left_click"))
+		{
+			EmitSignal(SignalName.UpgradeSiteReleased);
+		}
 	}
 	
 	
-	// Emits a signal when the torso is hovered over
-	// To be used to play the opening animation
 	private void OnMouseEntered()
 	{
-		if (Name.Equals("Torso"))
+		if (Name == "Torso")
 		{
 			EmitSignal(SignalName.TorsoHover);
 		}
+		else
+		{
+			EmitSignal(SignalName.BodyPartHover, this);
+		}
 	}
 	
-	// To be used to play the closing animation
 	private void OnMouseExited()
 	{
-		if (Name.Equals("Torso"))
+		if (Name == "Torso")
 		{
 			EmitSignal(SignalName.TorsoHoverExit);
 		}
+		else
+		{
+			EmitSignal(SignalName.BodyPartHoverExit, this);
+		}
+		
 	}
 	
 }

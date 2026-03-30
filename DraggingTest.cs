@@ -21,7 +21,6 @@ public partial class DraggingTest : Area2D
 	{
 		if (@event.IsActionPressed("left_click"))
 		{
-			GetViewport().IsInputHandled();
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
 		}
 		else if (@event.IsActionReleased("left_click"))

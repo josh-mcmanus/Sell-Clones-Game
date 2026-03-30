@@ -32,7 +32,7 @@ public partial class Dragging : Node2D
 	{	
 		if (@event is InputEventMouseMotion motion)
 		{
-			GD.Print($"Motion at coordiate: {motion.Position}");
+			// GD.Print($"Motion at coordiate: {motion.Position}");
 			
 			currentMousePosition = motion.Position;
 		}

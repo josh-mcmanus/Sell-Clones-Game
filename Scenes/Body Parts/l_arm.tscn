@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://boc8n0n242ua5"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_8u1gm"]
+[ext_resource type="Texture2D" uid="uid://cgyygocyp720s" path="res://Assets/body part test/LArm.png" id="1_lca4e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8u1gm"]
+size = Vector2(45, 22)
+
+[node name="LArm" type="Area2D" unique_id=872701861]
+script = ExtResource("1_8u1gm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1529584533]
+texture = ExtResource("1_lca4e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=637082579]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_8u1gm")
