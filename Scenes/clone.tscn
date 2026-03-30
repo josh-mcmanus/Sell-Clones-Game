@@ -2,9 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dat1a4562ln4g" path="res://Assets/body part test/torso no left arm.png" id="2_eeqi5"]
 [ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="3_p7wtv"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_eeqi5"]
-size = Vector2(42.000004, 22)
+[ext_resource type="PackedScene" uid="uid://boc8n0n242ua5" path="res://Scenes/Body Parts/l_arm.tscn" id="3_r8xe5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7wtv"]
 size = Vector2(42, 21)
@@ -60,12 +58,8 @@ scale = Vector2(1.5, 1.5)
 [node name="ManTest" type="Sprite2D" parent="." unique_id=1194362875]
 texture = ExtResource("2_eeqi5")
 
-[node name="LArm" type="Area2D" parent="." unique_id=1743877741]
-script = ExtResource("3_p7wtv")
-
-[node name="LShoulder" type="CollisionShape2D" parent="LArm" unique_id=321346226]
-position = Vector2(-53.666668, -98)
-shape = SubResource("RectangleShape2D_eeqi5")
+[node name="LArm" parent="." unique_id=872701861 instance=ExtResource("3_r8xe5")]
+position = Vector2(-53, -97)
 
 [node name="LForearm" type="Area2D" parent="." unique_id=913437890]
 script = ExtResource("3_p7wtv")

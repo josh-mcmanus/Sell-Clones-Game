@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://i64dulwog8hq"]
 
-[ext_resource type="PackedScene" uid="uid://c2crppqimmqwm" path="res://Scenes/body_part.tscn" id="1_0tha0"]
+[ext_resource type="PackedScene" uid="uid://c2crppqimmqwm" path="res://Scenes/drag_test_body_part.tscn" id="1_0tha0"]
 [ext_resource type="Script" uid="uid://ctq0f1qnhn8by" path="res://Code/DragTest2.cs" id="1_hllsr"]
 
 [node name="Node2D" type="Node2D" unique_id=171066600]

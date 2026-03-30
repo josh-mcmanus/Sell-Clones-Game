@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 public partial class CloneManager : Node2D
 {
@@ -10,7 +12,9 @@ public partial class CloneManager : Node2D
 	private int zIndex = 0;
 	
 	private bool moveObject = false;
+	private bool isAttachedPartSelected = false;
 	
+	private BodyParts newlyAddedBodyPart;
 	
 	[Export]
 	private Node2D clone;
@@ -68,6 +72,8 @@ public partial class CloneManager : Node2D
 	}
 	
 	
+	// When a lone unconnected body part is clicked
+	// unrelated to when a connected body part is clicked
 	private void OnBodyPartClicked(Area2D area)
 	{
 		GD.Print($"Clicked object: {area.Name}");
@@ -104,7 +110,9 @@ public partial class CloneManager : Node2D
 		BodyParts part = bodyPartScene.Instantiate<BodyParts>();
 		
 		CallDeferred(Node.MethodName.AddChild, part);
-
+		
+		newlyAddedBodyPart = part;
+		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
 		part.UpgradeSiteReleased += OnBodyPartReleased;
@@ -163,16 +171,53 @@ public partial class CloneManager : Node2D
 	
 	
 	// Called when an area is clicked
+	// For removing body parts
 	private void OnUpgradeSiteClicked(Area2D area)
 	{
+		// store current object data
 		currentArea = area;
+		isAttachedPartSelected = true;
+		moveObject = true;
+		
+		localMouseOffset = area.GetLocalMousePosition();
+		
+		
+		// Initialize area2d
+		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/removal_bounds.tscn");
+		
+		RemovalBounds removalBounds = removalBoundsScene.Instantiate<RemovalBounds>();
+		
+		// this should be deferred, because it might supposedly cause issues if done like this, because this is using a signal
+		// then assign the child with a new function called inside the deferred setting the global position as the mouse position
+		AddChild(removalBounds);
+		
+		removalBounds.GlobalPosition = currentGlobalMousePosition;
+		
+		removalBounds.MouseExitedBounds += MouseExitedRemovalBounds;
 		
 		GD.Print(area.Name);
 	}
 	
+	
+	// when the mouse is moved outside this area, part is removed
+	private void MouseExitedRemovalBounds()
+	{
+		BodyPartHoverExit(currentArea);
+	}
+	
+	
 	private void OnUpgradeSiteReleased()
 	{
-		
+		ResetAndDisableMovement();
+	}
+	
+	
+	private void ResetAndDisableMovement()
+	{
+		moveObject = false;
+		isAttachedPartSelected = false;
+		newlyAddedBodyPart = null;
+		currentArea = null;
 	}
 	
 	
@@ -182,9 +227,42 @@ public partial class CloneManager : Node2D
 		GD.Print($"Hovering over {area.Name}");
 	}
 	
+	
 	// Called when an area is stopped hovering over with the mouse
+	// Removes body part, when mouse is dragged far enough away, part is disconnected
 	private void BodyPartHoverExit(Area2D area)
 	{
+		// Clicked down on body part for removal
+		if (!isAttachedPartSelected)
+		{
+			GD.Print("test2");
+			return;
+		}
+		
+		
+		GD.Print("test3");
+		// TODO: some code here that saves to file
+
+		
+		// get directory from dictionary
+		if (!bodyParts.ContainsKey(area.Name))
+		{
+			ResetAndDisableMovement();
+			throw new ArgumentNullException($"Key: {area.Name}, could not be found in bodyParts dictionary");
+		}
+		
+		var partDirectory = bodyParts.GetValueOrDefault(area.Name);
+		
+		// create new body part object
+		AddBodyPartToScene(partDirectory);
+		
+		// move to mouse position
+		newlyAddedBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+		
+		// click onto it (follow the mouse untill unclick signal)
+		currentArea = newlyAddedBodyPart;
+		moveObject = true;
+		
 		GD.Print($"Stopped hovering over {area.Name}");
 	}
 	
@@ -200,4 +278,33 @@ public partial class CloneManager : Node2D
 	{
 		GD.Print("Stopped hovering over torso");
 	}
+	
+	
+	
+	private readonly Dictionary<string, string> bodyParts = new()
+	{
+		{"LArm",	"res://Scenes/Body Parts/l_arm.tscn"},
+		
+		// remaining unfinished
+		// {"LForearm","res://Scenes/Body Parts/"}, 
+		// {"LHand",	"res://Scenes/Body Parts/"},
+		// {"RArm",	"res://Scenes/Body Parts/"},
+		// {"RForearm","res://Scenes/Body Parts/"},
+		// {"RHand",	"res://Scenes/Body Parts/"},
+		// {"LLeg",	"res://Scenes/Body Parts/"},
+		// {"LCalf",	"res://Scenes/Body Parts/"},
+		// {"LFoot",	"res://Scenes/Body Parts/"},
+		// {"RLeg",	"res://Scenes/Body Parts/"},
+		// {"RCalf",	"res://Scenes/Body Parts/"},
+		// {"RFoot",	"res://Scenes/Body Parts/"},
+		// {"Torso",	"res://Scenes/Body Parts/"},
+		// {"Heart",	"res://Scenes/Body Parts/"},
+		// {"Lung",	"res://Scenes/Body Parts/"},
+		// {"Kidney",	"res://Scenes/Body Parts/"},
+		// {"Liver",	"res://Scenes/Body Parts/"}
+	};
+	
+	
+	
+	
 }
