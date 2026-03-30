@@ -7,6 +7,7 @@ public partial class CloneManager : Node2D
 	private Vector2 localMouseOffset = Vector2.Zero;
 	
 	private Area2D currentArea = null;
+	private int zIndex = 0;
 	
 	private bool moveObject = false;
 	
@@ -27,6 +28,7 @@ public partial class CloneManager : Node2D
 			if (node is BodyParts part)
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
+				part.UpgradeSiteReleased += OnUpgradeSiteReleased;
 				
 				part.BodyPartHover += BodyPartHover;
 				part.BodyPartHoverExit += BodyPartHoverExit;
@@ -73,21 +75,15 @@ public partial class CloneManager : Node2D
 		if (currentArea == null)
 		{
 			currentArea = area;
-			currentArea.ZIndex = 1;
+			currentArea.ZIndex = zIndex;
 		}
-		else
-		{
-			// Set previous object to behind
-			currentArea.ZIndex = 0;
-		}
-		
 		
 		localMouseOffset = area.GetLocalMousePosition();
 		currentArea = area;
 		moveObject = true;
 		
-		// Set current object to in front
-		currentArea.ZIndex = 1;
+		zIndex++;
+		currentArea.ZIndex = zIndex;
 	}
 	
 	
@@ -169,7 +165,14 @@ public partial class CloneManager : Node2D
 	// Called when an area is clicked
 	private void OnUpgradeSiteClicked(Area2D area)
 	{
+		currentArea = area;
+		
 		GD.Print(area.Name);
+	}
+	
+	private void OnUpgradeSiteReleased()
+	{
+		
 	}
 	
 	
