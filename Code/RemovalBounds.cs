@@ -4,7 +4,7 @@ using System;
 public partial class RemovalBounds : Area2D
 {
 	[Signal]
-	public delegate void MouseExitedBoundsEventHandler();
+	public delegate void MouseExitedBoundsEventHandler(Area2D area);
 	
 	
 	public override void _Ready()
@@ -14,7 +14,7 @@ public partial class RemovalBounds : Area2D
 	
 	private void OnMouseExitBounds()
 	{
-		EmitSignal(SignalName.MouseExitedBounds);
+		EmitSignal(SignalName.MouseExitedBounds, this);
 	}
 	
 }

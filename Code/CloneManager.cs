@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class CloneManager : Node2D
 {
@@ -33,9 +34,6 @@ public partial class CloneManager : Node2D
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
 				part.UpgradeSiteReleased += OnUpgradeSiteReleased;
-				
-				part.BodyPartHover += BodyPartHover;
-				part.BodyPartHoverExit += BodyPartHoverExit;
 				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
@@ -101,7 +99,7 @@ public partial class CloneManager : Node2D
 	
 	// Adds a body part as child to the scene, draggable
 	// for adding onto the clone
-	// Righ click on body part scene e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
+	// Right click on body part scene e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
 	private void AddBodyPartToScene(string sceneDirectory)
 	{
 		// load and add body part to scene
@@ -174,26 +172,20 @@ public partial class CloneManager : Node2D
 	// For removing body parts
 	private void OnUpgradeSiteClicked(Area2D area)
 	{
-		// store current object data
-		currentArea = area;
+		OnBodyPartClicked(area);
+		area.ZIndex = 0;
+		
 		isAttachedPartSelected = true;
-		moveObject = true;
 		
-		localMouseOffset = area.GetLocalMousePosition();
-		
-		
-		// Initialize area2d
+		// Initialize new area2d, for body part removal bounds
 		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/removal_bounds.tscn");
-		
 		RemovalBounds removalBounds = removalBoundsScene.Instantiate<RemovalBounds>();
-		
-		// this should be deferred, because it might supposedly cause issues if done like this, because this is using a signal
-		// then assign the child with a new function called inside the deferred setting the global position as the mouse position
 		AddChild(removalBounds);
 		
+		// Properties
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
-		
-		removalBounds.MouseExitedBounds += MouseExitedRemovalBounds;
+		removalBounds.Name = area.Name;
+		removalBounds.MouseExitedBounds += BodyPartHoverExit;
 		
 		GD.Print(area.Name);
 	}
@@ -205,7 +197,7 @@ public partial class CloneManager : Node2D
 		BodyPartHoverExit(currentArea);
 	}
 	
-	
+	// Mouse stops clicking on the upgrade site / attached body part
 	private void OnUpgradeSiteReleased()
 	{
 		ResetAndDisableMovement();
@@ -216,15 +208,6 @@ public partial class CloneManager : Node2D
 	{
 		moveObject = false;
 		isAttachedPartSelected = false;
-		newlyAddedBodyPart = null;
-		currentArea = null;
-	}
-	
-	
-	// Called when an area is hovered over with the mouse
-	private void BodyPartHover(Area2D area)
-	{
-		GD.Print($"Hovering over {area.Name}");
 	}
 	
 	
@@ -239,22 +222,28 @@ public partial class CloneManager : Node2D
 			return;
 		}
 		
-		
 		GD.Print("test3");
 		// TODO: some code here that saves to file
-
+		
+		
+		BodyPartEnum bodyPartEnum = GetBodyPartEnumFromString(area.Name);
 		
 		// get directory from dictionary
-		if (!bodyParts.ContainsKey(area.Name))
+		if (!bodyParts.ContainsKey(bodyPartEnum))
 		{
-			ResetAndDisableMovement();
-			throw new ArgumentNullException($"Key: {area.Name}, could not be found in bodyParts dictionary");
+			ResetAndDisableMovement(); // TODO: This needs to reset the position of the clicked body part
+			throw new ArgumentNullException($"Key: {bodyPartEnum}, could not be found in bodyParts dictionary");
 		}
 		
-		var partDirectory = bodyParts.GetValueOrDefault(area.Name);
+		var partDirectory = bodyParts.GetValueOrDefault(bodyPartEnum);
+		
 		
 		// create new body part object
 		AddBodyPartToScene(partDirectory);
+		
+		// delete old object
+		currentArea.QueueFree();
+		currentArea = null;
 		
 		// move to mouse position
 		newlyAddedBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
@@ -281,30 +270,76 @@ public partial class CloneManager : Node2D
 	
 	
 	
-	private readonly Dictionary<string, string> bodyParts = new()
+	private readonly Dictionary<BodyPartEnum, string> bodyParts = new()
 	{
-		{"LArm",	"res://Scenes/Body Parts/l_arm.tscn"},
+		{BodyPartEnum.LArm,	"res://Scenes/Body Parts/l_arm.tscn"},
 		
 		// remaining unfinished
-		// {"LForearm","res://Scenes/Body Parts/"}, 
-		// {"LHand",	"res://Scenes/Body Parts/"},
-		// {"RArm",	"res://Scenes/Body Parts/"},
-		// {"RForearm","res://Scenes/Body Parts/"},
-		// {"RHand",	"res://Scenes/Body Parts/"},
-		// {"LLeg",	"res://Scenes/Body Parts/"},
-		// {"LCalf",	"res://Scenes/Body Parts/"},
-		// {"LFoot",	"res://Scenes/Body Parts/"},
-		// {"RLeg",	"res://Scenes/Body Parts/"},
-		// {"RCalf",	"res://Scenes/Body Parts/"},
-		// {"RFoot",	"res://Scenes/Body Parts/"},
-		// {"Torso",	"res://Scenes/Body Parts/"},
-		// {"Heart",	"res://Scenes/Body Parts/"},
-		// {"Lung",	"res://Scenes/Body Parts/"},
-		// {"Kidney",	"res://Scenes/Body Parts/"},
-		// {"Liver",	"res://Scenes/Body Parts/"}
+		// {BodyPartEnum.LForearm,	"res://Scenes/Body Parts/"}, 
+		// {BodyPartEnum.LHand,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RArm,		"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RForearm,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RHand,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.LLeg,		"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.LCalf,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.LFoot,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RLeg,		"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RCalf,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.RFoot,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.Torso,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.Heart,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.Lung,		"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.Kidney,	"res://Scenes/Body Parts/"},
+		// {BodyPartEnum.Liver,	"res://Scenes/Body Parts/"}
 	};
 	
 	
 	
+	public static BodyPartEnum GetBodyPartEnumFromString(string input)
+	{
+		GD.Print(input);
+		
+		if (string.IsNullOrEmpty(input))
+		{
+			throw new ArgumentException("Input cannot be null or empty");
+		}
+		
+		string withoutNumbers = Regex.Replace(input, "[0-9]", "");
+		
+		if(Enum.TryParse(withoutNumbers, out BodyPartEnum result))
+		{
+			return result;
+		}
+		
+		throw new ArgumentException($"Invalid input string: {input}");
+	}
+	
+	
+	public enum BodyPartEnum
+	{
+		LArm,
+		LForearm,
+		LHand,
+		
+		RArm,
+		RForearm,
+		RHand,
+		
+		
+		LLeg,
+		LCalf,
+		LFoot,
+		
+		RLeg,
+		RCalf,
+		RFoot,
+		
+		
+		Torso,
+		Heart,
+		Lung,
+		Kidney,
+		Liver
+	}
 	
 }
