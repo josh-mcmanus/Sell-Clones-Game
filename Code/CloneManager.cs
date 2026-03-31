@@ -24,8 +24,6 @@ public partial class CloneManager : Node2D
 	private bool isSelectedBodyPartAttached = false;
 	
 	
-	private BodyParts newlyAddedBodyPart;
-	
 	private Area2D currentArea = null;
 	private int zIndex = 0;
 	
@@ -44,6 +42,9 @@ public partial class CloneManager : Node2D
 			if (node is BodyParts part)
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
+				
+				part.BodyPartHover += OnBodyPartHover;
+				part.BodyPartHoverExit += OnBodyPartHoverExit;
 				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
@@ -121,40 +122,24 @@ public partial class CloneManager : Node2D
 	// Adds a body part as child to the scene, draggable
 	// for adding onto the clone
 	// Right click on body part scene e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
-	private void AddBodyPartToScene(string sceneDirectory)
+	private BodyParts AddBodyPartToScene(string sceneDirectory)
 	{
 		// load and add body part to scene
 		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
 		
 		BodyParts part = bodyPartScene.Instantiate<BodyParts>();
 		
-		CallDeferred(Node.MethodName.AddChild, part);
-		
-		newlyAddedBodyPart = part;
+		AddChild(part);
 		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
 		// part.UpgradeSiteReleased += OnBodyPartReleased;
+		
+		return part;
 	}
 	
 	
 	
-	
-	
-	// part removed
-	// hover -> click -> stop hover
-	private void RemoveBodyPart(Area2D area)
-	{
-		// player clicks on attached body part
-		
-		// player moves mouse outside of area
-		
-		// function is called
-		
-		// remove body part from clone 
-			// delete from file
-			// create new body part object that is clicked on at same position on mouse
-	}
 	
 	// click appropriate type -> hover -> unclick
 	// part added
@@ -210,20 +195,13 @@ public partial class CloneManager : Node2D
 		removalBoundsArea = removalBounds;
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
 		removalBounds.Name = area.Name;
-		removalBounds.MouseExitedBounds += BodyPartHoverExit;
+		removalBounds.MouseExitedBounds += BodyPartRemovalBoundsExit;
 		
 		GD.Print(area.Name);
 	}
 	
 	
-	// when the mouse is moved outside this area, part is removed
-	private void MouseExitedRemovalBounds()
-	{
-		BodyPartHoverExit(currentArea);
-	}
-	
-	
-	
+	// Called to reset position and movment for currently selected area
 	private void ResetAndDisableMovement()
 	{
 		moveObject = false;
@@ -245,18 +223,17 @@ public partial class CloneManager : Node2D
 	}
 	
 	
-	// Called when an area is stopped hovering over with the mouse
-	// Removes body part, when mouse is dragged far enough away, part is disconnected
-	private void BodyPartHoverExit(Area2D area)
+	// Called when the removeBounds area is stopped hovering over with the mouse
+	// Removes body part, when mouse is dragged far enough away from the body, part is disconnected
+	// Creates a new identical body part seperate from the body
+	private void BodyPartRemovalBoundsExit(Area2D area)
 	{
 		// Clicked down on body part for removal
 		if (!isAttachedPartSelected)
 		{
-			GD.Print("test2");
 			return;
 		}
 		
-		GD.Print("test3");
 		// TODO: some code here that saves to file
 		
 		
@@ -273,22 +250,59 @@ public partial class CloneManager : Node2D
 		
 		
 		// create new body part object
-		AddBodyPartToScene(partDirectory);
+		BodyParts bodyPart = AddBodyPartToScene(partDirectory);
 		
-		// delete old object
+		// delete old object and remove bounds
 		currentArea.QueueFree();
 		currentArea = null;
+		removalBoundsArea.QueueFree();
+		removalBoundsArea = null;
 		
 		// move to mouse position
-		newlyAddedBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+		bodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+		
+		bodyPart.BodyPartHover += OnBodyPartHover;
+		bodyPart.BodyPartHoverExit += OnBodyPartHoverExit;
 		
 		// click onto it (follow the mouse untill unclick signal)
-		currentArea = newlyAddedBodyPart;
+		currentArea = bodyPart;
 		moveObject = true;
 		isAttachedPartSelected = false;
 		isSelectedBodyPartAttached = false;
 		
+		
+		// create new bounds area for adding body part
+		BodyParts attachmentArea = AddBodyPartToScene(partDirectory);
+		attachmentArea.GlobalPosition = initialPosition;
+		attachmentArea.isAttachmentArea = true;
+		attachmentArea.sprite2D.Visible = false;
+		
+		attachmentArea.BodyPartHover += OnBodyPartHover;
+		attachmentArea.BodyPartHoverExit += OnBodyPartHoverExit;
+		
 		GD.Print($"Stopped hovering over {area.Name}");
+	}
+	
+	
+	// Called when the mouse enters the attached body part area
+	private void OnBodyPartHover(Area2D area)
+	{
+		// hovering over the area, while a body part is being held / clicked on
+		
+		// then when release left click, add it
+		
+		
+		// when removing, need to remove the removalBounds area
+		// add a new area of equal size to the area just removed, in the original position
+		
+		// link that areas hover to this function
+		
+		
+	}
+	
+	private void OnBodyPartHoverExit(Area2D area)
+	{
+		
 	}
 	
 	

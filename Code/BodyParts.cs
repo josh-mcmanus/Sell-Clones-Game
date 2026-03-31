@@ -28,7 +28,9 @@ public partial class BodyParts : Area2D
 	
 	
 	private bool isHovering = false;
+	public bool isAttachmentArea = false;
 	
+	public Sprite2D sprite2D;
 	private Area2D torsoArea;
 	
 	
@@ -37,6 +39,14 @@ public partial class BodyParts : Area2D
 		InputEvent += OnInputEvent;
 		MouseEntered += OnMouseEntered;
 		MouseExited += OnMouseExited;
+		
+		foreach (Node node in GetChildren())
+		{
+			if (node is Sprite2D sprite)
+			{
+				sprite2D = sprite;
+			}
+		}
 	}
 	
 	
@@ -45,6 +55,9 @@ public partial class BodyParts : Area2D
 	{
 		if (@event.IsActionPressed("left_click"))
 		{
+			if (isAttachmentArea)
+				return;
+			
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
 		}
 	}
