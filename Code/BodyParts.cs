@@ -12,9 +12,6 @@ public partial class BodyParts : Area2D
 	[Signal]
 	public delegate void UpgradeSiteClickedEventHandler(Area2D area);
 	
-	[Signal]
-	public delegate void UpgradeSiteReleasedEventHandler();
-	
 	// On Hover
 	[Signal]
 	public delegate void BodyPartHoverEventHandler(Area2D area);
@@ -49,10 +46,6 @@ public partial class BodyParts : Area2D
 		if (@event.IsActionPressed("left_click"))
 		{
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
-		}
-		else if (@event.IsActionReleased("left_click"))
-		{
-			EmitSignal(SignalName.UpgradeSiteReleased);
 		}
 	}
 	

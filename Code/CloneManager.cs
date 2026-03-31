@@ -6,19 +6,30 @@ using System.Text.RegularExpressions;
 
 public partial class CloneManager : Node2D
 {
+	[Export]
+	private Node2D clone;
+	
+	// Mouse position and offset
 	private Vector2 currentGlobalMousePosition = Vector2.Zero;
 	private Vector2 localMouseOffset = Vector2.Zero;
+	
+	// Resetting, if user moves body part, but doesnt remove it
+	private Vector2 initialPosition = Vector2.Zero;
+	private Area2D selectedArea = null;
+	private Area2D removalBoundsArea = null;
+	
+	// Movement checks
+	private bool moveObject = false;
+	private bool isAttachedPartSelected = false;
+	private bool isSelectedBodyPartAttached = false;
+	
+	
+	private BodyParts newlyAddedBodyPart;
 	
 	private Area2D currentArea = null;
 	private int zIndex = 0;
 	
-	private bool moveObject = false;
-	private bool isAttachedPartSelected = false;
 	
-	private BodyParts newlyAddedBodyPart;
-	
-	[Export]
-	private Node2D clone;
 	
 	public override void _Ready()
 	{
@@ -33,7 +44,6 @@ public partial class CloneManager : Node2D
 			if (node is BodyParts part)
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
-				part.UpgradeSiteReleased += OnUpgradeSiteReleased;
 				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
@@ -67,6 +77,16 @@ public partial class CloneManager : Node2D
 		{
 			currentGlobalMousePosition = motion.Position;
 		}
+		
+		// Mouse stops clicking on the upgrade site / attached body part
+		if (@event.IsActionReleased("left_click"))
+		{
+			// Only trigger when object is being actively moved (clicked on), prevent unnecessary calls
+			if (moveObject)
+			{
+				ResetAndDisableMovement();
+			}
+		}
 	}
 	
 	
@@ -85,6 +105,7 @@ public partial class CloneManager : Node2D
 		localMouseOffset = area.GetLocalMousePosition();
 		currentArea = area;
 		moveObject = true;
+		isSelectedBodyPartAttached = false;
 		
 		zIndex++;
 		currentArea.ZIndex = zIndex;
@@ -113,7 +134,7 @@ public partial class CloneManager : Node2D
 		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
-		part.UpgradeSiteReleased += OnBodyPartReleased;
+		// part.UpgradeSiteReleased += OnBodyPartReleased;
 	}
 	
 	
@@ -176,6 +197,9 @@ public partial class CloneManager : Node2D
 		area.ZIndex = 0;
 		
 		isAttachedPartSelected = true;
+		isSelectedBodyPartAttached = true;
+		initialPosition = area.GlobalPosition;
+		selectedArea = area;
 		
 		// Initialize new area2d, for body part removal bounds
 		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/removal_bounds.tscn");
@@ -183,6 +207,7 @@ public partial class CloneManager : Node2D
 		AddChild(removalBounds);
 		
 		// Properties
+		removalBoundsArea = removalBounds;
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
 		removalBounds.Name = area.Name;
 		removalBounds.MouseExitedBounds += BodyPartHoverExit;
@@ -197,17 +222,26 @@ public partial class CloneManager : Node2D
 		BodyPartHoverExit(currentArea);
 	}
 	
-	// Mouse stops clicking on the upgrade site / attached body part
-	private void OnUpgradeSiteReleased()
-	{
-		ResetAndDisableMovement();
-	}
 	
 	
 	private void ResetAndDisableMovement()
 	{
 		moveObject = false;
 		isAttachedPartSelected = false;
+		
+		if (!isSelectedBodyPartAttached)
+		{
+			return;
+		}
+		
+		// reset position
+		selectedArea.GlobalPosition = initialPosition;
+		selectedArea = null;
+		initialPosition = Vector2.Zero;
+		
+		// delete removal bounds
+		removalBoundsArea.QueueFree();
+		removalBoundsArea = null;
 	}
 	
 	
@@ -231,7 +265,7 @@ public partial class CloneManager : Node2D
 		// get directory from dictionary
 		if (!bodyParts.ContainsKey(bodyPartEnum))
 		{
-			ResetAndDisableMovement(); // TODO: This needs to reset the position of the clicked body part
+			ResetAndDisableMovement();
 			throw new ArgumentNullException($"Key: {bodyPartEnum}, could not be found in bodyParts dictionary");
 		}
 		
@@ -251,6 +285,8 @@ public partial class CloneManager : Node2D
 		// click onto it (follow the mouse untill unclick signal)
 		currentArea = newlyAddedBodyPart;
 		moveObject = true;
+		isAttachedPartSelected = false;
+		isSelectedBodyPartAttached = false;
 		
 		GD.Print($"Stopped hovering over {area.Name}");
 	}
