@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dws6u5avibp0h"
-path="res://.godot/imported/LForearm.png-1d049242268f045aaba110624c093d47.ctex"
+uid="uid://cbhjd82egpm27"
+path="res://.godot/imported/RArm.png-1b62c18042d0274037500ec1344256a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/body part test/LForearm.png"
-dest_files=["res://.godot/imported/LForearm.png-1d049242268f045aaba110624c093d47.ctex"]
+source_file="res://Assets/Body Parts/RArm.png"
+dest_files=["res://.godot/imported/RArm.png-1b62c18042d0274037500ec1344256a7.ctex"]
 
 [params]
 

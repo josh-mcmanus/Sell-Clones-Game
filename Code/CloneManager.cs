@@ -48,12 +48,6 @@ public partial class CloneManager : Node2D
 				part.BodyPartHoverExit += OnBodyPartHoverExit;
 			}
 		}
-		
-		
-		// Temp testing dragging
-		AddBodyPartToScene("res://Scenes/Body Parts/l_arm.tscn");
-		AddBodyPartToScene("res://Scenes/Body Parts/l_arm.tscn");
-		AddBodyPartToScene("res://Scenes/Body Parts/l_arm.tscn");
 	}
 	
 	
@@ -292,7 +286,7 @@ public partial class CloneManager : Node2D
 	{
 		moveObject = false;
 		isAttachedPartSelected = false;
-
+		
 		if (currentBodyPart != null)
 		{
 			currentBodyPart.InputPickable = true; // restore movement

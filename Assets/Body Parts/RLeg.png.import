@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dat1a4562ln4g"
-path="res://.godot/imported/torso no left arm.png-e9282b37224ce84bd00272474579c8f0.ctex"
+uid="uid://mq1mtosl8jbs"
+path="res://.godot/imported/RLeg.png-77293f182cee738215d49d4d28c17d25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/body part test/torso no left arm.png"
-dest_files=["res://.godot/imported/torso no left arm.png-e9282b37224ce84bd00272474579c8f0.ctex"]
+source_file="res://Assets/Body Parts/RLeg.png"
+dest_files=["res://.godot/imported/RLeg.png-77293f182cee738215d49d4d28c17d25.ctex"]
 
 [params]
 

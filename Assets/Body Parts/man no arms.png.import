@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://scvyd5d1km70"
-path="res://.godot/imported/man test.png-a716292d73816f922574ce252d08da04.ctex"
+uid="uid://cemv8c237sj0y"
+path="res://.godot/imported/man no arms.png-19919584190390bcc2e8000e018eefd3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/man test.png"
-dest_files=["res://.godot/imported/man test.png-a716292d73816f922574ce252d08da04.ctex"]
+source_file="res://Assets/Body Parts/man no arms.png"
+dest_files=["res://.godot/imported/man no arms.png-19919584190390bcc2e8000e018eefd3.ctex"]
 
 [params]
 

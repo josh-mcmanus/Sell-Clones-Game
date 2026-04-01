@@ -13,7 +13,7 @@ config_version=5
 config/name="Cloning Sell Test"
 run/main_scene="uid://cpsrkj2jtiap7"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://Assets/icon.svg"
 
 [display]
 

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://x671cyyn82lx"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_hqcr8"]
+[ext_resource type="Texture2D" uid="uid://bphdwvu2dd52w" path="res://Assets/Body Parts/LLeg.png" id="2_beko8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1i2x"]
+size = Vector2(30, 62.124374)
+
+[node name="LLeg" type="Area2D" unique_id=1846589995]
+script = ExtResource("1_hqcr8")
+bodyPartEnum = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1629647612]
+texture = ExtResource("2_beko8")
+
+[node name="LLeg" type="CollisionShape2D" parent="." unique_id=1860469273]
+position = Vector2(-2.0522645, -0.0027390718)
+rotation = 0.05235989
+shape = SubResource("RectangleShape2D_o1i2x")

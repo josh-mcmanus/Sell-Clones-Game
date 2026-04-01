@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://01otwipjsov4"
-path="res://.godot/imported/man test lines.png-0f52e141af06ea5f465336af2ef880b9.ctex"
+uid="uid://bphdwvu2dd52w"
+path="res://.godot/imported/LLeg.png-190da65f88e711dd280df0ac3c4cbc55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/man test lines.png"
-dest_files=["res://.godot/imported/man test lines.png-0f52e141af06ea5f465336af2ef880b9.ctex"]
+source_file="res://Assets/Body Parts/LLeg.png"
+dest_files=["res://.godot/imported/LLeg.png-190da65f88e711dd280df0ac3c4cbc55.ctex"]
 
 [params]
 

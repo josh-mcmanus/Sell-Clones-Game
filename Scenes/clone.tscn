@@ -1,41 +1,19 @@
 [gd_scene format=3 uid="uid://c62828eojfvde"]
 
-[ext_resource type="Texture2D" uid="uid://dat1a4562ln4g" path="res://Assets/body part test/torso no left arm.png" id="2_eeqi5"]
+[ext_resource type="Texture2D" uid="uid://c5situk24u06b" path="res://Assets/Body Parts/No Limbs.png" id="1_1xwu4"]
+[ext_resource type="PackedScene" uid="uid://bfrisx7jonmqk" path="res://Scenes/Body Parts/l_forearm.tscn" id="3_kupc7"]
 [ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="3_p7wtv"]
-[ext_resource type="PackedScene" uid="uid://boc8n0n242ua5" path="res://Scenes/Body Parts/l_arm.tscn" id="3_r8xe5"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7wtv"]
-size = Vector2(42, 21)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8xe5"]
-size = Vector2(32.33333, 18)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_50nb2"]
-size = Vector2(40, 22)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kupc7"]
-size = Vector2(44.000004, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2qdl"]
-size = Vector2(31, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1i2x"]
-size = Vector2(25.913105, 63.439487)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m6ruh"]
-size = Vector2(24, 55)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_810pk"]
-size = Vector2(23.5, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcjsr"]
-size = Vector2(27, 65)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xwu4"]
-size = Vector2(20, 52)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_urumk"]
-size = Vector2(42, 16)
+[ext_resource type="PackedScene" uid="uid://boc8n0n242ua5" path="res://Scenes/Body Parts/l_shoulder.tscn" id="3_r8xe5"]
+[ext_resource type="PackedScene" uid="uid://cl2w7nib1psc0" path="res://Scenes/Body Parts/l_hand.tscn" id="4_kupc7"]
+[ext_resource type="PackedScene" uid="uid://cq0xp6l0dojww" path="res://Scenes/Body Parts/r_shoulder.tscn" id="5_w2qdl"]
+[ext_resource type="PackedScene" uid="uid://bggon4c72po6j" path="res://Scenes/Body Parts/r_forearm.tscn" id="6_o1i2x"]
+[ext_resource type="PackedScene" uid="uid://bpebv35nvj6pn" path="res://Scenes/Body Parts/r_hand.tscn" id="7_m6ruh"]
+[ext_resource type="PackedScene" uid="uid://x671cyyn82lx" path="res://Scenes/Body Parts/l_leg.tscn" id="8_1xwu4"]
+[ext_resource type="PackedScene" uid="uid://dtrw44s8phppl" path="res://Scenes/Body Parts/l_calf.tscn" id="9_urumk"]
+[ext_resource type="PackedScene" uid="uid://c76ctfvp7ppbo" path="res://Scenes/Body Parts/l_foot.tscn" id="10_1xwu4"]
+[ext_resource type="PackedScene" uid="uid://boq2fpyaboqtk" path="res://Scenes/Body Parts/r_leg.tscn" id="11_10mvr"]
+[ext_resource type="PackedScene" uid="uid://coigqnqd2k3iw" path="res://Scenes/Body Parts/r_calf.tscn" id="12_ano71"]
+[ext_resource type="PackedScene" uid="uid://rrnhax44if5g" path="res://Scenes/Body Parts/r_foot.tscn" id="13_8pxkt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1o3rt"]
 size = Vector2(64, 115.333336)
@@ -55,101 +33,43 @@ size = Vector2(15.5, 9.5)
 [node name="Clone" type="Node2D" unique_id=397786538]
 
 [node name="ManTest" type="Sprite2D" parent="." unique_id=1194362875]
-texture = ExtResource("2_eeqi5")
+texture = ExtResource("1_1xwu4")
 
-[node name="LArm" parent="." unique_id=872701861 instance=ExtResource("3_r8xe5")]
+[node name="LShoulder" parent="." unique_id=872701861 instance=ExtResource("3_r8xe5")]
 position = Vector2(-53, -97)
 
-[node name="LForearm" type="Area2D" parent="." unique_id=913437890]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 1
+[node name="LForearm" parent="." unique_id=1128429842 instance=ExtResource("3_kupc7")]
+position = Vector2(-98, -97)
 
-[node name="LForearm" type="CollisionShape2D" parent="LForearm" unique_id=1271412705]
-position = Vector2(-97.66667, -97.5)
-shape = SubResource("RectangleShape2D_p7wtv")
+[node name="LHand" parent="." unique_id=1346469406 instance=ExtResource("4_kupc7")]
+position = Vector2(-138, -100)
 
-[node name="LHand" type="Area2D" parent="." unique_id=85497423]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 2
+[node name="RShoulder" parent="." unique_id=1657092079 instance=ExtResource("5_w2qdl")]
+position = Vector2(55, -98)
 
-[node name="LHand" type="CollisionShape2D" parent="LHand" unique_id=2040764368]
-position = Vector2(-136.83334, -100)
-shape = SubResource("RectangleShape2D_r8xe5")
+[node name="RForearm" parent="." unique_id=1281766803 instance=ExtResource("6_o1i2x")]
+position = Vector2(98, -96)
 
-[node name="RArm" type="Area2D" parent="." unique_id=131506911]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 3
+[node name="RHand" parent="." unique_id=134549720 instance=ExtResource("7_m6ruh")]
+position = Vector2(137, -100)
 
-[node name="RShoulder" type="CollisionShape2D" parent="RArm" unique_id=1813418986]
-position = Vector2(55.333336, -98)
-shape = SubResource("RectangleShape2D_50nb2")
+[node name="LLeg" parent="." unique_id=1846589995 instance=ExtResource("8_1xwu4")]
+position = Vector2(-16, 40)
 
-[node name="RForearm" type="Area2D" parent="." unique_id=1072935207]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 4
+[node name="LCalf" parent="." unique_id=764862614 instance=ExtResource("9_urumk")]
+position = Vector2(-18, 101)
 
-[node name="RForearm" type="CollisionShape2D" parent="RForearm" unique_id=1778232378]
-position = Vector2(98, -97)
-shape = SubResource("RectangleShape2D_kupc7")
+[node name="LFoot" parent="." unique_id=74194723 instance=ExtResource("10_1xwu4")]
+position = Vector2(-9, 140)
 
-[node name="RHand" type="Area2D" parent="." unique_id=1574476419]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 5
+[node name="RLeg" parent="." unique_id=1664880187 instance=ExtResource("11_10mvr")]
+position = Vector2(13, 43)
 
-[node name="RHand" type="CollisionShape2D" parent="RHand" unique_id=188439100]
-position = Vector2(136.5, -100)
-shape = SubResource("RectangleShape2D_w2qdl")
-
-[node name="LLeg" type="Area2D" parent="." unique_id=774872446]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 6
-
-[node name="LLeg" type="CollisionShape2D" parent="LLeg" unique_id=444667814]
-position = Vector2(-17.971188, 41.219067)
-rotation = 0.09250246
-shape = SubResource("RectangleShape2D_o1i2x")
-
-[node name="LCalf" type="Area2D" parent="." unique_id=1536391411]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 7
-
-[node name="LCalf" type="CollisionShape2D" parent="LCalf" unique_id=508416843]
-position = Vector2(-19, 103.5)
-rotation = -0.09250246
-shape = SubResource("RectangleShape2D_m6ruh")
-
-[node name="LFoot" type="Area2D" parent="." unique_id=1753596483]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 8
-
-[node name="LFoot" type="CollisionShape2D" parent="LFoot" unique_id=1097198617]
-position = Vector2(-9.25, 141)
-shape = SubResource("RectangleShape2D_810pk")
-
-[node name="RLeg" type="Area2D" parent="." unique_id=799276361]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 9
-
-[node name="Rleg" type="CollisionShape2D" parent="RLeg" unique_id=2059421498]
-position = Vector2(12.5, 42.5)
-shape = SubResource("RectangleShape2D_wcjsr")
-
-[node name="RCalf" type="Area2D" parent="." unique_id=1037971468]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 10
-
-[node name="RCalf" type="CollisionShape2D" parent="RCalf" unique_id=1890665912]
+[node name="RCalf" parent="." unique_id=1872430141 instance=ExtResource("12_ano71")]
 position = Vector2(8, 103)
-rotation = -0.18500489
-shape = SubResource("RectangleShape2D_1xwu4")
 
-[node name="RFoot" type="Area2D" parent="." unique_id=835046519]
-script = ExtResource("3_p7wtv")
-bodyPartEnum = 11
-
-[node name="RFoot" type="CollisionShape2D" parent="RFoot" unique_id=728465374]
-position = Vector2(26, 140)
-shape = SubResource("RectangleShape2D_urumk")
+[node name="RFoot" parent="." unique_id=1967478093 instance=ExtResource("13_8pxkt")]
+position = Vector2(26, 139)
 
 [node name="Torso" type="Area2D" parent="." unique_id=190297447]
 script = ExtResource("3_p7wtv")
