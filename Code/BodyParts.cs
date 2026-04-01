@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static CloneManager;
 
 
 // Script used by all body part Area2D's that are children of the Clone Scene
@@ -8,16 +9,24 @@ using System;
 
 public partial class BodyParts : Area2D
 {
+	
+	[Export]
+	public BodyPartEnum bodyPartEnum;
+	
+	
 	// On Click
 	[Signal]
-	public delegate void UpgradeSiteClickedEventHandler(Area2D area);
+	public delegate void UpgradeSiteClickedEventHandler(BodyParts bodyPart);
+	
+	[Signal]
+	public delegate void UpgradeSiteReleasedEventHandler();
 	
 	// On Hover
 	[Signal]
-	public delegate void BodyPartHoverEventHandler(Area2D area);
+	public delegate void BodyPartHoverEventHandler(BodyParts bodyPart);
 	
 	[Signal]
-	public delegate void BodyPartHoverExitEventHandler(Area2D area);
+	public delegate void BodyPartHoverExitEventHandler(BodyParts bodyPart);
 	
 	[Signal]
 	public delegate void TorsoHoverEventHandler();
@@ -60,12 +69,16 @@ public partial class BodyParts : Area2D
 			
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
 		}
+		if (@event.IsActionReleased("left_click"))
+		{
+			EmitSignal(SignalName.UpgradeSiteReleased);
+		}
 	}
 	
 	
 	private void OnMouseEntered()
 	{
-		if (Name == "Torso")
+		if (bodyPartEnum == BodyPartEnum.Torso)
 		{
 			EmitSignal(SignalName.TorsoHover);
 		}
@@ -77,7 +90,7 @@ public partial class BodyParts : Area2D
 	
 	private void OnMouseExited()
 	{
-		if (Name == "Torso")
+		if (bodyPartEnum == BodyPartEnum.Torso)
 		{
 			EmitSignal(SignalName.TorsoHoverExit);
 		}

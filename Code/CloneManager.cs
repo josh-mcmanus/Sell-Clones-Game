@@ -12,19 +12,21 @@ public partial class CloneManager : Node2D
 	// Mouse position and offset
 	private Vector2 currentGlobalMousePosition = Vector2.Zero;
 	private Vector2 localMouseOffset = Vector2.Zero;
-	
-	// Resetting, if user moves body part, but doesnt remove it
 	private Vector2 initialPosition = Vector2.Zero;
-	private Area2D selectedArea = null;
-	private Area2D removalBoundsArea = null;
+	
+	// Body part removal
+	private BodyParts currentBodyPart = null;
+	private RemovalBounds activeRemovalBounds = null;
 	
 	// Movement checks
 	private bool moveObject = false;
 	private bool isAttachedPartSelected = false;
-	private bool isSelectedBodyPartAttached = false;
+	private bool isSelectedBodyPartAttached = false; // try to remove this if possible
+	private bool isAttachmentOk = false;
 	
 	
-	private Area2D currentArea = null;
+	
+	
 	private int zIndex = 0;
 	
 	
@@ -61,13 +63,13 @@ public partial class CloneManager : Node2D
 	
 	public override void _Process(double delta)
 	{
-		if (currentArea == null)
+		if (currentBodyPart == null)
 		{
 			return;
 		}
 		if (moveObject)
 		{
-			currentArea.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+			currentBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
 		}
 	}
 	
@@ -93,29 +95,35 @@ public partial class CloneManager : Node2D
 	
 	// When a lone unconnected body part is clicked
 	// unrelated to when a connected body part is clicked
-	private void OnBodyPartClicked(Area2D area)
+	private void OnBodyPartClicked(BodyParts area)
 	{
 		GD.Print($"Clicked object: {area.Name}");
 		
-		if (currentArea == null)
+		if (currentBodyPart == null)
 		{
-			currentArea = area;
-			currentArea.ZIndex = zIndex;
+			currentBodyPart = area;
+			currentBodyPart.ZIndex = zIndex;
 		}
 		
 		localMouseOffset = area.GetLocalMousePosition();
-		currentArea = area;
+		currentBodyPart = area;
 		moveObject = true;
 		isSelectedBodyPartAttached = false;
 		
 		zIndex++;
-		currentArea.ZIndex = zIndex;
+		currentBodyPart.ZIndex = zIndex;
 	}
 	
 	
 	private void OnBodyPartReleased()
 	{
-		moveObject = false;
+		GD.Print("stopped click");
+		
+		// player is adding selected part onto clone
+		if (isAttachmentOk)
+		{
+			GD.Print("attach is ok");
+		}
 	}
 	
 	
@@ -133,7 +141,7 @@ public partial class CloneManager : Node2D
 		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
-		// part.UpgradeSiteReleased += OnBodyPartReleased;
+		part.UpgradeSiteReleased += OnBodyPartReleased;
 		
 		return part;
 	}
@@ -143,7 +151,7 @@ public partial class CloneManager : Node2D
 	
 	// click appropriate type -> hover -> unclick
 	// part added
-	private void AddBodyPartToClone(Area2D area)
+	private void AddBodyPartToClone(BodyParts bodyPart)
 	{
 		// check if player is holding part
 		
@@ -163,7 +171,7 @@ public partial class CloneManager : Node2D
 	
 	// other checks like there needs to be higher part in higherarchy
 	// cant add hand without arm
-	private void IsValidBodyPartPlacement(Area2D areaToCheck, Area2D areaHolding)
+	private void IsValidBodyPartPlacement(BodyParts areaToCheck, BodyParts areaHolding)
 	{
 		// is hierarchy preserved?
 		
@@ -176,15 +184,15 @@ public partial class CloneManager : Node2D
 	
 	// Called when an area is clicked
 	// For removing body parts
-	private void OnUpgradeSiteClicked(Area2D area)
+	private void OnUpgradeSiteClicked(BodyParts bodyPart)
 	{
-		OnBodyPartClicked(area);
-		area.ZIndex = 0;
+		OnBodyPartClicked(bodyPart);
+		bodyPart.ZIndex = 0;
 		
 		isAttachedPartSelected = true;
 		isSelectedBodyPartAttached = true;
-		initialPosition = area.GlobalPosition;
-		selectedArea = area;
+		initialPosition = bodyPart.GlobalPosition;
+		currentBodyPart = bodyPart;
 		
 		// Initialize new area2d, for body part removal bounds
 		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/removal_bounds.tscn");
@@ -192,12 +200,10 @@ public partial class CloneManager : Node2D
 		AddChild(removalBounds);
 		
 		// Properties
-		removalBoundsArea = removalBounds;
+		activeRemovalBounds = removalBounds;
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
-		removalBounds.Name = area.Name;
+		removalBounds.bodyPartEnum = bodyPart.bodyPartEnum;
 		removalBounds.MouseExitedBounds += BodyPartRemovalBoundsExit;
-		
-		GD.Print(area.Name);
 	}
 	
 	
@@ -213,20 +219,20 @@ public partial class CloneManager : Node2D
 		}
 		
 		// reset position
-		selectedArea.GlobalPosition = initialPosition;
-		selectedArea = null;
+		currentBodyPart.GlobalPosition = initialPosition;
+		currentBodyPart = null;
 		initialPosition = Vector2.Zero;
 		
 		// delete removal bounds
-		removalBoundsArea.QueueFree();
-		removalBoundsArea = null;
+		activeRemovalBounds.QueueFree();
+		activeRemovalBounds = null;
 	}
 	
 	
 	// Called when the removeBounds area is stopped hovering over with the mouse
 	// Removes body part, when mouse is dragged far enough away from the body, part is disconnected
 	// Creates a new identical body part seperate from the body
-	private void BodyPartRemovalBoundsExit(Area2D area)
+	private void BodyPartRemovalBoundsExit(RemovalBounds removalBounds)
 	{
 		// Clicked down on body part for removal
 		if (!isAttachedPartSelected)
@@ -236,27 +242,34 @@ public partial class CloneManager : Node2D
 		
 		// TODO: some code here that saves to file
 		
+		// var part = (BodyParts)area;
 		
-		BodyPartEnum bodyPartEnum = GetBodyPartEnumFromString(area.Name);
+		// BodyPartEnum bodyPartEnum = part.bodyPartEnum;
+		// BodyPartEnum bodyPartEnum = GetBodyPartEnumFromString(area.Name);
+		
+		// var bounds = (RemovalBounds) area;
+		
+		// bounds.bodyPartEnum = partEnum;
 		
 		// get directory from dictionary
-		if (!bodyParts.ContainsKey(bodyPartEnum))
+		if (!bodyParts.ContainsKey(removalBounds.bodyPartEnum))
 		{
 			ResetAndDisableMovement();
-			throw new ArgumentNullException($"Key: {bodyPartEnum}, could not be found in bodyParts dictionary");
+			throw new ArgumentNullException($"Key: {removalBounds.bodyPartEnum}, could not be found in bodyParts dictionary");
 		}
 		
-		var partDirectory = bodyParts.GetValueOrDefault(bodyPartEnum);
+		var partDirectory = bodyParts.GetValueOrDefault(removalBounds.bodyPartEnum);
 		
 		
 		// create new body part object
 		BodyParts bodyPart = AddBodyPartToScene(partDirectory);
+		bodyPart.bodyPartEnum = removalBounds.bodyPartEnum;
 		
 		// delete old object and remove bounds
-		currentArea.QueueFree();
-		currentArea = null;
-		removalBoundsArea.QueueFree();
-		removalBoundsArea = null;
+		currentBodyPart.QueueFree();
+		currentBodyPart = null;
+		activeRemovalBounds.QueueFree();
+		activeRemovalBounds = null;
 		
 		// move to mouse position
 		bodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
@@ -265,7 +278,7 @@ public partial class CloneManager : Node2D
 		bodyPart.BodyPartHoverExit += OnBodyPartHoverExit;
 		
 		// click onto it (follow the mouse untill unclick signal)
-		currentArea = bodyPart;
+		currentBodyPart = bodyPart;
 		moveObject = true;
 		isAttachedPartSelected = false;
 		isSelectedBodyPartAttached = false;
@@ -280,13 +293,38 @@ public partial class CloneManager : Node2D
 		attachmentArea.BodyPartHover += OnBodyPartHover;
 		attachmentArea.BodyPartHoverExit += OnBodyPartHoverExit;
 		
-		GD.Print($"Stopped hovering over {area.Name}");
+		GD.Print($"Stopped hovering over {removalBounds.Name}");
 	}
 	
 	
 	// Called when the mouse enters the attached body part area
-	private void OnBodyPartHover(Area2D area)
+	private void OnBodyPartHover(BodyParts hoverBodyPart)
 	{
+
+		// prevent activating for attached body parts
+		if (!hoverBodyPart.isAttachmentArea)
+		{
+			return;
+		}
+		
+		// body part is being not dragged around
+		if (!moveObject)
+		{
+			return;
+		}
+		
+		
+		// check that the areas are the same type
+		var heldArea = (BodyParts)currentBodyPart;
+		
+		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
+		{
+			isAttachmentOk = true;
+			// set some variable that it is ok to add. then when l click is released check for that variable
+		}
+		
+		
+		
 		// hovering over the area, while a body part is being held / clicked on
 		
 		// then when release left click, add it
@@ -300,9 +338,9 @@ public partial class CloneManager : Node2D
 		
 	}
 	
-	private void OnBodyPartHoverExit(Area2D area)
+	private void OnBodyPartHoverExit(BodyParts bodyPart)
 	{
-		
+		// check if some kind of add body part is enabled
 	}
 	
 	
@@ -345,24 +383,24 @@ public partial class CloneManager : Node2D
 	
 	
 	
-	public static BodyPartEnum GetBodyPartEnumFromString(string input)
-	{
-		GD.Print(input);
+	// public static BodyPartEnum GetBodyPartEnumFromString(string input)
+	// {
+	// 	GD.Print(input);
 		
-		if (string.IsNullOrEmpty(input))
-		{
-			throw new ArgumentException("Input cannot be null or empty");
-		}
+	// 	if (string.IsNullOrEmpty(input))
+	// 	{
+	// 		throw new ArgumentException("Input cannot be null or empty");
+	// 	}
 		
-		string withoutNumbers = Regex.Replace(input, "[0-9]", "");
+	// 	string withoutNumbers = Regex.Replace(input, "[0-9]", "");
 		
-		if(Enum.TryParse(withoutNumbers, out BodyPartEnum result))
-		{
-			return result;
-		}
+	// 	if(Enum.TryParse(withoutNumbers, out BodyPartEnum result))
+	// 	{
+	// 		return result;
+	// 	}
 		
-		throw new ArgumentException($"Invalid input string: {input}");
-	}
+	// 	throw new ArgumentException($"Invalid input string: {input}");
+	// }
 	
 	
 	public enum BodyPartEnum
