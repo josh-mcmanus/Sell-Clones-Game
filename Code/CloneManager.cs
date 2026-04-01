@@ -21,11 +21,8 @@ public partial class CloneManager : Node2D
 	// Movement checks
 	private bool moveObject = false;
 	private bool isAttachedPartSelected = false;
-	private bool isSelectedBodyPartAttached = false; // try to remove this if possible
+	private bool isSelectedBodyPartAttached = false;
 	private bool isAttachmentOk = false;
-	
-	
-	
 	
 	private int zIndex = 0;
 	
@@ -109,20 +106,27 @@ public partial class CloneManager : Node2D
 		currentBodyPart = area;
 		moveObject = true;
 		isSelectedBodyPartAttached = false;
+		currentBodyPart.InputPickable = false;
 		
 		zIndex++;
 		currentBodyPart.ZIndex = zIndex;
 	}
 	
 	
+	// Activates when left mouse click is released
 	private void OnBodyPartReleased()
 	{
 		GD.Print("stopped click");
 		
 		// player is adding selected part onto clone
+		GD.Print(isAttachmentOk);
 		if (isAttachmentOk)
 		{
 			GD.Print("attach is ok");
+			
+			
+			// reset for next body part
+			isAttachmentOk = false;
 		}
 	}
 	
@@ -212,6 +216,11 @@ public partial class CloneManager : Node2D
 	{
 		moveObject = false;
 		isAttachedPartSelected = false;
+
+		if (currentBodyPart != null)
+		{
+			currentBodyPart.InputPickable = true;
+		}
 		
 		if (!isSelectedBodyPartAttached)
 		{
@@ -242,14 +251,6 @@ public partial class CloneManager : Node2D
 		
 		// TODO: some code here that saves to file
 		
-		// var part = (BodyParts)area;
-		
-		// BodyPartEnum bodyPartEnum = part.bodyPartEnum;
-		// BodyPartEnum bodyPartEnum = GetBodyPartEnumFromString(area.Name);
-		
-		// var bounds = (RemovalBounds) area;
-		
-		// bounds.bodyPartEnum = partEnum;
 		
 		// get directory from dictionary
 		if (!bodyParts.ContainsKey(removalBounds.bodyPartEnum))
@@ -300,22 +301,28 @@ public partial class CloneManager : Node2D
 	// Called when the mouse enters the attached body part area
 	private void OnBodyPartHover(BodyParts hoverBodyPart)
 	{
-
+		GD.Print("run");
+		
 		// prevent activating for attached body parts
 		if (!hoverBodyPart.isAttachmentArea)
 		{
+			GD.Print("test1");
 			return;
 		}
 		
 		// body part is being not dragged around
 		if (!moveObject)
 		{
+			GD.Print("test2");
 			return;
 		}
 		
 		
 		// check that the areas are the same type
-		var heldArea = (BodyParts)currentBodyPart;
+		var heldArea = currentBodyPart;
+		
+		GD.Print(hoverBodyPart.bodyPartEnum);
+		GD.Print(heldArea.bodyPartEnum);
 		
 		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
 		{
