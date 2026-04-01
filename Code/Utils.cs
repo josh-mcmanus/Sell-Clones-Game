@@ -8,7 +8,7 @@ public partial class Utils : Node
 	
 	public static void Log(string TAG, string msg)
 	{
-		GD.Print($"{TAG} {msg}");
+		GD.Print($"[{TAG}] {msg}");
 	}
 	
 	

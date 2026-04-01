@@ -7,6 +7,8 @@ public partial class CloneManager : Node2D
 	[Export]
 	private Node2D clone;
 	
+	private const string TAG = "CloneManager";
+	
 	// Mouse position and offset
 	private Vector2 currentGlobalMousePosition = Vector2.Zero;
 	private Vector2 localMouseOffset = Vector2.Zero;
@@ -14,6 +16,7 @@ public partial class CloneManager : Node2D
 	
 	// Body part removal
 	private BodyParts currentBodyPart = null;
+	private BodyParts attachmentArea = null;
 	private RemovalBounds activeRemovalBounds = null;
 	
 	// Movement checks
@@ -119,7 +122,7 @@ public partial class CloneManager : Node2D
 	// NOTE: OnUpgradeSiteClicked is similar, and also calls this function, but also does other things relevant for ONLY the upgrade sites. e.g. the sites on the body where you can add upgrades to
 	private void OnBodyPartClicked(BodyParts area)
 	{
-		GD.Print($"Clicked object: {area.Name}");
+		Utils.Log(TAG, $"Clicked object type: {area.bodyPartEnum}");
 		
 		if (currentBodyPart == null)
 		{
@@ -144,8 +147,20 @@ public partial class CloneManager : Node2D
 	{
 		if (isAttachmentOk)
 		{
-			// reset for next body part
+			Utils.Log(TAG, "Attachment is ok");
+			
+			// Move held body part into correct position
+			currentBodyPart.GlobalPosition = attachmentArea.GlobalPosition;
+			
+			// Set click to activate removal process
+			currentBodyPart.UpgradeSiteClicked += OnUpgradeSiteClicked;
+			
+			// Reset for next body part
 			isAttachmentOk = false;
+			
+			// Delete attachment area
+			attachmentArea.QueueFree();
+			attachmentArea = null;
 		}
 	}
 	
@@ -173,7 +188,10 @@ public partial class CloneManager : Node2D
 		
 		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
 		{
+			Utils.Log(TAG, "Attachment area and held item match");
+			
 			isAttachmentOk = true;
+			attachmentArea = hoverBodyPart;
 		}
 	}
 	
@@ -182,6 +200,12 @@ public partial class CloneManager : Node2D
 	// For disabling attachment when not hovering over a body part attachment area
 	private void OnBodyPartHoverExit(BodyParts bodyPart)
 	{
+		// Disable activation if body part is not being dragged
+		if (!moveObject)
+		{
+			return;
+		}
+		
 		isAttachmentOk = false;
 	}
 	
@@ -267,7 +291,6 @@ public partial class CloneManager : Node2D
 	private void ResetAndDisableMovement()
 	{
 		moveObject = false;
-		isAttachmentOk = false;
 		isAttachedPartSelected = false;
 
 		if (currentBodyPart != null)
