@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using static CloneManager;
 
 
 // Script used by all body part Area2D's that are children of the Clone Scene
@@ -11,7 +10,7 @@ public partial class BodyParts : Area2D
 {
 	
 	[Export]
-	public BodyPartEnum bodyPartEnum;
+	public Utils.BodyPartEnum bodyPartEnum;
 	
 	
 	// On Click
@@ -78,7 +77,7 @@ public partial class BodyParts : Area2D
 	
 	private void OnMouseEntered()
 	{
-		if (bodyPartEnum == BodyPartEnum.Torso)
+		if (bodyPartEnum == Utils.BodyPartEnum.Torso)
 		{
 			EmitSignal(SignalName.TorsoHover);
 		}
@@ -90,7 +89,7 @@ public partial class BodyParts : Area2D
 	
 	private void OnMouseExited()
 	{
-		if (bodyPartEnum == BodyPartEnum.Torso)
+		if (bodyPartEnum == Utils.BodyPartEnum.Torso)
 		{
 			EmitSignal(SignalName.TorsoHoverExit);
 		}

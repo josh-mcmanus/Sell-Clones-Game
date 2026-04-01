@@ -1,8 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Text.RegularExpressions;
 
 public partial class CloneManager : Node2D
 {
@@ -31,6 +29,7 @@ public partial class CloneManager : Node2D
 	public override void _Ready()
 	{
 		// Only grab the top most object in when selection is overlapping
+		// NOTE: This activates for the entire game project
 		GetViewport().PhysicsObjectPickingSort = true;
 		GetViewport().PhysicsObjectPickingFirstOnly = true;
 		
@@ -44,9 +43,6 @@ public partial class CloneManager : Node2D
 				
 				part.BodyPartHover += OnBodyPartHover;
 				part.BodyPartHoverExit += OnBodyPartHoverExit;
-				
-				part.TorsoHover += OnTorsoHover;
-				part.TorsoHoverExit += OnTorsoHoverExit;
 			}
 		}
 		
@@ -90,104 +86,11 @@ public partial class CloneManager : Node2D
 	}
 	
 	
-	// When a lone unconnected body part is clicked
-	// unrelated to when a connected body part is clicked
-	private void OnBodyPartClicked(BodyParts area)
-	{
-		GD.Print($"Clicked object: {area.Name}");
-		
-		if (currentBodyPart == null)
-		{
-			currentBodyPart = area;
-			currentBodyPart.ZIndex = zIndex;
-		}
-		
-		localMouseOffset = area.GetLocalMousePosition();
-		currentBodyPart = area;
-		moveObject = true;
-		isSelectedBodyPartAttached = false;
-		currentBodyPart.InputPickable = false;
-		
-		zIndex++;
-		currentBodyPart.ZIndex = zIndex;
-	}
 	
 	
-	// Activates when left mouse click is released
-	private void OnBodyPartReleased()
-	{
-		GD.Print("stopped click");
-		
-		// player is adding selected part onto clone
-		GD.Print(isAttachmentOk);
-		if (isAttachmentOk)
-		{
-			GD.Print("attach is ok");
-			
-			
-			// reset for next body part
-			isAttachmentOk = false;
-		}
-	}
-	
-	
-	// Adds a body part as child to the scene, draggable
-	// for adding onto the clone
-	// Right click on body part scene e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
-	private BodyParts AddBodyPartToScene(string sceneDirectory)
-	{
-		// load and add body part to scene
-		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
-		
-		BodyParts part = bodyPartScene.Instantiate<BodyParts>();
-		
-		AddChild(part);
-		
-		// link signals to functions
-		part.UpgradeSiteClicked += OnBodyPartClicked;
-		part.UpgradeSiteReleased += OnBodyPartReleased;
-		
-		return part;
-	}
-	
-	
-	
-	
-	// click appropriate type -> hover -> unclick
-	// part added
-	private void AddBodyPartToClone(BodyParts bodyPart)
-	{
-		// check if player is holding part
-		
-		// player hovers over area
-		
-		// player releases mouse
-		
-		// call this function
-		
-		// check that both parts match
-		
-		// if they do, add it
-			// set the position to a set location
-			// lerp it to that position
-			// save the setup to a file
-	}
-	
-	// other checks like there needs to be higher part in higherarchy
-	// cant add hand without arm
-	private void IsValidBodyPartPlacement(BodyParts areaToCheck, BodyParts areaHolding)
-	{
-		// is hierarchy preserved?
-		
-		// i dont know how to do that
-		
-		// e.g. is hand < forearm < arm
-	}
-	
-	
-	
-	// Called when an area is clicked
-	// For removing body parts
+	// Activates when an upgrade site is clicked
+	// For removing body parts from the clone
+	// NOTE: The same as OnBodyPartClicked, but also initializes the removal process
 	private void OnUpgradeSiteClicked(BodyParts bodyPart)
 	{
 		OnBodyPartClicked(bodyPart);
@@ -211,36 +114,81 @@ public partial class CloneManager : Node2D
 	}
 	
 	
-	// Called to reset position and movment for currently selected area
-	private void ResetAndDisableMovement()
+	// Activates when a body part is clicked on
+	// For moving the selected body part around
+	// NOTE: OnUpgradeSiteClicked is similar, and also calls this function, but also does other things relevant for ONLY the upgrade sites. e.g. the sites on the body where you can add upgrades to
+	private void OnBodyPartClicked(BodyParts area)
 	{
-		moveObject = false;
-		isAttachedPartSelected = false;
-
-		if (currentBodyPart != null)
+		GD.Print($"Clicked object: {area.Name}");
+		
+		if (currentBodyPart == null)
 		{
-			currentBodyPart.InputPickable = true;
+			currentBodyPart = area;
+			currentBodyPart.ZIndex = zIndex;
 		}
 		
-		if (!isSelectedBodyPartAttached)
+		localMouseOffset = area.GetLocalMousePosition();
+		currentBodyPart = area;
+		moveObject = true;
+		isSelectedBodyPartAttached = false;
+		currentBodyPart.InputPickable = false;
+		
+		zIndex++;
+		currentBodyPart.ZIndex = zIndex;
+	}
+	
+	
+	// Activates when the player releases left mouse click
+	// For attaching the selected body part onto the clone
+	private void OnBodyPartReleased()
+	{
+		if (isAttachmentOk)
+		{
+			// reset for next body part
+			isAttachmentOk = false;
+		}
+	}
+	
+	
+	
+	
+	// Activates when the mouse enters the body part attachment area
+	// For attaching new body parts
+	private void OnBodyPartHover(BodyParts hoverBodyPart)
+	{
+		// Disable activation for attached body parts
+		if (!hoverBodyPart.isAttachmentArea)
 		{
 			return;
 		}
 		
-		// reset position
-		currentBodyPart.GlobalPosition = initialPosition;
-		currentBodyPart = null;
-		initialPosition = Vector2.Zero;
+		// Disable activation if body part is not being dragged
+		if (!moveObject)
+		{
+			return;
+		}
 		
-		// delete removal bounds
-		activeRemovalBounds.QueueFree();
-		activeRemovalBounds = null;
+		// Check both areas are the same type
+		var heldArea = currentBodyPart;
+		
+		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
+		{
+			isAttachmentOk = true;
+		}
 	}
 	
 	
-	// Called when the removeBounds area is stopped hovering over with the mouse
-	// Removes body part, when mouse is dragged far enough away from the body, part is disconnected
-	// Creates a new identical body part seperate from the body
+	// Activates when the mouse exits any body part region
+	// For disabling attachment when not hovering over a body part attachment area
+	private void OnBodyPartHoverExit(BodyParts bodyPart)
+	{
+		isAttachmentOk = false;
+	}
+	
+	
+	// Activates when the mouse exits the removeBounds area
+	// For removing body parts
+	// Creates identical body part on removal, seperated from clone, deletes old attached part
 	private void BodyPartRemovalBoundsExit(RemovalBounds removalBounds)
 	{
 		// Clicked down on body part for removal
@@ -252,40 +200,40 @@ public partial class CloneManager : Node2D
 		// TODO: some code here that saves to file
 		
 		
-		// get directory from dictionary
-		if (!bodyParts.ContainsKey(removalBounds.bodyPartEnum))
+		// Get file directory
+		if (!Utils.bodyPartsDictionary.ContainsKey(removalBounds.bodyPartEnum))
 		{
 			ResetAndDisableMovement();
 			throw new ArgumentNullException($"Key: {removalBounds.bodyPartEnum}, could not be found in bodyParts dictionary");
 		}
 		
-		var partDirectory = bodyParts.GetValueOrDefault(removalBounds.bodyPartEnum);
+		var partDirectory = Utils.bodyPartsDictionary.GetValueOrDefault(removalBounds.bodyPartEnum);
 		
 		
-		// create new body part object
+		// Create new body part object
 		BodyParts bodyPart = AddBodyPartToScene(partDirectory);
 		bodyPart.bodyPartEnum = removalBounds.bodyPartEnum;
 		
-		// delete old object and remove bounds
+		// Delete old body part and removalbounds
 		currentBodyPart.QueueFree();
 		currentBodyPart = null;
 		activeRemovalBounds.QueueFree();
 		activeRemovalBounds = null;
 		
-		// move to mouse position
+		// Move to current mouse position
 		bodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
 		
 		bodyPart.BodyPartHover += OnBodyPartHover;
 		bodyPart.BodyPartHoverExit += OnBodyPartHoverExit;
 		
-		// click onto it (follow the mouse untill unclick signal)
+		// Follow the mouse until unclick signal
 		currentBodyPart = bodyPart;
 		moveObject = true;
 		isAttachedPartSelected = false;
 		isSelectedBodyPartAttached = false;
 		
 		
-		// create new bounds area for adding body part
+		// Create bounds area for attaching new body part
 		BodyParts attachmentArea = AddBodyPartToScene(partDirectory);
 		attachmentArea.GlobalPosition = initialPosition;
 		attachmentArea.isAttachmentArea = true;
@@ -293,148 +241,57 @@ public partial class CloneManager : Node2D
 		
 		attachmentArea.BodyPartHover += OnBodyPartHover;
 		attachmentArea.BodyPartHoverExit += OnBodyPartHoverExit;
-		
-		GD.Print($"Stopped hovering over {removalBounds.Name}");
 	}
 	
 	
-	// Called when the mouse enters the attached body part area
-	private void OnBodyPartHover(BodyParts hoverBodyPart)
+	
+	
+	// Adds a draggable body part to the scene
+	// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
+	private BodyParts AddBodyPartToScene(string sceneDirectory)
 	{
-		GD.Print("run");
+		// Load and add to scene
+		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
+		var part = bodyPartScene.Instantiate<BodyParts>();
+		AddChild(part);
 		
-		// prevent activating for attached body parts
-		if (!hoverBodyPart.isAttachmentArea)
+		// link signals to functions
+		part.UpgradeSiteClicked += OnBodyPartClicked;
+		part.UpgradeSiteReleased += OnBodyPartReleased;
+		
+		return part;
+	}
+	
+	
+	// Call to reset everything
+	private void ResetAndDisableMovement()
+	{
+		moveObject = false;
+		isAttachmentOk = false;
+		isAttachedPartSelected = false;
+
+		if (currentBodyPart != null)
 		{
-			GD.Print("test1");
+			currentBodyPart.InputPickable = true; // restore movement
+		}
+		
+		if (!isSelectedBodyPartAttached)
+		{
 			return;
 		}
 		
-		// body part is being not dragged around
-		if (!moveObject)
-		{
-			GD.Print("test2");
-			return;
-		}
+		// Position
+		currentBodyPart.GlobalPosition = initialPosition;
+		currentBodyPart = null;
+		initialPosition = Vector2.Zero;
 		
+		// Mouse
+		localMouseOffset = Vector2.Zero;
 		
-		// check that the areas are the same type
-		var heldArea = currentBodyPart;
-		
-		GD.Print(hoverBodyPart.bodyPartEnum);
-		GD.Print(heldArea.bodyPartEnum);
-		
-		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
-		{
-			isAttachmentOk = true;
-			// set some variable that it is ok to add. then when l click is released check for that variable
-		}
-		
-		
-		
-		// hovering over the area, while a body part is being held / clicked on
-		
-		// then when release left click, add it
-		
-		
-		// when removing, need to remove the removalBounds area
-		// add a new area of equal size to the area just removed, in the original position
-		
-		// link that areas hover to this function
-		
-		
+		// Delete Removal Bounds
+		activeRemovalBounds.QueueFree();
+		activeRemovalBounds = null;
 	}
 	
-	private void OnBodyPartHoverExit(BodyParts bodyPart)
-	{
-		// check if some kind of add body part is enabled
-	}
-	
-	
-	// Called when the torso is hovered over with the mouse
-	private void OnTorsoHover()
-	{
-		GD.Print("Hovering over torso");
-	}
-	
-	// Called when the torso is stopped hovering over with the mouse
-	private void OnTorsoHoverExit()
-	{
-		GD.Print("Stopped hovering over torso");
-	}
-	
-	
-	
-	private readonly Dictionary<BodyPartEnum, string> bodyParts = new()
-	{
-		{BodyPartEnum.LArm,	"res://Scenes/Body Parts/l_arm.tscn"},
-		
-		// remaining unfinished
-		// {BodyPartEnum.LForearm,	"res://Scenes/Body Parts/"}, 
-		// {BodyPartEnum.LHand,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RArm,		"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RForearm,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RHand,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.LLeg,		"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.LCalf,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.LFoot,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RLeg,		"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RCalf,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.RFoot,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.Torso,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.Heart,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.Lung,		"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.Kidney,	"res://Scenes/Body Parts/"},
-		// {BodyPartEnum.Liver,	"res://Scenes/Body Parts/"}
-	};
-	
-	
-	
-	// public static BodyPartEnum GetBodyPartEnumFromString(string input)
-	// {
-	// 	GD.Print(input);
-		
-	// 	if (string.IsNullOrEmpty(input))
-	// 	{
-	// 		throw new ArgumentException("Input cannot be null or empty");
-	// 	}
-		
-	// 	string withoutNumbers = Regex.Replace(input, "[0-9]", "");
-		
-	// 	if(Enum.TryParse(withoutNumbers, out BodyPartEnum result))
-	// 	{
-	// 		return result;
-	// 	}
-		
-	// 	throw new ArgumentException($"Invalid input string: {input}");
-	// }
-	
-	
-	public enum BodyPartEnum
-	{
-		LArm,
-		LForearm,
-		LHand,
-		
-		RArm,
-		RForearm,
-		RHand,
-		
-		
-		LLeg,
-		LCalf,
-		LFoot,
-		
-		RLeg,
-		RCalf,
-		RFoot,
-		
-		
-		Torso,
-		Heart,
-		Lung,
-		Kidney,
-		Liver
-	}
 	
 }

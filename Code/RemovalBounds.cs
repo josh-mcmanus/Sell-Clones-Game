@@ -1,11 +1,10 @@
 using Godot;
 using System;
-using static CloneManager;
 
 public partial class RemovalBounds : Area2D
 {
 	[Export]
-	public BodyPartEnum bodyPartEnum;
+	public Utils.BodyPartEnum bodyPartEnum;
 	
 	
 	[Signal]
