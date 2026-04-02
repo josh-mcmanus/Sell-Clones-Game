@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://f14fqaiegbwh"]
+
+[ext_resource type="Texture2D" uid="uid://d2l3wyhxuu260" path="res://Assets/Body Parts/Spine.png" id="1_mcef2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hyex"]
+size = Vector2(13, 262)
+
+[node name="Spine" type="Area2D" unique_id=178406642]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=960557617]
+texture = ExtResource("1_mcef2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202336557]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_2hyex")

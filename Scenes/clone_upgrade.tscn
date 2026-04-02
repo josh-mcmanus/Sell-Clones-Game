@@ -2,9 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://c62828eojfvde" path="res://Scenes/clone.tscn" id="1_dm6bm"]
 [ext_resource type="Script" uid="uid://bw50xk1u1k6ca" path="res://Code/CloneManager.cs" id="1_q61i5"]
+[ext_resource type="PackedScene" uid="uid://dgs18j7c5jda" path="res://Scenes/torso_menu.tscn" id="3_q61i5"]
 
-[node name="Clone Upgrade" type="Node2D" unique_id=1280454857 node_paths=PackedStringArray("clone")]
+[node name="Clone Upgrade" type="Node2D" unique_id=1280454857 node_paths=PackedStringArray("clone", "torsoMenu")]
 script = ExtResource("1_q61i5")
 clone = NodePath("Clone")
+torsoMenu = NodePath("Torso Menu")
 
 [node name="Clone" parent="." unique_id=397786538 instance=ExtResource("1_dm6bm")]
+
+[node name="Torso Menu" parent="." unique_id=712952278 instance=ExtResource("3_q61i5")]
+visible = false

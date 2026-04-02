@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://smy6wedoewyc"]
+
+[ext_resource type="Texture2D" uid="uid://4vrhnplpeg65" path="res://Assets/Body Parts/ImmuneReplacer.png" id="1_1u8nj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rejir"]
+size = Vector2(45, 63)
+
+[node name="Immune Replacer" type="Area2D" unique_id=947602130]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1627541640]
+texture = ExtResource("1_1u8nj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1284233766]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_rejir")

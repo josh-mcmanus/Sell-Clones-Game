@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://6yolsl0yol7l"]
+
+[ext_resource type="Texture2D" uid="uid://b20cbeirtnnt" path="res://Assets/Body Parts/Kidneys.png" id="1_iygg4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4nvo"]
+radius = 14.0
+height = 52.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tvet7"]
+radius = 14.0
+height = 52.0
+
+[node name="Kidneys" type="Area2D" unique_id=1124786413]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1727120822]
+texture = ExtResource("1_iygg4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1067866771]
+position = Vector2(29.000002, -1)
+rotation = 0.17453292
+shape = SubResource("CapsuleShape2D_n4nvo")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=945513245]
+position = Vector2(-29.000002, -2.0000005)
+rotation = -0.17453292
+shape = SubResource("CapsuleShape2D_tvet7")

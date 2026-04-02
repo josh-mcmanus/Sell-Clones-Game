@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bpebv35nvj6pn"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_r6k37"]
+[ext_resource type="Texture2D" uid="uid://cm00284fnfnou" path="res://Assets/Body Parts/Limbs/RHand.png" id="2_j65ws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2qdl"]
+size = Vector2(32, 20)
+
+[node name="RHand" type="Area2D" unique_id=134549720]
+script = ExtResource("1_r6k37")
+bodyPartEnum = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=40939511]
+texture = ExtResource("2_j65ws")
+
+[node name="RHand" type="CollisionShape2D" parent="." unique_id=329246587]
+shape = SubResource("RectangleShape2D_w2qdl")

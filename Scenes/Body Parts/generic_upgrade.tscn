@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://d1yr6q2188d54"]
+
+[ext_resource type="Texture2D" uid="uid://bffk8omw48idh" path="res://Assets/Body Parts/GenericUpgradeSlot.png" id="1_83gpe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7wnv"]
+size = Vector2(36, 37)
+
+[node name="Generic Upgrade Slot" type="Area2D" unique_id=1004203046]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1094583604]
+texture = ExtResource("1_83gpe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=660266920]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_d7wnv")

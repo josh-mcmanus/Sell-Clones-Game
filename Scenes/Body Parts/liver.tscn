@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://buxr73dfu0f8d"]
+
+[ext_resource type="Texture2D" uid="uid://m31spg5x2h60" path="res://Assets/Body Parts/Liver.png" id="1_xlv3c"]
+
+[node name="Liver" type="Area2D" unique_id=2077106511]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=531801294]
+texture = ExtResource("1_xlv3c")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1434979416]
+polygon = PackedVector2Array(45, -27, -44, -29, -44, 30, -31, 31, -12, 11, 39, 1)

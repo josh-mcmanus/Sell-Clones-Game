@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b5puq3nj8e6km"]
+
+[ext_resource type="Texture2D" uid="uid://d18fplh850ywt" path="res://Assets/Body Parts/Lungs.png" id="1_6l5hb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_48t0m"]
+radius = 20.0
+height = 100.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f1o3l"]
+radius = 20.0
+height = 100.0
+
+[node name="Lungs" type="Area2D" unique_id=318247449]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1708360756]
+rotation = -0.08726646
+texture = ExtResource("1_6l5hb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=113730316]
+position = Vector2(37, 1)
+shape = SubResource("CapsuleShape2D_48t0m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=822748400]
+position = Vector2(-36, 2)
+shape = SubResource("CapsuleShape2D_f1o3l")

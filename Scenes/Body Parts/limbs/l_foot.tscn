@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c76ctfvp7ppbo"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_wtfd7"]
+[ext_resource type="Texture2D" uid="uid://c26irywpkm20n" path="res://Assets/Body Parts/Limbs/LFoot.png" id="2_joqpe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_810pk"]
+size = Vector2(23, 19)
+
+[node name="LFoot" type="Area2D" unique_id=74194723]
+script = ExtResource("1_wtfd7")
+bodyPartEnum = 8
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=494963342]
+texture = ExtResource("2_joqpe")
+
+[node name="LFoot" type="CollisionShape2D" parent="." unique_id=1062291718]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_810pk")

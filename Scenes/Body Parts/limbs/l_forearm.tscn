@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bfrisx7jonmqk"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_n35f1"]
+[ext_resource type="Texture2D" uid="uid://dws6u5avibp0h" path="res://Assets/Body Parts/Limbs/LForearm.png" id="2_4v8ef"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7wtv"]
+size = Vector2(46, 21)
+
+[node name="LForearm" type="Area2D" unique_id=1128429842]
+script = ExtResource("1_n35f1")
+bodyPartEnum = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1333018837]
+texture = ExtResource("2_4v8ef")
+
+[node name="LForearm" type="CollisionShape2D" parent="." unique_id=1107052554]
+shape = SubResource("RectangleShape2D_p7wtv")
