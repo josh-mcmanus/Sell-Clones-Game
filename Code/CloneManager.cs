@@ -7,6 +7,9 @@ public partial class CloneManager : Node2D
 	[Export]
 	private Node2D clone;
 	
+	[Export]
+	private TorsoMenu torsoMenu;
+	
 	private const string TAG = "CloneManager";
 	
 	// Mouse position and offset
@@ -24,6 +27,7 @@ public partial class CloneManager : Node2D
 	private bool isAttachedPartSelected = false;
 	private bool isSelectedBodyPartAttached = false;
 	private bool isAttachmentOk = false;
+	private bool isTorsoMenuOpen = false;
 	
 	private int zIndex = 0;
 	
@@ -43,17 +47,29 @@ public partial class CloneManager : Node2D
 			if (node is BodyParts part)
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
+				part.TorsoClick += OnTorsoClick;
 				
 				part.BodyPartHover += OnBodyPartHover;
 				part.BodyPartHoverExit += OnBodyPartHoverExit;
+				
+				part.TorsoHover += OnTorsoHover;
+				part.TorsoHoverExit += OnTorsoHoverExit;
 			}
 		}
+		
+		torsoMenu.CloseTorsoMenu += OnTorsoMenuCloseButtonClick;
 	}
 	
 	
 	public override void _Process(double delta)
 	{
 		if (currentBodyPart == null)
+		{
+			return;
+		}
+		
+		// Only prevent movement if the torso menu is open and the selected body part is not an internal organ
+		if (isTorsoMenuOpen && !Utils.IsInternalBodyPart(currentBodyPart.bodyPartEnum))
 		{
 			return;
 		}
@@ -74,6 +90,10 @@ public partial class CloneManager : Node2D
 		// Mouse stops clicking on the upgrade site / attached body part
 		if (@event.IsActionReleased("left_click"))
 		{
+			// Only allow movement when the torso menu is closed
+			if (isTorsoMenuOpen)
+				return;
+			
 			// Only trigger when object is being actively moved (clicked on), prevent unnecessary calls
 			if (moveObject)
 			{
@@ -118,6 +138,11 @@ public partial class CloneManager : Node2D
 	{
 		Utils.Log(TAG, $"Clicked object type: {area.bodyPartEnum}");
 		
+		if (isTorsoMenuOpen)
+		{
+			return;
+		}
+		
 		if (currentBodyPart == null)
 		{
 			currentBodyPart = area;
@@ -132,6 +157,8 @@ public partial class CloneManager : Node2D
 		
 		zIndex++;
 		currentBodyPart.ZIndex = zIndex;
+		
+		// Utils.Log(TAG, ""+zIndex);
 	}
 	
 	
@@ -157,6 +184,61 @@ public partial class CloneManager : Node2D
 			attachmentArea = null;
 		}
 	}
+	
+	
+	
+	
+	// Activates when the player left clicks on the torso
+	// For opening the torso menu
+	private void OnTorsoClick()
+	{
+		// need to gradually fade out the clone in the background here
+		
+		// disable all movement outside of the torso menu
+		isTorsoMenuOpen = true;
+		
+		zIndex++;
+		torsoMenu.ZIndex = zIndex;
+		torsoMenu.Visible = true;
+	}
+	
+	private void OnTorsoMenuCloseButtonClick()
+	{
+		isTorsoMenuOpen = false;
+		
+		torsoMenu.Visible = false;
+		
+		// Activate closing animation
+		// Prevents torso staying open, as it isnt triggered
+		OnTorsoHoverExit();
+	}
+	
+	
+	private void OnTorsoHover()
+	{
+		if (isTorsoMenuOpen)
+		{
+			return;
+		}
+		
+		Utils.Log(TAG, "Enter Torso");
+		
+		// Play torso opening animation
+	}
+	
+	
+	private void OnTorsoHoverExit()
+	{
+		if (isTorsoMenuOpen)
+		{
+			return;
+		}
+		
+		Utils.Log(TAG, "Exit Torso");
+		
+		// Play torso closing animation
+	}
+	
 	
 	
 	

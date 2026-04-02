@@ -20,6 +20,9 @@ public partial class BodyParts : Area2D
 	[Signal]
 	public delegate void UpgradeSiteReleasedEventHandler();
 	
+	[Signal]
+	public delegate void TorsoClickEventHandler();
+	
 	// On Hover
 	[Signal]
 	public delegate void BodyPartHoverEventHandler(BodyParts bodyPart);
@@ -33,6 +36,8 @@ public partial class BodyParts : Area2D
 	[Signal]
 	public delegate void TorsoHoverExitEventHandler();
 	
+	
+	private const string TAG = "BodyParts";
 	
 	
 	private bool isHovering = false;
@@ -63,11 +68,20 @@ public partial class BodyParts : Area2D
 	{
 		if (@event.IsActionPressed("left_click"))
 		{
+			Utils.Log(TAG, Name);
+			
 			if (isAttachmentArea)
 				return;
 			
+			if(bodyPartEnum == Utils.BodyPartEnum.Torso)
+			{
+				EmitSignal(SignalName.TorsoClick);
+				return;
+			}
+			
 			EmitSignal(SignalName.UpgradeSiteClicked, this);
 		}
+		
 		if (@event.IsActionReleased("left_click"))
 		{
 			EmitSignal(SignalName.UpgradeSiteReleased);
@@ -97,7 +111,6 @@ public partial class BodyParts : Area2D
 		{
 			EmitSignal(SignalName.BodyPartHoverExit, this);
 		}
-		
 	}
 	
 }
