@@ -27,6 +27,19 @@ public partial class Utils : Node
 	}
 	
 	
+	// public static Vector2 GetGridPosition(int index, int rows, float marginX, float marginY, Vector2 startPosition)
+	// {
+	// 	int row = index % rows;
+	// 	int col = index / rows;
+		
+	// 	return new Vector2(
+	// 		startPosition.X + col * marginX,
+	// 		startPosition.Y + row * marginY	
+	// 	);
+	// }
+	
+	
+	
 	// For adding new body parts
 	// File locations for body parts to load from
 	public static readonly Dictionary<BodyPartEnum, string> bodyPartsDictionary = new()

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpsrkj2jtiap7"]
 
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/clone_upgrade.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/research_tab.tscn" id="2_bo1nx"]
 
 [node name="Control" type="Control" unique_id=260101406]
 layout_mode = 3
@@ -76,15 +77,30 @@ custom_minimum_size = Vector2(710, 175)
 layout_mode = 2
 mouse_filter = 2
 
+[node name="Research Tab" parent="MarginContainer/VBoxContainer/Top Half/Research Tab/Research 1" unique_id=807370984 instance=ExtResource("2_bo1nx")]
+layout_mode = 1
+offset_right = 0.0
+offset_bottom = 0.0
+
 [node name="Research 2" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=754631861]
 custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 mouse_filter = 2
 
+[node name="Research Tab" parent="MarginContainer/VBoxContainer/Top Half/Research Tab/Research 2" unique_id=838762137 instance=ExtResource("2_bo1nx")]
+layout_mode = 1
+offset_right = 0.0
+offset_bottom = 0.0
+
 [node name="Research 3" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=1700521418]
 custom_minimum_size = Vector2(0, 174)
 layout_mode = 2
 mouse_filter = 2
+
+[node name="Research Tab" parent="MarginContainer/VBoxContainer/Top Half/Research Tab/Research 3" unique_id=946286440 instance=ExtResource("2_bo1nx")]
+layout_mode = 1
+offset_right = 0.0
+offset_bottom = 1.0
 
 [node name="Bottom Half" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=329802072]
 layout_mode = 2
