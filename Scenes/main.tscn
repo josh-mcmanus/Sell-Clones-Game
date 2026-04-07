@@ -83,7 +83,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="Research 2" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=754631861]
-custom_minimum_size = Vector2(0, 175)
+custom_minimum_size = Vector2(710, 175)
 layout_mode = 2
 mouse_filter = 2
 
@@ -91,9 +91,10 @@ mouse_filter = 2
 layout_mode = 1
 offset_right = 0.0
 offset_bottom = 0.0
+researchTypeEnum = 1
 
 [node name="Research 3" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Half/Research Tab" unique_id=1700521418]
-custom_minimum_size = Vector2(0, 174)
+custom_minimum_size = Vector2(710, 174)
 layout_mode = 2
 mouse_filter = 2
 
@@ -101,6 +102,7 @@ mouse_filter = 2
 layout_mode = 1
 offset_right = 0.0
 offset_bottom = 1.0
+researchTypeEnum = 2
 
 [node name="Bottom Half" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=329802072]
 layout_mode = 2
@@ -145,12 +147,24 @@ layout_mode = 2
 color = Color(0.97737914, 0.33635962, 0.90791553, 1)
 
 [node name="Brain research" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1207417049]
-custom_minimum_size = Vector2(0, 174)
+custom_minimum_size = Vector2(402, 174)
 layout_mode = 2
 
+[node name="Research Tab" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research/Brain research" unique_id=1373232447 instance=ExtResource("2_bo1nx")]
+layout_mode = 1
+offset_right = 308.0
+offset_bottom = 1.0
+researchTypeEnum = 3
+
 [node name="Tank research" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1021769550]
-custom_minimum_size = Vector2(0, 174)
+custom_minimum_size = Vector2(402, 174)
 layout_mode = 2
+
+[node name="Research Tab" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research/Tank research" unique_id=410285163 instance=ExtResource("2_bo1nx")]
+layout_mode = 1
+offset_right = 308.0
+offset_bottom = 1.0
+researchTypeEnum = 4
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1461809557]
 layout_mode = 0

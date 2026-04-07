@@ -10,6 +10,10 @@ public partial class ResearchNode : Node2D
 	[Export]
 	ColorRect complete;
 	
+	[Export]
+	public ColorRect nodeColor;
+	
+	
 	[Signal]
 	public delegate void ResearchUnitCompleteEventHandler();
 	

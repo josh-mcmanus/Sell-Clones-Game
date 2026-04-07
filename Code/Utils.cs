@@ -27,19 +27,6 @@ public partial class Utils : Node
 	}
 	
 	
-	// public static Vector2 GetGridPosition(int index, int rows, float marginX, float marginY, Vector2 startPosition)
-	// {
-	// 	int row = index % rows;
-	// 	int col = index / rows;
-		
-	// 	return new Vector2(
-	// 		startPosition.X + col * marginX,
-	// 		startPosition.Y + row * marginY	
-	// 	);
-	// }
-	
-	
-	
 	// For adding new body parts
 	// File locations for body parts to load from
 	public static readonly Dictionary<BodyPartEnum, string> bodyPartsDictionary = new()
@@ -71,6 +58,16 @@ public partial class Utils : Node
 		{BodyPartEnum.NeuralConnector,	"res://Scenes/Body Parts/neural_connector.tscn"},
 		{BodyPartEnum.ImmuneReplacer,	"res://Scenes/Body Parts/immune_replacer.tscn"},
 		{BodyPartEnum.GenericUpgrade,	"res://Scenes/Body Parts/generic_upgrade_slot.tscn"},
+	};
+	
+	
+	public static readonly Dictionary<ResearchTypeEnum, Color>researchTypeColorDictionary = new()
+	{
+		{ResearchTypeEnum.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
+		{ResearchTypeEnum.Organs, new Color(0.792f, 0.553f, 0.286f)},
+		{ResearchTypeEnum.Exotic, new Color(0.58f,  0.478f, 0.894f)},
+		{ResearchTypeEnum.Brain,  new Color(0.953f, 0.388f, 0.471f)},
+		{ResearchTypeEnum.Tank,   new Color(0.349f, 1.0f,   1.0f)},
 	};
 	
 	
@@ -106,4 +103,13 @@ public partial class Utils : Node
 		GenericUpgrade
 	}
 	
+	
+	public enum ResearchTypeEnum
+	{
+		Limbs,
+		Organs,
+		Exotic,
+		Brain,
+		Tank,
+	}
 }

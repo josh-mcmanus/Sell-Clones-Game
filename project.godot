@@ -15,6 +15,10 @@ run/main_scene="uid://cpsrkj2jtiap7"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
 
+[autoload]
+
+PlayerData="*uid://bkmp5aa4rytis"
+
 [display]
 
 window/size/viewport_width=1920

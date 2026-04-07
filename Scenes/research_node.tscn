@@ -3,10 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://drlaaknydr2s0" path="res://Assets/Research Node.png" id="1_gdxaa"]
 [ext_resource type="Script" uid="uid://jc64sorrcpd3" path="res://Code/ResearchNode.cs" id="1_v3twe"]
 
-[node name="Research Node" type="Node2D" unique_id=1269118864 node_paths=PackedStringArray("timer", "complete")]
+[node name="Research Node" type="Node2D" unique_id=1269118864 node_paths=PackedStringArray("timer", "complete", "nodeColor")]
 script = ExtResource("1_v3twe")
 timer = NodePath("Timer")
 complete = NodePath("ColorRectComplete")
+nodeColor = NodePath("ColorRect")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1708547845]
 custom_minimum_size = Vector2(20, 20)
@@ -21,7 +22,7 @@ offset_right = 10.0
 offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.34901962, 1, 1, 1)
+color = Color(0.8774785, 0.78112566, 0, 1)
 
 [node name="ColorRectComplete" type="ColorRect" parent="." unique_id=2085243452]
 visible = false
