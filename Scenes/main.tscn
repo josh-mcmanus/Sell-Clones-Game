@@ -23,11 +23,12 @@ mouse_filter = 2
 color = Color(0.012617188, 0.012617188, 0.012617188, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2044030825]
-custom_minimum_size = Vector2(1280, 720)
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -107,36 +108,44 @@ researchTypeEnum = 2
 [node name="Bottom Half" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=329802072]
 layout_mode = 2
 
-[node name="Black Hole and Money" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1082785364]
+[node name="Points and Reset" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1082785364]
 layout_mode = 2
 
-[node name="Black hole" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Black Hole and Money" unique_id=326432024]
-custom_minimum_size = Vector2(272, 400)
+[node name="Black hole" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=326432024]
+custom_minimum_size = Vector2(272, 272)
 layout_mode = 2
 color = Color(0.27752772, 0.27752772, 0.27752772, 1)
 
-[node name="Money" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Black Hole and Money" unique_id=1656542389]
-custom_minimum_size = Vector2(272, 128)
+[node name="Research Points" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=2146169463]
+custom_minimum_size = Vector2(272, 126)
+layout_mode = 2
+
+[node name="Money" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=1656542389]
+custom_minimum_size = Vector2(272, 126)
 layout_mode = 2
 color = Color(0.015571741, 0.61963785, 0, 1)
 
 [node name="Cloning Tanks" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1829354408]
 custom_minimum_size = Vector2(534, 532)
 layout_mode = 2
+size_flags_vertical = 0
 color = Color(0.627451, 0.9490196, 0.99607843, 1)
 
 [node name="Upgrade Tank" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1900054778]
-custom_minimum_size = Vector2(248, 0)
+custom_minimum_size = Vector2(248, 532)
 layout_mode = 2
+size_flags_vertical = 0
 color = Color(0.627451, 0.9490196, 0.99607843, 1)
 
 [node name="Tank upgrades" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1625413112]
-custom_minimum_size = Vector2(216, 0)
+custom_minimum_size = Vector2(216, 532)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Brain upgrades" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=463031947]
-custom_minimum_size = Vector2(216, 0)
+custom_minimum_size = Vector2(216, 532)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Brain and Research" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=285007478]
 layout_mode = 2
@@ -151,9 +160,10 @@ custom_minimum_size = Vector2(402, 174)
 layout_mode = 2
 
 [node name="Research Tab" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research/Brain research" unique_id=1373232447 instance=ExtResource("2_bo1nx")]
+custom_minimum_size = Vector2(710, 174)
 layout_mode = 1
 offset_right = 308.0
-offset_bottom = 1.0
+offset_bottom = 0.0
 researchTypeEnum = 3
 
 [node name="Tank research" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research" unique_id=1021769550]
@@ -161,15 +171,8 @@ custom_minimum_size = Vector2(402, 174)
 layout_mode = 2
 
 [node name="Research Tab" parent="MarginContainer/VBoxContainer/Bottom Half/Brain and Research/Tank research" unique_id=410285163 instance=ExtResource("2_bo1nx")]
+custom_minimum_size = Vector2(710, 174)
 layout_mode = 1
 offset_right = 308.0
-offset_bottom = 1.0
+offset_bottom = 0.0
 researchTypeEnum = 4
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1461809557]
-layout_mode = 0
-offset_left = 1914.0
-offset_top = 542.0
-offset_right = 1915.0
-offset_bottom = 543.0
-color = Color(1, 0, 0, 1)

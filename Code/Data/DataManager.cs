@@ -1,15 +1,13 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 public partial class DataManager : Node
 {
 	private const string TAG = "DataManager";
 	
 	public static DataManager Instance {get; private set;}
-	public static PlayerData playerData = new PlayerData();
+	public static PlayerData saveData = new PlayerData();
 	
 	public static string gameVersion = "0.3.0 Date: 07/04/26";
 	public static string saveDataFileLocation = "user://save_data.json";
@@ -24,7 +22,7 @@ public partial class DataManager : Node
 	public override void _Ready()
 	{
 		Instance = this;
-
+		
 		// Add timer for autosave
 		Timer timer = new()
 		{
@@ -40,6 +38,7 @@ public partial class DataManager : Node
 		Load();		
 	}
 	
+	
 	// Autosave every minute
 	private void AutoSave()
 	{
@@ -54,7 +53,7 @@ public partial class DataManager : Node
 		using var file = FileAccess.Open(saveDataFileLocation, FileAccess.ModeFlags.Write);
 		var jsonString = string.Empty;
 		
-		jsonString = JsonSerializer.Serialize(playerData, jsonOptions);
+		jsonString = JsonSerializer.Serialize(saveData, jsonOptions);
 		
 		file.StoreString(jsonString);
 		
@@ -69,14 +68,14 @@ public partial class DataManager : Node
 		{
 			Utils.Error(TAG, "Save data file does not exist, creating new file");
 			
-			playerData = new PlayerData();
+			saveData = new PlayerData();
 			Save();
 		}
 		
 		using var file = FileAccess.Open(saveDataFileLocation, FileAccess.ModeFlags.Read);
 		var jsonString = file.GetAsText();
 		
-		playerData = JsonSerializer.Deserialize<PlayerData>(jsonString);
+		saveData = JsonSerializer.Deserialize<PlayerData>(jsonString);
 	}
 	
 	

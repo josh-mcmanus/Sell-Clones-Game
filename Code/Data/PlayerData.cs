@@ -5,9 +5,9 @@ using System.Text.Json.Serialization;
 
 public class PlayerData
 {
-	public int Money {get; set;} = 0;
+	public decimal Money {get; set;} = 0;
 	
-	[JsonInclude] // does not normally include these in the json
+	[JsonInclude]
 	public Dictionary<Utils.ResearchTypeEnum, int> ResearchPoints = new()
 	{
 		{Utils.ResearchTypeEnum.Limbs,  0},
