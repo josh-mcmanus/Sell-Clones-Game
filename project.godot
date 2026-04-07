@@ -17,7 +17,7 @@ config/icon="res://Assets/icon.svg"
 
 [autoload]
 
-PlayerData="*uid://bkmp5aa4rytis"
+DataManager="*uid://d4b81cq20qj6a"
 
 [display]
 

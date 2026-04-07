@@ -2,14 +2,27 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+#pragma warning disable CS0162 // Unreachable code detected
+
 public partial class Utils : Node
 {
+	// --- Debug ---
 	private const string TAG = "Utils";
+	public const bool DebugEnabled = true;
 	
 	public static void Log(string TAG, object msg)
 	{
+		if (!DebugEnabled) return;
 		GD.Print($"[{TAG}] {msg}");
 	}
+	
+	public static void Error(string TAG, object msg)
+	{
+		if (!DebugEnabled) return;
+		GD.PrintErr($"[{TAG}] {msg}");
+	}
+	
+	
 	
 	
 	// For enabling / disabling based on if the torso menu is open. Only internal organs can be moved around if it is open.

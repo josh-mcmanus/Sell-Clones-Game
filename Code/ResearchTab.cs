@@ -138,6 +138,10 @@ public partial class ResearchTab : Control
 		part.Position = new Vector2(x, y);
 		part.Position += new Vector2(spriteWidth / 2, spriteHeight / 2);
 		researchNodeCounter++;
+		
+		
+		// Add to player data
+		DataManager.playerData.ResearchNodes[researchTypeEnum] += 1;
 	}
 	
 	
@@ -145,7 +149,8 @@ public partial class ResearchTab : Control
 	// For adding 1 research unit to the global counter
 	private void AddResearchUnit()
 	{
-		GD.Print("poop");
+		// Add to player data
+		DataManager.playerData.ResearchPoints[researchTypeEnum] += 1;
 	}
 	
 	
