@@ -35,6 +35,7 @@ public partial class ResearchTab : Control
 	int researchNodeCounter = 0;
 	
 	bool areAnyResearchNodesAdded = false;
+	bool isLeftSide;
 	
 	
 	public override void _Ready()
@@ -55,7 +56,7 @@ public partial class ResearchTab : Control
 		// Set number of research nodes based on research tab type
 		if (researchTypeEnum == Utils.ResearchTypeEnum.Brain || researchTypeEnum == Utils.ResearchTypeEnum.Tank)
 		{
-			columns = 12;
+			columns = 15;
 		}
 		
 		// Set cost of research node
@@ -71,10 +72,20 @@ public partial class ResearchTab : Control
 		
 		marginX = (areaX - buttonWidth - (spriteWidth * columns)) / (columns + 2);
 		marginY = (areaY - (spriteHeight * rows)) / (rows + 1);
-		
-		// Set button size and position
+
 		button.CustomMinimumSize = new Vector2(buttonWidth, areaY - marginY * 2);
-		button.Position = new Vector2(areaX - buttonWidth - marginX, marginY);
+
+		// Set button position
+		if (researchTypeEnum == Utils.ResearchTypeEnum.Limbs || researchTypeEnum == Utils.ResearchTypeEnum.Brain)
+		{
+			isLeftSide = true;
+			button.Position = new Vector2(marginX, marginY);
+		}
+		else
+		{
+			isLeftSide = false;
+			button.Position = new Vector2(areaX - buttonWidth - marginX, marginY);
+		}
 		
 		button.Pressed += OnButtonPressed;
 	}
@@ -87,16 +98,33 @@ public partial class ResearchTab : Control
 		{
 			if (node is Label label)
 			{
-				// move up
-				label.Position += new Vector2(0, 0.5f);
+				// Move down
+				label.Position += new Vector2(0, 0.4f);
 				
-				// fade label out
-				Color prevColor = label.GetThemeColor("font_color");
-				var newColor = new Color(prevColor.R, prevColor.G, prevColor.B, (float)(prevColor.A * 0.98));
+				var settings = (LabelSettings)label.LabelSettings.Duplicate();
 				
-				label.AddThemeColorOverride("font_color", newColor);
+				float multiplier = 0.995f;
 				
-				if (prevColor.A < 0.1)
+				Color prevFont = settings.FontColor;
+				settings.FontColor = new Color(
+					prevFont.R, 
+					prevFont.G, 
+					prevFont.B, 
+					prevFont.A * multiplier
+				);
+				
+				Color prevOutline = settings.OutlineColor;
+				settings.OutlineColor = new Color(
+					prevOutline.R, 
+					prevOutline.G, 
+					prevOutline.B, 
+					prevOutline.A * multiplier
+				);
+				
+				label.LabelSettings = settings;
+				
+				// Remove label
+				if (prevFont.A < 0.2)
 				{
 					label.QueueFree();
 				}
@@ -105,7 +133,12 @@ public partial class ResearchTab : Control
 		
 		
 		// Add research nodes on load
-		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.ResearchNodes[researchTypeEnum]))
+		// if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.ResearchNodes[researchTypeEnum]))
+		// {
+		// 	AddResearchNode();
+		// }
+		
+		if (researchNodeCounter < (columns * rows))
 		{
 			AddResearchNode();
 		}
@@ -184,7 +217,9 @@ public partial class ResearchTab : Control
 		
 		
 		// calculate position
-		float x = marginX + columnIndex * (spriteWidth + marginX);
+		float xOffset = isLeftSide ? buttonWidth + marginX : 0;
+		
+		float x = xOffset + marginX + columnIndex * (spriteWidth + marginX);
 		float y = marginY + rowIndex * (spriteHeight + marginY);
 		
 		part.Position = new Vector2(x, y);
@@ -213,11 +248,27 @@ public partial class ResearchTab : Control
 			MouseFilter = MouseFilterEnum.Ignore,
 			Text = labelContent,
 		};
+
+		var settings = new LabelSettings
+		{
+			FontSize = 20,
+			FontColor = textColor,
+			
+			OutlineSize = 8,
+			OutlineColor = Colors.Black,
+		};
 		
-		label.AddThemeColorOverride("font_color", textColor);
+		label.LabelSettings = settings;
 		
 		AddChild(label);
-		label.Position = GetLocalMousePosition() - label.Size;
+		
+		
+		var rng = new Random();
+		int deviation = rng.Next(-5,5);
+		
+		var mousePos = GetLocalMousePosition() + new Vector2(deviation, 0);
+		
+		label.Position = isLeftSide ? mousePos: mousePos - label.Size;
 		label.ZIndex = 1;
 	}
 	
