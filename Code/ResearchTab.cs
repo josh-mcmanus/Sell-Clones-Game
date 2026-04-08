@@ -19,7 +19,7 @@ public partial class ResearchTab : Control
 	
 	PackedScene bodyPartScene = GD.Load<PackedScene>("res://Scenes/research_node.tscn");
 	
-	decimal researchNodeCost = 0;
+	double researchNodeCost = 0;
 	
 	float spriteWidth = 0;
 	float spriteHeight = 0;
@@ -149,8 +149,6 @@ public partial class ResearchTab : Control
 		// Update data
 		DataManager.saveData.ResearchNodes[researchTypeEnum] += 1;
 		DataManager.saveData.Money -= researchNodeCost;
-		
-		researchNodeCost *= 1.5m;
 	}
 	
 	
@@ -192,6 +190,10 @@ public partial class ResearchTab : Control
 		part.Position = new Vector2(x, y);
 		part.Position += new Vector2(spriteWidth / 2, spriteHeight / 2);
 		researchNodeCounter++;
+		
+		// Update cost
+		researchNodeCost = Math.Round(researchNodeCost * 1.5, 2);
+		Utils.Log(TAG, $"{researchTypeEnum} {researchNodeCost}");
 	}
 	
 	
@@ -217,10 +219,6 @@ public partial class ResearchTab : Control
 		AddChild(label);
 		label.Position = GetLocalMousePosition() - label.Size;
 		label.ZIndex = 1;
-		
-		// fade label out, over lifeTimerSeconds
-		
-		// move label up gradually
 	}
 	
 }

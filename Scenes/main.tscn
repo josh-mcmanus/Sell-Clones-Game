@@ -2,6 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/clone_upgrade.tscn" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/research_tab.tscn" id="2_bo1nx"]
+[ext_resource type="Script" uid="uid://bun1go8h6w2vl" path="res://Code/MoneyLabel.cs" id="3_8gbba"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bo1nx"]
+font_size = 44
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" unique_id=260101406]
 layout_mode = 3
@@ -112,18 +118,24 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Black hole" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=326432024]
-custom_minimum_size = Vector2(272, 272)
+custom_minimum_size = Vector2(272, 468)
 layout_mode = 2
 color = Color(0.27752772, 0.27752772, 0.27752772, 1)
 
-[node name="Research Points" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=2146169463]
-custom_minimum_size = Vector2(272, 126)
-layout_mode = 2
-
 [node name="Money" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset" unique_id=1656542389]
-custom_minimum_size = Vector2(272, 126)
+custom_minimum_size = Vector2(272, 60)
 layout_mode = 2
 color = Color(0.015571741, 0.61963785, 0, 1)
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Bottom Half/Points and Reset/Money" unique_id=1063253904]
+layout_mode = 0
+offset_top = -3.0
+offset_right = 272.0
+offset_bottom = 58.0
+text = "$ 100000000"
+label_settings = SubResource("LabelSettings_bo1nx")
+autowrap_mode = 1
+script = ExtResource("3_8gbba")
 
 [node name="Cloning Tanks" type="ColorRect" parent="MarginContainer/VBoxContainer/Bottom Half" unique_id=1829354408]
 custom_minimum_size = Vector2(534, 532)

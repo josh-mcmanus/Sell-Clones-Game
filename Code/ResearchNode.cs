@@ -42,4 +42,13 @@ public partial class ResearchNode : Node2D
 	}
 	
 	
+	// Called from elsewere
+	// For updating the timer of all nodes, when upgrading
+	// Not currently connected
+	private async void OnUpdateTimer(float time)
+	{
+		timer.WaitTime = time;
+	}
+	
+	
 }

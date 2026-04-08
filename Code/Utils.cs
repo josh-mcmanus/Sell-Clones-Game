@@ -40,6 +40,49 @@ public partial class Utils : Node
 	}
 	
 	
+	// 8_900 -> 8,900
+	// 10_500_000 -> 10.5M
+	// 999_999_999_999 -> 999.99B
+	public static string FormatNumber(double number)
+	{
+		// Less than 1 million, format with commas
+		if (number < 1_000_000)
+		{
+			return number.ToString("#,##0");
+		}
+		
+		
+		int index = 0;
+		double value = number / 1000000;
+		
+		// Prevent rounding
+		value = Math.Floor(value * 100) / 100;
+		
+		// Keep dividing by 1000 until the correct suffix is reached
+		while (value >= 1000 && index < shortSuffixes.Length)
+		{
+			value /= 1000;
+			index++;
+			GD.Print($"index: {index}");
+		}
+		
+		// Limit to 2 decimal places
+		string formatted = value.ToString("0.##");
+		
+		return $"{formatted}{shortSuffixes[index]}";
+	}
+	
+	private static readonly string[] suffixes =
+	{
+		"million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion"
+	};
+	
+	private static readonly string[] shortSuffixes =
+	{
+		"M", "B", "T", "Qa", "Qu", "Sx", "Sp", "Oc", "No", "Dc"
+	};
+	
+	
 	// For adding new body parts
 	// File locations for body parts to load from
 	public static readonly Dictionary<BodyPartEnum, string> bodyPartsDictionary = new()

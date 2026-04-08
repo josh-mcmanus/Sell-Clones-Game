@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 
 public class PlayerData
 {
-	public decimal Money {get; set;} = 0;
+	public double Money {get; set;} = 0;
 	
 	[JsonInclude]
-	public Dictionary<Utils.ResearchTypeEnum, int> ResearchPoints = new()
+	public Dictionary<Utils.ResearchTypeEnum, double> ResearchPoints = new()
 	{
 		{Utils.ResearchTypeEnum.Limbs,  0},
 		{Utils.ResearchTypeEnum.Organs, 0},
