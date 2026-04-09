@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class ResearchTab : Control
 {
@@ -56,7 +57,8 @@ public partial class ResearchTab : Control
 		// Set number of research nodes based on research tab type
 		if (researchTypeEnum == Utils.ResearchTypeEnum.Brain || researchTypeEnum == Utils.ResearchTypeEnum.Tank)
 		{
-			columns = 15;
+			// Remember to scale down the research cost for these two
+			columns = 17;
 		}
 		
 		// Set cost of research node
@@ -88,15 +90,30 @@ public partial class ResearchTab : Control
 		}
 		
 		button.Pressed += OnButtonPressed;
+		button.MouseEntered += OnMouseEnteredButton;
+		button.MouseExited += OnMouseExitedButton;
+		
 	}
 	
 	
 	public override void _Process(double delta)
 	{
 		// Adjust labels
-		foreach (Node node in GetChildren())
+		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
 		{
-			if (node is Label label)
+			// Price info on hover
+			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
+			{
+				var mousePos = GetLocalMousePosition();
+				
+				var offsetX = isLeftSide ? 0 : -label.Size.X;
+				var offsetY = -label.Size.Y;
+				
+				label.Position = mousePos + new Vector2(offsetX, offsetY);
+			}
+			
+			// Warning on click
+			if (label.labelType == HoverInfoLabel.LabelType.WarningLabel)
 			{
 				// Move down
 				label.Position += new Vector2(0, 0.4f);
@@ -133,14 +150,38 @@ public partial class ResearchTab : Control
 		
 		
 		// Add research nodes on load
-		// if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.ResearchNodes[researchTypeEnum]))
+		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.ResearchNodes[researchTypeEnum]))
+		{
+			AddResearchNode();
+		}
+		
+		// Testing, add research nodes to all possible positions
+		// if (researchNodeCounter < (columns * rows))
 		// {
 		// 	AddResearchNode();
 		// }
+	}
+	
+	
+	private void OnMouseEnteredButton()
+	{
+		string msg = $"${Utils.FormatNumber(researchNodeCost)}";
+		Color color = Colors.White;
 		
-		if (researchNodeCounter < (columns * rows))
+		AddTempLabel(msg, color, HoverInfoLabel.LabelType.InfoLabel);
+	}
+	
+	
+	private void OnMouseExitedButton()
+	{
+		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
 		{
-			AddResearchNode();
+			GD.Print("test");
+			
+			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
+			{
+				label.QueueFree();
+			}
 		}
 	}
 	
@@ -152,13 +193,10 @@ public partial class ResearchTab : Control
 		// All nodes added
 		if (researchNodeCounter > (columns * rows))
 		{
-			// display message, at mouse position, in blue, for 3 seconds, fading out, moving up
-			// "All research nodes purchased"
-			
 			var text = "All research nodes purchased";
 			var color = Colors.Blue;
 			
-			AddFadingLabel(text, color);
+			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel);
 			
 			return;
 		}
@@ -166,13 +204,10 @@ public partial class ResearchTab : Control
 		// Not enough money
 		if (DataManager.saveData.Money < researchNodeCost)
 		{
-			// display message, at mouse position, in red, for 3 seconds, fading out, moving up
-			// "Not enough money"
-			
 			var text = "Not enough money";
 			var color = Colors.Red;
 			
-			AddFadingLabel(text, color);
+			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel);
 			
 			return;
 		}
@@ -182,6 +217,17 @@ public partial class ResearchTab : Control
 		// Update data
 		DataManager.saveData.ResearchNodes[researchTypeEnum] += 1;
 		DataManager.saveData.Money -= researchNodeCost;
+		
+		
+		// Update hover label message with new price
+		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
+		{
+			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
+			{
+				label.Text = $"${Utils.FormatNumber(researchNodeCost)}";
+			}
+		}
+		
 	}
 	
 	
@@ -195,7 +241,7 @@ public partial class ResearchTab : Control
 		// gives the index for the position of the current column 0-20
 		int columnIndex = researchNodeCounter / rows;
 		
-		// Load and add to scene
+		// Load and add body part to scene
 		var part = bodyPartScene.Instantiate<Node2D>();
 		AddChild(part);
 		
@@ -241,9 +287,9 @@ public partial class ResearchTab : Control
 	}
 	
 	
-	private void AddFadingLabel(string labelContent, Color textColor)
+	private void AddTempLabel(string labelContent, Color textColor, HoverInfoLabel.LabelType type)
 	{
-		Label label = new()
+		HoverInfoLabel label = new()
 		{
 			MouseFilter = MouseFilterEnum.Ignore,
 			Text = labelContent,
@@ -259,6 +305,7 @@ public partial class ResearchTab : Control
 		};
 		
 		label.LabelSettings = settings;
+		label.labelType = type;
 		
 		AddChild(label);
 		
