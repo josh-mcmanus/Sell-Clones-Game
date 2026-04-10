@@ -49,9 +49,6 @@ public partial class CloneManager : Node2D
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
 				part.TorsoClick += OnTorsoClick;
 				
-				part.BodyPartHover += OnBodyPartHover;
-				part.BodyPartHoverExit += OnBodyPartHoverExit;
-				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
 			}
@@ -76,6 +73,29 @@ public partial class CloneManager : Node2D
 		if (moveObject)
 		{
 			currentBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+		}
+		
+		
+		// Detect if held body part is overlapping body part area
+		if (moveObject && currentBodyPart == null)
+		{
+			return;
+		}
+		
+		var overlap = currentBodyPart.GetOverlappingAreas();
+		
+		isAttachmentOk = false;
+		attachmentArea = null;
+		
+		foreach (var area in overlap)
+		{
+			// overlapping area is valid
+			if (area is BodyParts part && part.isAttachmentArea && part.bodyPartEnum == currentBodyPart.bodyPartEnum)
+			{
+				isAttachmentOk = true;
+				attachmentArea = part;
+				break;
+			}
 		}
 	}
 	
@@ -157,8 +177,6 @@ public partial class CloneManager : Node2D
 		
 		zIndex++;
 		currentBodyPart.ZIndex = zIndex;
-		
-		// Utils.Log(TAG, ""+zIndex);
 	}
 	
 	
@@ -226,7 +244,6 @@ public partial class CloneManager : Node2D
 		// Play torso opening animation
 	}
 	
-	
 	private void OnTorsoHoverExit()
 	{
 		if (isTorsoMenuOpen)
@@ -240,50 +257,6 @@ public partial class CloneManager : Node2D
 	}
 	
 	
-	
-	
-	
-	// Activates when the mouse enters the body part attachment area
-	// For attaching new body parts
-	private void OnBodyPartHover(BodyParts hoverBodyPart)
-	{
-		// Disable activation for attached body parts
-		if (!hoverBodyPart.isAttachmentArea)
-		{
-			return;
-		}
-		
-		// Disable activation if body part is not being dragged
-		if (!moveObject)
-		{
-			return;
-		}
-		
-		// Check both areas are the same type
-		var heldArea = currentBodyPart;
-		
-		if (hoverBodyPart.bodyPartEnum == heldArea.bodyPartEnum)
-		{
-			Utils.Log(TAG, "Attachment area and held item match");
-			
-			isAttachmentOk = true;
-			attachmentArea = hoverBodyPart;
-		}
-	}
-	
-	
-	// Activates when the mouse exits any body part region
-	// For disabling attachment when not hovering over a body part attachment area
-	private void OnBodyPartHoverExit(BodyParts bodyPart)
-	{
-		// Disable activation if body part is not being dragged
-		if (!moveObject)
-		{
-			return;
-		}
-		
-		isAttachmentOk = false;
-	}
 	
 	
 	// Activates when the mouse exits the removeBounds area
@@ -323,9 +296,6 @@ public partial class CloneManager : Node2D
 		// Move to current mouse position
 		bodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
 		
-		bodyPart.BodyPartHover += OnBodyPartHover;
-		bodyPart.BodyPartHoverExit += OnBodyPartHoverExit;
-		
 		// Follow the mouse until unclick signal
 		currentBodyPart = bodyPart;
 		moveObject = true;
@@ -338,9 +308,6 @@ public partial class CloneManager : Node2D
 		attachmentArea.GlobalPosition = initialPosition;
 		attachmentArea.isAttachmentArea = true;
 		attachmentArea.sprite2D.Visible = false;
-		
-		attachmentArea.BodyPartHover += OnBodyPartHover;
-		attachmentArea.BodyPartHoverExit += OnBodyPartHoverExit;
 	}
 	
 	
