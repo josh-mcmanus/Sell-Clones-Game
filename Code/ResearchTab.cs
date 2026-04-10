@@ -7,7 +7,7 @@ public partial class ResearchTab : Control
 {
 	
 	[Export]
-	public Utils.ResearchTypeEnum researchTypeEnum;
+	public Utils.NodeTypeEnum nodeTypeEnum;
 	
 	[Export]
 	private Control control;
@@ -18,9 +18,9 @@ public partial class ResearchTab : Control
 	
 	private const string TAG = "ResearchTab";
 	
-	PackedScene bodyPartScene = GD.Load<PackedScene>("res://Scenes/research_node.tscn");
+	PackedScene bodyPartScene = GD.Load<PackedScene>("res://Scenes/generic_node.tscn");
 	
-	double researchNodeCost = 0;
+	double nodeCost = 0;
 	
 	float spriteWidth = 0;
 	float spriteHeight = 0;
@@ -55,19 +55,24 @@ public partial class ResearchTab : Control
 		
 		
 		// Set number of research nodes based on research tab type
-		if (researchTypeEnum == Utils.ResearchTypeEnum.Brain || researchTypeEnum == Utils.ResearchTypeEnum.Tank)
+		if (nodeTypeEnum == Utils.NodeTypeEnum.Brain || nodeTypeEnum == Utils.NodeTypeEnum.Tank)
 		{
-			// Remember to scale down the research cost for these two
+			// TODO: Remember to scale down the research cost for these two
 			columns = 17;
 		}
+		if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
+		{
+			rows = 12;
+			columns = 30;
+		}
 		
-		// Set cost of research node
-		researchNodeCost = Utils.baseResearchNodeCost[researchTypeEnum];
+		nodeCost = Utils.nodeCostDictionary[nodeTypeEnum];
+		
 		
 		
 		// Set dimensions
 		ColorRect parent = (ColorRect)GetParent();
-		Vector2 areaSize = parent.CustomMinimumSize;
+		Vector2 areaSize = parent.Size;
 		
 		areaX = (int)areaSize.X;
 		areaY = (int)areaSize.Y;
@@ -76,9 +81,10 @@ public partial class ResearchTab : Control
 		marginY = (areaY - (spriteHeight * rows)) / (rows + 1);
 
 		button.CustomMinimumSize = new Vector2(buttonWidth, areaY - marginY * 2);
-
+		
+		
 		// Set button position
-		if (researchTypeEnum == Utils.ResearchTypeEnum.Limbs || researchTypeEnum == Utils.ResearchTypeEnum.Brain)
+		if (nodeTypeEnum == Utils.NodeTypeEnum.Limbs || nodeTypeEnum == Utils.NodeTypeEnum.Brain)
 		{
 			isLeftSide = true;
 			button.Position = new Vector2(marginX, marginY);
@@ -88,6 +94,8 @@ public partial class ResearchTab : Control
 			isLeftSide = false;
 			button.Position = new Vector2(areaX - buttonWidth - marginX, marginY);
 		}
+		
+		
 		
 		button.Pressed += OnButtonPressed;
 		button.MouseEntered += OnMouseEnteredButton;
@@ -150,34 +158,43 @@ public partial class ResearchTab : Control
 		
 		
 		// Add research nodes on load
-		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.ResearchNodes[researchTypeEnum]))
+		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.UnlockedNodes[nodeTypeEnum]))
 		{
-			AddResearchNode();
+			AddGenericNode();
 		}
 		
 		// Testing, add research nodes to all possible positions
 		// if (researchNodeCounter < (columns * rows))
 		// {
-		// 	AddResearchNode();
+		// 	AddGenericNode();
 		// }
 	}
 	
 	
+	// TODO: add a check for if all nodes purchased
+	// if yes then dont display any label
+	
+	// Displays hover label of research node price
 	private void OnMouseEnteredButton()
 	{
-		string msg = $"${Utils.FormatNumber(researchNodeCost)}";
+		// All nodes purchased
+		if (researchNodeCounter >= (columns * rows))
+		{
+			return;
+		}
+		
+		string msg = $"${Utils.FormatNumber(nodeCost)}";
 		Color color = Colors.White;
 		
 		AddTempLabel(msg, color, HoverInfoLabel.LabelType.InfoLabel);
 	}
 	
 	
+	// Removes hover label of research node price
 	private void OnMouseExitedButton()
 	{
 		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
 		{
-			GD.Print("test");
-			
 			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
 			{
 				label.QueueFree();
@@ -191,10 +208,10 @@ public partial class ResearchTab : Control
 	private void OnButtonPressed()
 	{
 		// All nodes added
-		if (researchNodeCounter > (columns * rows))
+		if (researchNodeCounter >= (columns * rows))
 		{
 			var text = "All research nodes purchased";
-			var color = Colors.Blue;
+			var color = Colors.SkyBlue;
 			
 			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel);
 			
@@ -202,7 +219,7 @@ public partial class ResearchTab : Control
 		}
 		
 		// Not enough money
-		if (DataManager.saveData.Money < researchNodeCost)
+		if (DataManager.saveData.Money < nodeCost)
 		{
 			var text = "Not enough money";
 			var color = Colors.Red;
@@ -212,28 +229,17 @@ public partial class ResearchTab : Control
 			return;
 		}
 		
-		AddResearchNode();
-		
 		// Update data
-		DataManager.saveData.ResearchNodes[researchTypeEnum] += 1;
-		DataManager.saveData.Money -= researchNodeCost;
+		DataManager.saveData.UnlockedNodes[nodeTypeEnum] += 1;
+		DataManager.saveData.Money -= nodeCost;
 		
-		
-		// Update hover label message with new price
-		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
-		{
-			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
-			{
-				label.Text = $"${Utils.FormatNumber(researchNodeCost)}";
-			}
-		}
-		
+		AddGenericNode();
 	}
 	
 	
 	// Activates on function call
 	// For Adding one research unit to the research tab
-	private void AddResearchNode()
+	private void AddGenericNode()
 	{
 		// gives the index for the position in the current row, 0-4
 		int rowIndex = researchNodeCounter % rows;
@@ -245,20 +251,21 @@ public partial class ResearchTab : Control
 		var part = bodyPartScene.Instantiate<Node2D>();
 		AddChild(part);
 		
+		
 		// Connect signal
-		ResearchNode researchNode = (ResearchNode)part;
-		researchNode.ResearchUnitComplete += AddResearchUnit;
+		GenericNode node = (GenericNode)part;
+		node.ResearchUnitComplete += AddPoints;
 		
 		
 		// Set color based on type
-		if (!Utils.researchTypeColorDictionary.ContainsKey(researchTypeEnum))
+		if (!Utils.colorDictionary.ContainsKey(nodeTypeEnum))
 		{
-			throw new ArgumentNullException($"Key: {researchTypeEnum}, could not be found in researchTypeColorDictionary");
+			throw new ArgumentNullException($"Key: {nodeTypeEnum}, could not be found in colorDictionary");
 		}
 		else
 		{
-			Color typeColor = Utils.researchTypeColorDictionary.GetValueOrDefault(researchTypeEnum);
-			researchNode.nodeColor.Color = typeColor;
+			Color typeColor = Utils.colorDictionary.GetValueOrDefault(nodeTypeEnum);
+			node.nodeColor.Color = typeColor;
 		}
 		
 		
@@ -273,17 +280,58 @@ public partial class ResearchTab : Control
 		researchNodeCounter++;
 		
 		// Update cost
-		researchNodeCost = Math.Round(researchNodeCost * 1.5, 2);
-		Utils.Log(TAG, $"{researchTypeEnum} {researchNodeCost}");
+		nodeCost = Math.Round(nodeCost * 1.5, 2);
+		
+		
+		// Update hover label message with new price
+		foreach (var label in GetChildren().OfType<HoverInfoLabel>())
+		{
+			if (label.labelType == HoverInfoLabel.LabelType.InfoLabel)
+			{
+				label.Text = $"${Utils.FormatNumber(nodeCost)}";
+			}
+		}
+		
+		
+		
+		// Set clone tank specific details
+		// if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
+		// {
+		// 	node.sprite.Texture = GD.Load<CompressedTexture2D>("res://Assets/Clone Node.png");
+			
+		// 	// size and position set as clone sprite is a circle, by default is a square, so it fits inside
+		// 	var size = new Vector2(14, 14);
+		// 	var pos = new Vector2(-7, -7);
+			
+		// 	node.nodeColor.Size = size;
+		// 	node.nodeColor.Position = pos;
+			
+		// 	node.complete.Size = size;
+		// 	node.complete.Position = pos;
+		// }
 	}
 	
 	
 	// Activated when a research units timer times out
 	// For adding 1 research unit to the global counter
-	private void AddResearchUnit()
+	private void AddPoints()
 	{
+		double modifier = 0;
+		double multiplier = 1;
+		
+		
+		// TODO: Add calculation based on equiped upgrades
+		// tank, brain
+		
+		
+		if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
+		{
+			DataManager.saveData.Money += (10 + modifier) * multiplier;
+			return;
+		}
+		
 		// Add to player data
-		DataManager.saveData.ResearchPoints[researchTypeEnum] += 1;
+		DataManager.saveData.ResearchPoints[nodeTypeEnum] += (1 + modifier) * multiplier;
 	}
 	
 	

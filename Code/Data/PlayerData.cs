@@ -5,26 +5,27 @@ using System.Text.Json.Serialization;
 
 public class PlayerData
 {
-	public double Money {get; set;} = 0;
+	public double Money {get; set;} = 110;
 	
 	[JsonInclude]
-	public Dictionary<Utils.ResearchTypeEnum, double> ResearchPoints = new()
+	public Dictionary<Utils.NodeTypeEnum, double> ResearchPoints = new()
 	{
-		{Utils.ResearchTypeEnum.Limbs,  0},
-		{Utils.ResearchTypeEnum.Organs, 0},
-		{Utils.ResearchTypeEnum.Exotic, 0},
-		{Utils.ResearchTypeEnum.Brain,  0},
-		{Utils.ResearchTypeEnum.Tank,   0},
+		{Utils.NodeTypeEnum.Limbs,  0},
+		{Utils.NodeTypeEnum.Organs, 0},
+		{Utils.NodeTypeEnum.Brain,  0},
+		{Utils.NodeTypeEnum.Tank,   0},
+		// {Utils.NodeTypeEnum.Exotic, 0},
 	};
 	
 	[JsonInclude]
-	public Dictionary<Utils.ResearchTypeEnum, int> ResearchNodes = new()
+	public Dictionary<Utils.NodeTypeEnum, int> UnlockedNodes = new()
 	{
-		{Utils.ResearchTypeEnum.Limbs,  0},
-		{Utils.ResearchTypeEnum.Organs, 0},
-		{Utils.ResearchTypeEnum.Exotic, 0},
-		{Utils.ResearchTypeEnum.Brain,  0},
-		{Utils.ResearchTypeEnum.Tank,   0},
+		{Utils.NodeTypeEnum.Limbs,  0},
+		{Utils.NodeTypeEnum.Organs, 0},
+		{Utils.NodeTypeEnum.Brain,  0},
+		{Utils.NodeTypeEnum.Tank,   0},
+		{Utils.NodeTypeEnum.Clone,   0},
+		// {Utils.NodeTypeEnum.Exotic, 0},
 	};
 	
 	// Category for each upgradable thing - clone, brain, tank

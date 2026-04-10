@@ -63,7 +63,6 @@ public partial class Utils : Node
 		{
 			value /= 1000;
 			index++;
-			GD.Print($"index: {index}");
 		}
 		
 		// Limit to 2 decimal places
@@ -79,7 +78,7 @@ public partial class Utils : Node
 	
 	private static readonly string[] shortSuffixes =
 	{
-		"M", "B", "T", "Qa", "Qu", "Sx", "Sp", "Oc", "No", "Dc"
+		"M", "B", "T", "Qa", "Qu", "Sx", "Sp", "Oc", "No", "Dc", "Udc", "Ddc", "Tdc", "Qadc", "Qidc", "Sxdc", "Spdc", "Ocdc", "Nmdc", "Vg"
 	};
 	
 	
@@ -117,23 +116,25 @@ public partial class Utils : Node
 	};
 	
 	
-	public static readonly Dictionary<ResearchTypeEnum, Color> researchTypeColorDictionary = new()
+	public static readonly Dictionary<NodeTypeEnum, Color> colorDictionary = new()
 	{
-		{ResearchTypeEnum.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
-		{ResearchTypeEnum.Organs, new Color(0.792f, 0.553f, 0.286f)},
-		{ResearchTypeEnum.Exotic, new Color(0.58f,  0.478f, 0.894f)},
-		{ResearchTypeEnum.Brain,  new Color(0.953f, 0.388f, 0.471f)},
-		{ResearchTypeEnum.Tank,   new Color(0.349f, 1.0f,   1.0f)},
+		{NodeTypeEnum.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
+		{NodeTypeEnum.Organs, new Color(0.792f, 0.553f, 0.286f)},
+		{NodeTypeEnum.Brain,  new Color(0.953f, 0.388f, 0.471f)},
+		{NodeTypeEnum.Tank,   new Color(0.349f, 1.0f,   1.0f)},
+		{NodeTypeEnum.Clone,  new Color(1.0f,   1.0f,   1.0f)},
+		// {NodeTypeEnum.Exotic, new Color(0.58f,  0.478f, 0.894f)},
 	};
 	
 	
-	public static readonly Dictionary<ResearchTypeEnum, int> baseResearchNodeCost = new()
+	public static readonly Dictionary<NodeTypeEnum, int> nodeCostDictionary = new()
 	{
-		{ResearchTypeEnum.Limbs,  10},
-		{ResearchTypeEnum.Organs, 1000},
-		{ResearchTypeEnum.Exotic, 100000}, // 100k
-		{ResearchTypeEnum.Brain,  10000000}, // 10m
-		{ResearchTypeEnum.Tank,   1000000000}, // 1b
+		{NodeTypeEnum.Limbs,  10},
+		{NodeTypeEnum.Organs, 1000},
+		{NodeTypeEnum.Brain,  100000}, // 10m
+		{NodeTypeEnum.Tank,   10000000}, // 1b
+		{NodeTypeEnum.Clone,  100},
+		// {NodeTypeEnum.Exotic, 100000}, // 100k
 	};
 	
 	
@@ -170,12 +171,13 @@ public partial class Utils : Node
 	}
 	
 	
-	public enum ResearchTypeEnum
+	public enum NodeTypeEnum
 	{
 		Limbs,
 		Organs,
-		Exotic,
 		Brain,
 		Tank,
+		
+		Clone
 	}
 }

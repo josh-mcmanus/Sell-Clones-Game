@@ -2,16 +2,19 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-public partial class ResearchNode : Node2D
+public partial class GenericNode : Node2D
 {
 	[Export]
 	Timer timer;
 	
 	[Export]
-	ColorRect complete;
+	public ColorRect complete;
 	
 	[Export]
 	public ColorRect nodeColor;
+	
+	[Export]
+	public Sprite2D sprite;
 	
 	
 	[Signal]
