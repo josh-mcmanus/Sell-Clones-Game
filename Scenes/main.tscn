@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/clone_upgrade.tscn" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/node_tab.tscn" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://bun1go8h6w2vl" path="res://Code/MoneyLabel.cs" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://bxs3dgbm404h8" path="res://Scenes/upgrades_tab.tscn" id="3_kry3j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8gbba"]
 font_size = 44
@@ -120,6 +121,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
 
+[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts" unique_id=1084771400 instance=ExtResource("3_kry3j")]
+layout_mode = 1
+
 [node name="Brain" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff" unique_id=417502621]
 custom_minimum_size = Vector2(292, 0)
 layout_mode = 2
@@ -139,6 +143,9 @@ layout_mode = 2
 [node name="Limb Parts" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts" unique_id=1247163240]
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
+
+[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts" unique_id=398265188 instance=ExtResource("3_kry3j")]
+layout_mode = 1
 
 [node name="Middle" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content" unique_id=2033708145]
 layout_mode = 2
@@ -182,6 +189,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
 
+[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts" unique_id=98618967 instance=ExtResource("3_kry3j")]
+layout_mode = 1
+
 [node name="Right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right" unique_id=1076959492]
 layout_mode = 2
 
@@ -207,6 +217,9 @@ color = Color(0.627451, 0.7882353, 1, 1)
 [node name="Tank Parts" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff" unique_id=1943333167]
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
+
+[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts" unique_id=808624688 instance=ExtResource("3_kry3j")]
+layout_mode = 1
 
 [node name="Window" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right" unique_id=390985245]
 custom_minimum_size = Vector2(496, 192)
