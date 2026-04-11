@@ -47,14 +47,12 @@ public partial class CloneManager : Node2D
 			if (node is BodyParts part)
 			{
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
-				part.TorsoClick += OnTorsoClick;
+				// part.TorsoClick += OnTorsoClick;
 				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
 			}
 		}
-		
-		torsoMenu.CloseTorsoMenu += OnTorsoMenuCloseButtonClick;
 	}
 	
 	
@@ -65,35 +63,42 @@ public partial class CloneManager : Node2D
 			return;
 		}
 		
-		// Only prevent movement if the torso menu is open and the selected body part is not an internal organ
-		if (isTorsoMenuOpen && !Utils.IsInternalBodyPart(currentBodyPart.bodyPartEnum))
-		{
-			return;
-		}
 		if (moveObject)
 		{
-			currentBodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
+			currentBodyPart.GlobalPosition = currentGlobalMousePosition + localMouseOffset;
 		}
 		
 		
 		// Detect if held body part is overlapping body part area
-		if (moveObject && currentBodyPart == null)
-		{
-			return;
-		}
+		// if (moveObject && currentBodyPart == null)
+		// {
+		// 	return;
+		// }
 		
 		var overlap = currentBodyPart.GetOverlappingAreas();
 		
 		isAttachmentOk = false;
 		attachmentArea = null;
 		
+		// Get all body parts in the overlapping area
 		foreach (var area in overlap)
 		{
+			// if (area is BodyParts attachmentPart)
+			// {
+			// 	GD.Print(attachmentPart.bodyPart);
+			// 	GD.Print(currentBodyPart.bodyPart);
+				
+			// }
+			
+			// GD.Print("===========================");
 			// overlapping area is valid
-			if (area is BodyParts part && part.isAttachmentArea && part.bodyPartEnum == currentBodyPart.bodyPartEnum)
+			if (area is BodyParts attachmentPart 
+				&& attachmentPart.isAttachmentArea 
+				&& attachmentPart.bodyPart == currentBodyPart.bodyPart
+				&& attachmentPart.side == currentBodyPart.side)
 			{
 				isAttachmentOk = true;
-				attachmentArea = part;
+				attachmentArea = attachmentPart;
 				break;
 			}
 		}
@@ -146,7 +151,8 @@ public partial class CloneManager : Node2D
 		// Properties
 		activeRemovalBounds = removalBounds;
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
-		removalBounds.bodyPartEnum = bodyPart.bodyPartEnum;
+		removalBounds.bodyPart = bodyPart.bodyPart;
+		removalBounds.side = bodyPart.side;
 		removalBounds.MouseExitedBounds += BodyPartRemovalBoundsExit;
 	}
 	
@@ -156,9 +162,10 @@ public partial class CloneManager : Node2D
 	// NOTE: OnUpgradeSiteClicked is similar, and also calls this function, but also does other things relevant for ONLY the upgrade sites. e.g. the sites on the body where you can add upgrades to
 	private void OnBodyPartClicked(BodyParts area)
 	{
-		Utils.Log(TAG, $"Clicked object type: {area.bodyPartEnum}");
+		Utils.Log(TAG, $"Clicked object type: {area.bodyPart}");
 		
-		if (isTorsoMenuOpen)
+		// torso cant move
+		if (area.bodyPart == Utils.BodyPart.Torso)
 		{
 			return;
 		}
@@ -169,7 +176,7 @@ public partial class CloneManager : Node2D
 			currentBodyPart.ZIndex = zIndex;
 		}
 		
-		localMouseOffset = area.GetLocalMousePosition();
+		localMouseOffset = area.GlobalPosition - currentGlobalMousePosition;
 		currentBodyPart = area;
 		moveObject = true;
 		isSelectedBodyPartAttached = false;
@@ -203,33 +210,6 @@ public partial class CloneManager : Node2D
 		}
 	}
 	
-	
-	
-	
-	// Activates when the player left clicks on the torso
-	// For opening the torso menu
-	private void OnTorsoClick()
-	{
-		// need to gradually fade out the clone in the background here
-		
-		// disable all movement outside of the torso menu
-		isTorsoMenuOpen = true;
-		
-		zIndex++;
-		torsoMenu.ZIndex = zIndex;
-		torsoMenu.Visible = true;
-	}
-	
-	private void OnTorsoMenuCloseButtonClick()
-	{
-		isTorsoMenuOpen = false;
-		
-		torsoMenu.Visible = false;
-		
-		// Activate closing animation
-		// Prevents torso staying open, as it isnt triggered
-		OnTorsoHoverExit();
-	}
 	
 	
 	private void OnTorsoHover()
@@ -274,18 +254,18 @@ public partial class CloneManager : Node2D
 		
 		
 		// Get file directory
-		if (!Utils.bodyPartsDictionary.ContainsKey(removalBounds.bodyPartEnum))
+		if (!Utils.bodyPartsDictionary.ContainsKey(removalBounds.bodyPart))
 		{
 			ResetAndDisableMovement();
-			throw new ArgumentNullException($"Key: {removalBounds.bodyPartEnum}, could not be found in bodyParts dictionary");
+			throw new ArgumentNullException($"Key: {removalBounds.bodyPart}, could not be found in bodyParts dictionary");
 		}
 		
-		var partDirectory = Utils.bodyPartsDictionary.GetValueOrDefault(removalBounds.bodyPartEnum);
+		var partDirectory = Utils.bodyPartsDictionary.GetValueOrDefault(removalBounds.bodyPart);
 		
 		
 		// Create new body part object
-		BodyParts bodyPart = AddBodyPartToScene(partDirectory);
-		bodyPart.bodyPartEnum = removalBounds.bodyPartEnum;
+		BodyParts bodyPart = AddBodyPartToScene(partDirectory, removalBounds.side);
+		bodyPart.bodyPart = removalBounds.bodyPart;
 		
 		// Delete old body part and removalbounds
 		currentBodyPart.QueueFree();
@@ -304,23 +284,36 @@ public partial class CloneManager : Node2D
 		
 		
 		// Create bounds area for attaching new body part
-		BodyParts attachmentArea = AddBodyPartToScene(partDirectory);
+		BodyParts attachmentArea = AddBodyPartToScene(partDirectory, removalBounds.side);
 		attachmentArea.GlobalPosition = initialPosition;
-		attachmentArea.isAttachmentArea = true;
 		attachmentArea.sprite2D.Visible = false;
+		
+		attachmentArea.isAttachmentArea = true;
+		attachmentArea.bodyPart = removalBounds.bodyPart;
+		attachmentArea.side = removalBounds.side;
+		
 	}
 	
 	
 	
 	
 	// Adds a draggable body part to the scene
-	// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "l_arm.tscn" > Copy Path > paste as sceneDirectory
-	private BodyParts AddBodyPartToScene(string sceneDirectory)
+	// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "shoulder.tscn" > Copy Path > paste as sceneDirectory
+	private BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side)
 	{
 		// Load and add to scene
 		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
 		var part = bodyPartScene.Instantiate<BodyParts>();
 		AddChild(part);
+		
+		// Flip on right
+		if (side == Utils.Side.Right)
+		{
+			part.Scale = new Vector2(-1, 1);
+		}
+		
+		part.side = side;
+		
 		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;

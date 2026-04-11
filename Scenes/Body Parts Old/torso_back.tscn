@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://bfju2lio75g3i"]
 
 [ext_resource type="Texture2D" uid="uid://wp3kefkn20qv" path="res://Assets/Body Parts/torso.png" id="1_bgkkn"]
-[ext_resource type="PackedScene" uid="uid://f14fqaiegbwh" path="res://Scenes/Body Parts/spine.tscn" id="2_pbcx0"]
+[ext_resource type="PackedScene" uid="uid://f14fqaiegbwh" path="res://Scenes/Body Parts Old/spine.tscn" id="2_pbcx0"]
 [ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="3_b7vhj"]
-[ext_resource type="PackedScene" uid="uid://6yolsl0yol7l" path="res://Scenes/Body Parts/kidneys.tscn" id="3_tdstg"]
-[ext_resource type="PackedScene" uid="uid://ccsax3ewtlkdn" path="res://Scenes/Body Parts/neural_connector.tscn" id="4_kfxc2"]
-[ext_resource type="PackedScene" uid="uid://smy6wedoewyc" path="res://Scenes/Body Parts/immune_replacer.tscn" id="5_0nnb1"]
-[ext_resource type="PackedScene" uid="uid://d1yr6q2188d54" path="res://Scenes/Body Parts/generic_upgrade.tscn" id="6_q3y16"]
+[ext_resource type="PackedScene" uid="uid://6yolsl0yol7l" path="res://Scenes/Body Parts Old/kidneys.tscn" id="3_tdstg"]
+[ext_resource type="PackedScene" uid="uid://ccsax3ewtlkdn" path="res://Scenes/Body Parts Old/neural_connector.tscn" id="4_kfxc2"]
+[ext_resource type="PackedScene" uid="uid://smy6wedoewyc" path="res://Scenes/Body Parts Old/immune_replacer.tscn" id="5_0nnb1"]
+[ext_resource type="PackedScene" uid="uid://d1yr6q2188d54" path="res://Scenes/Body Parts Old/generic_upgrade.tscn" id="6_q3y16"]
 
 [node name="Torso Back" type="Node2D" unique_id=1120918812]
 

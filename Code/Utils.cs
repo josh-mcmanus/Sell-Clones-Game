@@ -24,19 +24,30 @@ public partial class Utils : Node
 	
 	
 	
-	
-	// For enabling / disabling based on if the torso menu is open. Only internal organs can be moved around if it is open.
-	public static bool IsInternalBodyPart(BodyPartEnum bodyPart)
+	public static void UnlockNextUpgrade(BodyPart part)
 	{
-		var x = (int)bodyPart;
-
-		// Is between the values of Heart and GenericUpgrade
-		if (13 <= x && x <= 20)
+		if (!DataManager.saveData.UnlockedUpgrades.ContainsKey(part))
 		{
-			return true;
+			DataManager.saveData.UnlockedUpgrades.Add(part, 0);
 		}
 		
-		return false;
+		DataManager.saveData.UnlockedUpgrades[part] += 1;
+	}
+	
+	
+	public static bool IsUpgradeUnlocked(BodyPart part, UpgradeTier upgrade)
+	{
+		if (!DataManager.saveData.UnlockedUpgrades.TryGetValue(part, out int value))
+		{
+			return false;
+		}
+		
+		if (value < (int)upgrade)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	
@@ -84,100 +95,166 @@ public partial class Utils : Node
 	
 	// For adding new body parts
 	// File locations for body parts to load from
-	public static readonly Dictionary<BodyPartEnum, string> bodyPartsDictionary = new()
+	public static readonly Dictionary<BodyPart, string> bodyPartsDictionary = new()
 	{
-		{BodyPartEnum.LShoulder,"res://Scenes/Body Parts/limbs/l_shoulder.tscn"},
-		{BodyPartEnum.LForearm,	"res://Scenes/Body Parts/limbs/l_forearm.tscn"}, 
-		{BodyPartEnum.LHand,	"res://Scenes/Body Parts/limbs/l_hand.tscn"},
+		{BodyPart.Shoulder, "res://Scenes/Body Parts/shoulder.tscn"},
+		{BodyPart.Forearm,	"res://Scenes/Body Parts/forearm.tscn"}, 
+		{BodyPart.Hand,	 	"res://Scenes/Body Parts/hand.tscn"},
+		{BodyPart.Thigh,	"res://Scenes/Body Parts/thigh.tscn"},
+		{BodyPart.Calf,	 	"res://Scenes/Body Parts/calf.tscn"},
+		{BodyPart.Foot,	 	"res://Scenes/Body Parts/foot.tscn"},
 		
-		{BodyPartEnum.RShoulder,"res://Scenes/Body Parts/limbs/r_shoulder.tscn"},
-		{BodyPartEnum.RForearm,	"res://Scenes/Body Parts/limbs/r_forearm.tscn"},
-		{BodyPartEnum.RHand,	"res://Scenes/Body Parts/limbs/r_hand.tscn"},
+		{BodyPart.Heart,	"res://Scenes/Body Parts/heart.tscn"},
+		{BodyPart.Lung,	 	"res://Scenes/Body Parts/lungs.tscn"},
+		{BodyPart.Liver,	"res://Scenes/Body Parts/liver.tscn"},
+		{BodyPart.Kidney,	"res://Scenes/Body Parts/kidneys.tscn"},
+		{BodyPart.Spine,	"res://Scenes/Body Parts/spine.tscn"},
 		
-		
-		{BodyPartEnum.LLeg,		"res://Scenes/Body Parts/limbs/l_leg.tscn"},
-		{BodyPartEnum.LCalf,	"res://Scenes/Body Parts/limbs/l_calf.tscn"},
-		{BodyPartEnum.LFoot,	"res://Scenes/Body Parts/limbs/l_foot.tscn"},
-		
-		{BodyPartEnum.RLeg,		"res://Scenes/Body Parts/limbs/r_leg.tscn"},
-		{BodyPartEnum.RCalf,	"res://Scenes/Body Parts/limbs/r_calf.tscn"},
-		{BodyPartEnum.RFoot,	"res://Scenes/Body Parts/limbs/r_foot.tscn"},
+		{BodyPart.Torso, 	"res://Scenes/Body Parts/torso.tscn"},
 		
 		
-		{BodyPartEnum.Heart,	"res://Scenes/Body Parts/heart.tscn"},
-		{BodyPartEnum.Lung,		"res://Scenes/Body Parts/lungs.tscn"},
-		{BodyPartEnum.Liver,	"res://Scenes/Body Parts/liver.tscn"},
-		
-		{BodyPartEnum.Spine,			"res://Scenes/Body Parts/spine.tscn"},
-		{BodyPartEnum.Kidney,			"res://Scenes/Body Parts/kidneys.tscn"},
-		{BodyPartEnum.NeuralConnector,	"res://Scenes/Body Parts/neural_connector.tscn"},
-		{BodyPartEnum.ImmuneReplacer,	"res://Scenes/Body Parts/immune_replacer.tscn"},
-		{BodyPartEnum.GenericUpgrade,	"res://Scenes/Body Parts/generic_upgrade_slot.tscn"},
 	};
 	
 	
-	public static readonly Dictionary<NodeTypeEnum, Color> colorDictionary = new()
+	public static readonly Dictionary<NodeType, Color> colorDictionary = new()
 	{
-		{NodeTypeEnum.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
-		{NodeTypeEnum.Organs, new Color(0.792f, 0.553f, 0.286f)},
-		{NodeTypeEnum.Brain,  new Color(0.953f, 0.388f, 0.471f)},
-		{NodeTypeEnum.Tank,   new Color(0.349f, 1.0f,   1.0f)},
-		{NodeTypeEnum.Clone,  new Color(1.0f,   1.0f,   1.0f)},
-		// {NodeTypeEnum.Exotic, new Color(0.58f,  0.478f, 0.894f)},
+		{NodeType.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
+		{NodeType.Organs, new Color(0.792f, 0.553f, 0.286f)},
+		{NodeType.Brain,  new Color(0.953f, 0.388f, 0.471f)},
+		{NodeType.Tank,   new Color(0.349f, 1.0f,   1.0f)},
+		{NodeType.Clone,  new Color(1.0f,   1.0f,   1.0f)},
 	};
 	
 	
-	public static readonly Dictionary<NodeTypeEnum, int> nodeCostDictionary = new()
+	public static readonly Dictionary<NodeType, int> nodeCostDictionary = new()
 	{
-		{NodeTypeEnum.Limbs,  10},
-		{NodeTypeEnum.Organs, 1000},
-		{NodeTypeEnum.Brain,  100000}, // 10m
-		{NodeTypeEnum.Tank,   10000000}, // 1b
-		{NodeTypeEnum.Clone,  100},
-		// {NodeTypeEnum.Exotic, 100000}, // 100k
+		{NodeType.Limbs,  10},
+		{NodeType.Organs, 1000},
+		{NodeType.Brain,  100000}, // 10m
+		{NodeType.Tank,   10000000}, // 1b
+		{NodeType.Clone,  100},
 	};
 	
 	
-	public enum BodyPartEnum
+	public static readonly Dictionary<UpgradeTier, float> bodyPartUpgradeMultipler = new()
 	{
-		LShoulder,
-		LForearm,
-		LHand,
+		{UpgradeTier.Level1, 1.0f},
+		{UpgradeTier.Level2, 1.5f},
+		{UpgradeTier.Level3, 2.5f},
+		{UpgradeTier.Level4, 3.0f},
+		{UpgradeTier.Level5, 5.0f},
+		{UpgradeTier.Level6, 10.0f},
+	};
+	
+	
+	public static readonly Dictionary<UpgradeTier, string> upgradeTierDescriptions = new()
+	{
+		{UpgradeTier.Level1, "99% organically grown"},
+		{UpgradeTier.Level2, "A simple prosthetic replacement, increases worker efficiency by up to 20%*\n*compared to workers with no limbs."},
+		{UpgradeTier.Level3, "Advanced mechanical parts are here!\nUsers may be prone to violent uncontrollable outbursts."},
+		{UpgradeTier.Level4, "Synthetic"},
+		{UpgradeTier.Level5, "Cybernetic may control the user in some cases."},
+		{UpgradeTier.Level6, "Nanomachines"},
 		
-		RShoulder,
-		RForearm,
-		RHand,
+	};
+	
+	
+	
+	// --- Body Parts ---
+	public enum Side
+	{
+		Left,
+		Right,
+		None
+	}
+	
+	public enum BodyPart
+	{
+		Shoulder,
+		Forearm,
+		Hand,
+		Thigh,
+		Calf,
+		Foot,
 		
-		
-		LLeg,
-		LCalf,
-		LFoot,
-		
-		RLeg,
-		RCalf,
-		RFoot,
-		
-		
-		Torso,
 		Heart,
 		Lung,
 		Liver,
-
-		Spine,
 		Kidney,
-		NeuralConnector,
-		ImmuneReplacer,
-		GenericUpgrade
+		Spine,
+		
+		Torso,
+		
+		//Brain
+		Processor,
+		MemoryEnhancer,
+		NeuralInterface,
+		PredictionEngine,
+		NeuronCompressor,
+		PatternRecognizer,
+		EmotionSupressor,
+		AICoprocessor,
+		QuantumFluctuation,
+		
+		// Clone Tank
+		GrowthAccelerator,
+		TimeDilationField,
+		MutationFilter,
+		IncompleteCloning,
+		WeakGenetics,
+		ReducedLifespan,
+		ImmuneRejection,
+		OverclockedCellDivider,
+		MutationEngine,
+		RandomizedGrowth,
+		GeneticShuffle,
 	}
 	
+	public enum UpgradeTier
+	{
+		Level1,
+		Level2,
+		Level3,
+		Level4,
+		Level5,
+		Level6,
+	}
 	
-	public enum NodeTypeEnum
+	public enum NodeType
 	{
 		Limbs,
 		Organs,
 		Brain,
 		Tank,
-		
 		Clone
 	}
+	
+	// public enum BodyPartUpgradeTier
+	// {
+	// 	Natural,
+	// 	Prosthetic,
+	// 	Mechanical,
+	// 	Synthetic,
+	// 	Cybernetic,
+	// 	Nanomachine,
+	// }
+	
+	// public enum BrainUpgradeTier
+	// {
+	// 	Natural,
+	// 	Electrical,
+	// 	Neural,
+	// 	Molecular,
+	// 	Atomic,
+	// 	Quantum,
+	// }
+	
+	// public enum CloneTankUpgradeTier
+	// {
+	// }
+	
+	
+	
+	
+	
 }

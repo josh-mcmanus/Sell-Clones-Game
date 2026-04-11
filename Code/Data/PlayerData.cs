@@ -7,26 +7,28 @@ public class PlayerData
 {
 	public double Money {get; set;} = 110;
 	
+	
 	[JsonInclude]
-	public Dictionary<Utils.NodeTypeEnum, double> ResearchPoints = new()
+	public Dictionary<Utils.NodeType, double> ResearchPoints = new()
 	{
-		{Utils.NodeTypeEnum.Limbs,  0},
-		{Utils.NodeTypeEnum.Organs, 0},
-		{Utils.NodeTypeEnum.Brain,  0},
-		{Utils.NodeTypeEnum.Tank,   0},
-		// {Utils.NodeTypeEnum.Exotic, 0},
+		{Utils.NodeType.Limbs,  0},
+		{Utils.NodeType.Organs, 0},
+		{Utils.NodeType.Brain,  0},
+		{Utils.NodeType.Tank,   0},
 	};
 	
 	[JsonInclude]
-	public Dictionary<Utils.NodeTypeEnum, int> UnlockedNodes = new()
+	public Dictionary<Utils.NodeType, int> UnlockedNodes = new()
 	{
-		{Utils.NodeTypeEnum.Limbs,  0},
-		{Utils.NodeTypeEnum.Organs, 0},
-		{Utils.NodeTypeEnum.Brain,  0},
-		{Utils.NodeTypeEnum.Tank,   0},
-		{Utils.NodeTypeEnum.Clone,   0},
-		// {Utils.NodeTypeEnum.Exotic, 0},
+		{Utils.NodeType.Limbs,  0},
+		{Utils.NodeType.Organs, 0},
+		{Utils.NodeType.Brain,  0},
+		{Utils.NodeType.Tank,   0},
+		{Utils.NodeType.Clone,  0},
 	};
+	
+	[JsonInclude]
+	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new();
 	
 	// Category for each upgradable thing - clone, brain, tank
 		// save the currently active upgrades attached to the thing

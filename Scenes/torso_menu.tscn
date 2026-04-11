@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dgs18j7c5jda"]
 
 [ext_resource type="Script" uid="uid://c7dbi0rojbjvl" path="res://Code/TorsoMenu.cs" id="1_6o5o1"]
-[ext_resource type="PackedScene" uid="uid://6flvjbqchiua" path="res://Scenes/Body Parts/torso_front.tscn" id="1_qlhnc"]
-[ext_resource type="PackedScene" uid="uid://bfju2lio75g3i" path="res://Scenes/Body Parts/torso_back.tscn" id="2_qlhnc"]
+[ext_resource type="PackedScene" uid="uid://6flvjbqchiua" path="res://Scenes/Body Parts Old/torso_front.tscn" id="1_qlhnc"]
+[ext_resource type="PackedScene" uid="uid://bfju2lio75g3i" path="res://Scenes/Body Parts Old/torso_back.tscn" id="2_qlhnc"]
 
 [node name="Torso Menu" type="Control" unique_id=712952278 node_paths=PackedStringArray("closeTorsoMenuButton")]
 layout_mode = 3

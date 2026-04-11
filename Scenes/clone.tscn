@@ -1,60 +1,78 @@
 [gd_scene format=3 uid="uid://c62828eojfvde"]
 
-[ext_resource type="Texture2D" uid="uid://bb88wuywiankj" path="res://Assets/Body Parts/Head.png" id="1_10mvr"]
-[ext_resource type="PackedScene" uid="uid://bfrisx7jonmqk" path="res://Scenes/Body Parts/limbs/l_forearm.tscn" id="3_kupc7"]
-[ext_resource type="PackedScene" uid="uid://boc8n0n242ua5" path="res://Scenes/Body Parts/limbs/l_shoulder.tscn" id="3_r8xe5"]
-[ext_resource type="PackedScene" uid="uid://cl2w7nib1psc0" path="res://Scenes/Body Parts/limbs/l_hand.tscn" id="4_kupc7"]
-[ext_resource type="PackedScene" uid="uid://cq0xp6l0dojww" path="res://Scenes/Body Parts/limbs/r_shoulder.tscn" id="5_w2qdl"]
-[ext_resource type="PackedScene" uid="uid://bggon4c72po6j" path="res://Scenes/Body Parts/limbs/r_forearm.tscn" id="6_o1i2x"]
-[ext_resource type="PackedScene" uid="uid://bpebv35nvj6pn" path="res://Scenes/Body Parts/limbs/r_hand.tscn" id="7_m6ruh"]
-[ext_resource type="PackedScene" uid="uid://x671cyyn82lx" path="res://Scenes/Body Parts/limbs/l_leg.tscn" id="8_1xwu4"]
-[ext_resource type="PackedScene" uid="uid://dtrw44s8phppl" path="res://Scenes/Body Parts/limbs/l_calf.tscn" id="9_urumk"]
-[ext_resource type="PackedScene" uid="uid://c76ctfvp7ppbo" path="res://Scenes/Body Parts/limbs/l_foot.tscn" id="10_1xwu4"]
-[ext_resource type="PackedScene" uid="uid://boq2fpyaboqtk" path="res://Scenes/Body Parts/limbs/r_leg.tscn" id="11_10mvr"]
-[ext_resource type="PackedScene" uid="uid://coigqnqd2k3iw" path="res://Scenes/Body Parts/limbs/r_calf.tscn" id="12_ano71"]
-[ext_resource type="PackedScene" uid="uid://rrnhax44if5g" path="res://Scenes/Body Parts/limbs/r_foot.tscn" id="13_8pxkt"]
-[ext_resource type="PackedScene" uid="uid://5l2vn2ynqdyw" path="res://Scenes/Body Parts/limbs/torso.tscn" id="14_ano71"]
+[ext_resource type="Texture2D" uid="uid://cmfpkao544hmp" path="res://Assets/Clone/Head.png" id="1_50nb2"]
+[ext_resource type="PackedScene" uid="uid://ly5s6js1liai" path="res://Scenes/Body Parts/torso.tscn" id="2_eeqi5"]
+[ext_resource type="PackedScene" uid="uid://t2hiui8lbxtv" path="res://Scenes/Body Parts/shoulder.tscn" id="3_r8xe5"]
+[ext_resource type="PackedScene" uid="uid://bjwofwt0q4mm7" path="res://Scenes/Body Parts/forearm.tscn" id="4_kupc7"]
+[ext_resource type="PackedScene" uid="uid://pdkf1xob7h3h" path="res://Scenes/Body Parts/hand.tscn" id="5_kupc7"]
+[ext_resource type="PackedScene" uid="uid://bd0k7i0uu18yi" path="res://Scenes/Body Parts/thigh.tscn" id="6_w2qdl"]
+[ext_resource type="PackedScene" uid="uid://2vw5f0vy2ycj" path="res://Scenes/Body Parts/calf.tscn" id="7_o1i2x"]
+[ext_resource type="PackedScene" uid="uid://c61ipkr6a03s2" path="res://Scenes/Body Parts/foot.tscn" id="8_m6ruh"]
 
 [node name="Clone" type="Node2D" unique_id=397786538]
 
-[node name="ManTest" type="Sprite2D" parent="." unique_id=1194362875]
-texture = ExtResource("1_10mvr")
+[node name="Head" type="Sprite2D" parent="." unique_id=1194362875]
+position = Vector2(0, -79)
+texture = ExtResource("1_50nb2")
 
-[node name="Torso" parent="." unique_id=1996612187 instance=ExtResource("14_ano71")]
-position = Vector2(0, -50)
+[node name="Torso" parent="." unique_id=1868132030 instance=ExtResource("2_eeqi5")]
+bodyPart = 11
+side = 2
 
-[node name="LShoulder" parent="." unique_id=872701861 instance=ExtResource("3_r8xe5")]
-position = Vector2(-53, -97)
+[node name="Left Shoulder" parent="." unique_id=1102634326 instance=ExtResource("3_r8xe5")]
+position = Vector2(-50, -44)
 
-[node name="LForearm" parent="." unique_id=1128429842 instance=ExtResource("3_kupc7")]
-position = Vector2(-98, -97)
+[node name="Left Forearm" parent="." unique_id=388970580 instance=ExtResource("4_kupc7")]
+position = Vector2(-99, -44)
+bodyPart = 1
 
-[node name="LHand" parent="." unique_id=1346469406 instance=ExtResource("4_kupc7")]
-position = Vector2(-138, -100)
+[node name="Left Hand" parent="." unique_id=708350074 instance=ExtResource("5_kupc7")]
+position = Vector2(-136, -47)
+bodyPart = 2
 
-[node name="RShoulder" parent="." unique_id=1657092079 instance=ExtResource("5_w2qdl")]
-position = Vector2(55, -98)
+[node name="Right Shoulder" parent="." unique_id=1982743177 instance=ExtResource("3_r8xe5")]
+position = Vector2(50, -44)
+scale = Vector2(-1, 1)
+side = 1
 
-[node name="RForearm" parent="." unique_id=1281766803 instance=ExtResource("6_o1i2x")]
-position = Vector2(98, -96)
+[node name="Right Forearm" parent="." unique_id=1387088945 instance=ExtResource("4_kupc7")]
+position = Vector2(99, -44)
+scale = Vector2(-1, 1)
+bodyPart = 1
+side = 1
 
-[node name="RHand" parent="." unique_id=134549720 instance=ExtResource("7_m6ruh")]
-position = Vector2(137, -100)
+[node name="Right Hand" parent="." unique_id=1284699470 instance=ExtResource("5_kupc7")]
+position = Vector2(136, -47)
+scale = Vector2(-1, 1)
+bodyPart = 2
+side = 1
 
-[node name="LLeg" parent="." unique_id=1846589995 instance=ExtResource("8_1xwu4")]
-position = Vector2(-16, 40)
+[node name="Left Thigh" parent="." unique_id=1637191600 instance=ExtResource("6_w2qdl")]
+position = Vector2(-29, 87)
+bodyPart = 3
 
-[node name="LCalf" parent="." unique_id=764862614 instance=ExtResource("9_urumk")]
-position = Vector2(-18, 101)
+[node name="Left Calf" parent="." unique_id=432236767 instance=ExtResource("7_o1i2x")]
+position = Vector2(-59, 146)
+bodyPart = 4
 
-[node name="LFoot" parent="." unique_id=74194723 instance=ExtResource("10_1xwu4")]
-position = Vector2(-9, 140)
+[node name="Left Foot" parent="." unique_id=266955170 instance=ExtResource("8_m6ruh")]
+position = Vector2(-94, 173)
+bodyPart = 5
 
-[node name="RLeg" parent="." unique_id=1664880187 instance=ExtResource("11_10mvr")]
-position = Vector2(13, 43)
+[node name="Right Thigh" parent="." unique_id=1023821560 instance=ExtResource("6_w2qdl")]
+position = Vector2(29, 87)
+scale = Vector2(-1, 1)
+bodyPart = 3
+side = 1
 
-[node name="RCalf" parent="." unique_id=1872430141 instance=ExtResource("12_ano71")]
-position = Vector2(8, 103)
+[node name="Right Calf" parent="." unique_id=578519206 instance=ExtResource("7_o1i2x")]
+position = Vector2(59, 146)
+scale = Vector2(-1, 1)
+bodyPart = 4
+side = 1
 
-[node name="RFoot" parent="." unique_id=1967478093 instance=ExtResource("13_8pxkt")]
-position = Vector2(26, 139)
+[node name="Right Foot" parent="." unique_id=1514508949 instance=ExtResource("8_m6ruh")]
+position = Vector2(94, 173)
+scale = Vector2(-1, 1)
+bodyPart = 5
+side = 1

@@ -7,7 +7,7 @@ public partial class ResearchTab : Control
 {
 	
 	[Export]
-	public Utils.NodeTypeEnum nodeTypeEnum;
+	public Utils.NodeType nodeType;
 	
 	[Export]
 	private Control control;
@@ -55,18 +55,18 @@ public partial class ResearchTab : Control
 		
 		
 		// Set number of research nodes based on research tab type
-		if (nodeTypeEnum == Utils.NodeTypeEnum.Brain || nodeTypeEnum == Utils.NodeTypeEnum.Tank)
+		if (nodeType == Utils.NodeType.Brain || nodeType == Utils.NodeType.Tank)
 		{
 			// TODO: Remember to scale down the research cost for these two
 			columns = 17;
 		}
-		if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
+		if (nodeType == Utils.NodeType.Clone)
 		{
 			rows = 12;
 			columns = 30;
 		}
 		
-		nodeCost = Utils.nodeCostDictionary[nodeTypeEnum];
+		nodeCost = Utils.nodeCostDictionary[nodeType];
 		
 		
 		
@@ -84,7 +84,7 @@ public partial class ResearchTab : Control
 		
 		
 		// Set button position
-		if (nodeTypeEnum == Utils.NodeTypeEnum.Limbs || nodeTypeEnum == Utils.NodeTypeEnum.Brain)
+		if (nodeType == Utils.NodeType.Limbs || nodeType == Utils.NodeType.Brain)
 		{
 			isLeftSide = true;
 			button.Position = new Vector2(marginX, marginY);
@@ -158,7 +158,7 @@ public partial class ResearchTab : Control
 		
 		
 		// Add research nodes on load
-		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.UnlockedNodes[nodeTypeEnum]))
+		if ((researchNodeCounter < (columns * rows)) && (researchNodeCounter < DataManager.saveData.UnlockedNodes[nodeType]))
 		{
 			AddGenericNode();
 		}
@@ -170,9 +170,6 @@ public partial class ResearchTab : Control
 		// }
 	}
 	
-	
-	// TODO: add a check for if all nodes purchased
-	// if yes then dont display any label
 	
 	// Displays hover label of research node price
 	private void OnMouseEnteredButton()
@@ -230,7 +227,7 @@ public partial class ResearchTab : Control
 		}
 		
 		// Update data
-		DataManager.saveData.UnlockedNodes[nodeTypeEnum] += 1;
+		DataManager.saveData.UnlockedNodes[nodeType] += 1;
 		DataManager.saveData.Money -= nodeCost;
 		
 		AddGenericNode();
@@ -258,13 +255,13 @@ public partial class ResearchTab : Control
 		
 		
 		// Set color based on type
-		if (!Utils.colorDictionary.ContainsKey(nodeTypeEnum))
+		if (!Utils.colorDictionary.ContainsKey(nodeType))
 		{
-			throw new ArgumentNullException($"Key: {nodeTypeEnum}, could not be found in colorDictionary");
+			throw new ArgumentNullException($"Key: {nodeType}, could not be found in colorDictionary");
 		}
 		else
 		{
-			Color typeColor = Utils.colorDictionary.GetValueOrDefault(nodeTypeEnum);
+			Color typeColor = Utils.colorDictionary.GetValueOrDefault(nodeType);
 			node.nodeColor.Color = typeColor;
 		}
 		
@@ -324,14 +321,14 @@ public partial class ResearchTab : Control
 		// tank, brain
 		
 		
-		if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
+		if (nodeType == Utils.NodeType.Clone)
 		{
 			DataManager.saveData.Money += (10 + modifier) * multiplier;
 			return;
 		}
 		
 		// Add to player data
-		DataManager.saveData.ResearchPoints[nodeTypeEnum] += (1 + modifier) * multiplier;
+		DataManager.saveData.ResearchPoints[nodeType] += (1 + modifier) * multiplier;
 	}
 	
 	

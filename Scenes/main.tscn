@@ -112,7 +112,7 @@ color = Color(1, 0.68235296, 1, 1)
 layout_mode = 1
 offset_right = -496.0
 offset_bottom = -200.0
-nodeTypeEnum = 2
+nodeType = 2
 
 [node name="Brain Stuff" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left" unique_id=110892020]
 layout_mode = 2
@@ -123,6 +123,7 @@ layout_mode = 2
 
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts" unique_id=1084771400 instance=ExtResource("3_kry3j")]
 layout_mode = 1
+areaType = 2
 
 [node name="Brain" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff" unique_id=417502621]
 custom_minimum_size = Vector2(292, 0)
@@ -157,7 +158,8 @@ mouse_filter = 2
 color = Color(0.6431373, 1, 1, 1)
 
 [node name="Clone Upgrade" parent="MarginContainer/VBoxContainer/Main Content/Middle/Clone" unique_id=1280454857 instance=ExtResource("1_jjgbg")]
-position = Vector2(245, 295)
+position = Vector2(248, 236)
+scale = Vector2(1.5, 1.5)
 
 [node name="Right Side" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content" unique_id=1438270217]
 layout_mode = 2
@@ -174,7 +176,7 @@ color = Color(0.6431373, 1, 1, 1)
 layout_mode = 1
 offset_right = -700.0
 offset_bottom = -200.0
-nodeTypeEnum = 1
+nodeType = 1
 
 [node name="Right" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Right Side" unique_id=258926216]
 layout_mode = 2
@@ -191,6 +193,7 @@ layout_mode = 2
 
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts" unique_id=98618967 instance=ExtResource("3_kry3j")]
 layout_mode = 1
+areaType = 1
 
 [node name="Right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right" unique_id=1076959492]
 layout_mode = 2
@@ -204,7 +207,7 @@ color = Color(0.627451, 0.7882353, 1, 1)
 layout_mode = 1
 offset_right = -496.0
 offset_bottom = -200.0
-nodeTypeEnum = 3
+nodeType = 3
 
 [node name="Tank Stuff" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right" unique_id=593598866]
 layout_mode = 2
@@ -220,6 +223,7 @@ layout_mode = 2
 
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts" unique_id=808624688 instance=ExtResource("3_kry3j")]
 layout_mode = 1
+areaType = 3
 
 [node name="Window" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right" unique_id=390985245]
 custom_minimum_size = Vector2(496, 192)
@@ -238,4 +242,4 @@ color = Color(0.3372549, 1, 1, 1)
 layout_mode = 1
 offset_right = -908.0
 offset_bottom = -396.0
-nodeTypeEnum = 4
+nodeType = 4

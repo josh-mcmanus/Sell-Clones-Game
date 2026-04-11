@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://wp3kefkn20qv" path="res://Assets/Body Parts/torso.png" id="1_57ldm"]
 [ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/BodyParts.cs" id="1_ldhu8"]
-[ext_resource type="PackedScene" uid="uid://b3gg0kpqtk8ma" path="res://Scenes/Body Parts/heart.tscn" id="2_kmvwu"]
-[ext_resource type="PackedScene" uid="uid://b5puq3nj8e6km" path="res://Scenes/Body Parts/lungs.tscn" id="3_2kr4j"]
-[ext_resource type="PackedScene" uid="uid://buxr73dfu0f8d" path="res://Scenes/Body Parts/liver.tscn" id="5_2kr4j"]
+[ext_resource type="PackedScene" uid="uid://b3gg0kpqtk8ma" path="res://Scenes/Body Parts Old/heart.tscn" id="2_kmvwu"]
+[ext_resource type="PackedScene" uid="uid://b5puq3nj8e6km" path="res://Scenes/Body Parts Old/lungs.tscn" id="3_2kr4j"]
+[ext_resource type="PackedScene" uid="uid://buxr73dfu0f8d" path="res://Scenes/Body Parts Old/liver.tscn" id="5_2kr4j"]
 
 [node name="Torso Front" type="Node2D" unique_id=693899969]
 

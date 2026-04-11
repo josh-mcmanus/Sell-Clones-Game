@@ -10,7 +10,10 @@ public partial class BodyParts : Area2D
 {
 	
 	[Export]
-	public Utils.BodyPartEnum bodyPartEnum;
+	public Utils.BodyPart bodyPart;
+	
+	[Export]
+	public Utils.Side side;
 	
 	
 	// On Click
@@ -50,8 +53,8 @@ public partial class BodyParts : Area2D
 	public override void _Ready()
 	{
 		InputEvent += OnInputEvent;
-		MouseEntered += OnMouseEntered;
-		MouseExited += OnMouseExited;
+		// MouseEntered += OnMouseEntered;
+		// MouseExited += OnMouseExited;
 		
 		foreach (Node node in GetChildren())
 		{
@@ -73,7 +76,7 @@ public partial class BodyParts : Area2D
 			if (isAttachmentArea)
 				return;
 			
-			if(bodyPartEnum == Utils.BodyPartEnum.Torso)
+			if(bodyPart == Utils.BodyPart.Torso)
 			{
 				EmitSignal(SignalName.TorsoClick);
 				return;
@@ -89,28 +92,28 @@ public partial class BodyParts : Area2D
 	}
 	
 	
-	private void OnMouseEntered()
-	{
-		if (bodyPartEnum == Utils.BodyPartEnum.Torso)
-		{
-			EmitSignal(SignalName.TorsoHover);
-		}
-		else
-		{
-			EmitSignal(SignalName.BodyPartHover, this);
-		}
-	}
+	// private void OnMouseEntered()
+	// {
+	// 	if (bodyParts == Utils.BodyParts.Torso)
+	// 	{
+	// 		EmitSignal(SignalName.TorsoHover);
+	// 	}
+	// 	else
+	// 	{
+	// 		EmitSignal(SignalName.BodyPartHover, this);
+	// 	}
+	// }
 	
-	private void OnMouseExited()
-	{
-		if (bodyPartEnum == Utils.BodyPartEnum.Torso)
-		{
-			EmitSignal(SignalName.TorsoHoverExit);
-		}
-		else
-		{
-			EmitSignal(SignalName.BodyPartHoverExit, this);
-		}
-	}
+	// private void OnMouseExited()
+	// {
+	// 	if (bodyParts == Utils.BodyParts.Torso)
+	// 	{
+	// 		EmitSignal(SignalName.TorsoHoverExit);
+	// 	}
+	// 	else
+	// 	{
+	// 		EmitSignal(SignalName.BodyPartHoverExit, this);
+	// 	}
+	// }
 	
 }
