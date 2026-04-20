@@ -28,7 +28,18 @@ public class PlayerData
 	};
 	
 	[JsonInclude]
-	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new();
+	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new()
+	{
+		// Unlocked by default
+		{Utils.BodyPart.Shoulder, 1},
+		{Utils.BodyPart.Forearm, 1},
+		{Utils.BodyPart.Hand, 1},
+		{Utils.BodyPart.Thigh, 1},
+		{Utils.BodyPart.Calf, 1},
+		{Utils.BodyPart.Foot, 1},
+		
+		
+	};
 	
 	// Category for each upgradable thing - clone, brain, tank
 		// save the currently active upgrades attached to the thing

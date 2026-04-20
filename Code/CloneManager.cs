@@ -252,15 +252,17 @@ public partial class CloneManager : Node2D
 		
 		// TODO: some code here that saves to file
 		
+		string partDirectory = "";
 		
 		// Get file directory
-		if (!Utils.bodyPartsDictionary.ContainsKey(removalBounds.bodyPart))
+		try
+		{
+			partDirectory = Utils.GetBodyPartDirectory(removalBounds.bodyPart);
+		}
+		catch
 		{
 			ResetAndDisableMovement();
-			throw new ArgumentNullException($"Key: {removalBounds.bodyPart}, could not be found in bodyParts dictionary");
 		}
-		
-		var partDirectory = Utils.bodyPartsDictionary.GetValueOrDefault(removalBounds.bodyPart);
 		
 		
 		// Create new body part object
@@ -299,7 +301,7 @@ public partial class CloneManager : Node2D
 	
 	// Adds a draggable body part to the scene
 	// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "shoulder.tscn" > Copy Path > paste as sceneDirectory
-	private BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side)
+	public BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side)
 	{
 		// Load and add to scene
 		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);

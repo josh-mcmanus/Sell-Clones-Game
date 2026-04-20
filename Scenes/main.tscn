@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpsrkj2jtiap7"]
 
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/clone_upgrade.tscn" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://uc8tujwqq0o0" path="res://Code/Main.cs" id="1_kry3j"]
 [ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/node_tab.tscn" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://bun1go8h6w2vl" path="res://Code/MoneyLabel.cs" id="3_8gbba"]
 [ext_resource type="PackedScene" uid="uid://bxs3dgbm404h8" path="res://Scenes/upgrades_tab.tscn" id="3_kry3j"]
@@ -13,7 +14,7 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 0.6392157)
 shadow_offset = Vector2(3, 3)
 
-[node name="Control" type="Control" unique_id=260101406]
+[node name="Main" type="Control" unique_id=260101406 node_paths=PackedStringArray("cloneManager", "brainUpgradesTab", "limbUpgradesTab", "organUpgradesTab", "tankUpgradesTab")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +22,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_kry3j")
+cloneManager = NodePath("MarginContainer/VBoxContainer/Main Content/Middle/Clone/Clone Upgrade")
+brainUpgradesTab = NodePath("MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts/Upgrades Tab")
+limbUpgradesTab = NodePath("MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts/Upgrades Tab")
+organUpgradesTab = NodePath("MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts/Upgrades Tab")
+tankUpgradesTab = NodePath("MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts/Upgrades Tab")
 
 [node name="Background Color" type="ColorRect" parent="." unique_id=2016027142]
 layout_mode = 1
