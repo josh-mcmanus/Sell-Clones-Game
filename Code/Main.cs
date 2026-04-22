@@ -14,12 +14,15 @@ public partial class Main : Control
 	private CloneManager cloneManager;
 	
 	private double timer = 0;
+	private double baseCost = 20;
 	private double nodeCostMultiplier = 1.5f;
 	
 	private List<UpgradeProgressBar> progressBars = [];
+	private List<UpgradesTab> upgradeTabs = [];
+	private List<ListUpgrade> upgradeTabButtons = [];
 	
 	
-	// Called when the node enters the scene tree for the first time.
+	
 	public override void _Ready()
 	{
 		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
@@ -35,6 +38,22 @@ public partial class Main : Control
 			if (node is UpgradeProgressBar bar)
 			{
 				progressBars.Add(bar);
+			}
+		}
+		
+		foreach (Node node in GetTree().GetNodesInGroup("UpgradesTabs"))
+		{
+			if (node is UpgradesTab tab)
+			{
+				upgradeTabs.Add(tab);
+			}
+		}
+		
+		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
+		{
+			if (node is ListUpgrade button)
+			{
+				upgradeTabButtons.Add(button);
 			}
 		}
 	}
@@ -92,7 +111,7 @@ public partial class Main : Control
 			// Enough points
 			var cost = CalculateUpgradeCost(nodeType);
 			
-			if (DataManager.saveData.ResearchPoints[nodeType] >= CalculateUpgradeCost(nodeType))
+			if (DataManager.saveData.ResearchPoints[nodeType] >= cost)
 			{
 				DataManager.saveData.ResearchPoints[nodeType] -= cost;
 				DataManager.saveData.UnlockedUpgrades[lowestLevelBodyPart.Value] += 1;
@@ -106,12 +125,8 @@ public partial class Main : Control
 	// Update drop upgrades tab UI with new unlocked upgrades
 	private void UpdateUpgradesTab(Utils.NodeType type)
 	{
-		var upgradeTabs = GetTree().GetNodesInGroup("UpgradesTabs");
-
-		foreach (var node in upgradeTabs)
+		foreach (var tab in upgradeTabs)
 		{
-			var tab = (UpgradesTab)node;
-			
 			if(tab.areaType != type)
 				continue;
 			
@@ -119,12 +134,9 @@ public partial class Main : Control
 		}
 		
 		// Reconnect buttons
-		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
+		foreach (var button in upgradeTabButtons)
 		{
-			if (node is ListUpgrade button)
-			{
-				button.BodyPartListItemClicked += AddBodyPart;
-			}
+			button.BodyPartListItemClicked += AddBodyPart;
 		}
 	}
 	
@@ -133,7 +145,6 @@ public partial class Main : Control
 	// Cost is the same for all upgrades in a tier
 	private double CalculateUpgradeCost(Utils.NodeType type)
 	{
-		double baseCost = 10;
 		List<Utils.BodyPart> parts = [];
 
 		foreach (var part in Enum.GetValues<Utils.BodyPart>())
