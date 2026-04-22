@@ -104,6 +104,30 @@ public partial class Utils : Node
 	}
 	
 	
+	public static BodyPart? GetLowestLevelUpgradeInCategory(NodeType type)
+	{
+		int minimum = int.MaxValue;
+		BodyPart? lowestPart = null;
+		
+		foreach (var part in Enum.GetValues<BodyPart>())
+		{
+			if(part == BodyPart.Torso)
+				continue;
+			
+			if (bodyPartCategories[part] != type)
+				continue;
+				
+			int currentValue = DataManager.saveData.UnlockedUpgrades[part];
+			
+			if (currentValue < minimum)
+			{
+				minimum = currentValue;
+				lowestPart = part;
+			}
+		}
+		
+		return lowestPart;
+	}
 	
 	
 	// For adding new body parts
@@ -122,8 +146,6 @@ public partial class Utils : Node
 		{BodyPart.Liver,	"res://Scenes/Body Parts/liver.tscn"},
 		{BodyPart.Kidney,	"res://Scenes/Body Parts/kidneys.tscn"},
 		{BodyPart.Spine,	"res://Scenes/Body Parts/spine.tscn"},
-		
-		{BodyPart.Torso, 	"res://Scenes/Body Parts/torso.tscn"},
 		
 		
 	};
