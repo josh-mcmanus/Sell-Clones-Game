@@ -20,15 +20,53 @@ public class PlayerData
 	[JsonInclude]
 	public Dictionary<Utils.NodeType, int> UnlockedNodes = new()
 	{
-		{Utils.NodeType.Limbs,  0},
+		{Utils.NodeType.Limbs,  1},
 		{Utils.NodeType.Organs, 0},
 		{Utils.NodeType.Brain,  0},
 		{Utils.NodeType.Tank,   0},
-		{Utils.NodeType.Clone,  0},
+		{Utils.NodeType.Clone,  1},
 	};
 	
 	[JsonInclude]
-	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new();
+	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new()
+	{
+		// Unlocked by default
+		{Utils.BodyPart.Shoulder, 1},
+		{Utils.BodyPart.Forearm,  1},
+		{Utils.BodyPart.Hand,     1},
+		{Utils.BodyPart.Thigh,    1},
+		{Utils.BodyPart.Calf,     1},
+		{Utils.BodyPart.Foot,     1},
+		
+		// Not unlocked
+		{Utils.BodyPart.Heart,  0},
+		{Utils.BodyPart.Lung,   0},
+		{Utils.BodyPart.Liver,  0},
+		{Utils.BodyPart.Kidney, 0},
+		{Utils.BodyPart.Spine,  0},
+		
+		{Utils.BodyPart.Processor,         0},
+		{Utils.BodyPart.MemoryEnhancer,    0},
+		{Utils.BodyPart.NeuralInterface,   0},
+		{Utils.BodyPart.PredictionEngine,  0},
+		{Utils.BodyPart.NeuronCompressor,  0},
+		{Utils.BodyPart.PatternRecognizer, 0},
+		{Utils.BodyPart.EmotionSupressor,  0},
+		{Utils.BodyPart.AICoprocessor,     0},
+		{Utils.BodyPart.QuantumFluctuator, 0},
+		
+		{Utils.BodyPart.GrowthAccelerator,      0},
+		{Utils.BodyPart.TimeDilationField,      0},
+		{Utils.BodyPart.MutationFilter,         0},
+		{Utils.BodyPart.IncompleteCloning,      0},
+		{Utils.BodyPart.WeakGenetics,           0},
+		{Utils.BodyPart.ReducedLifespan,        0},
+		{Utils.BodyPart.ImmuneRejection,        0},
+		{Utils.BodyPart.OverclockedCellDivider, 0},
+		{Utils.BodyPart.MutationEngine,         0},
+		{Utils.BodyPart.RandomizedGrowth,       0},
+		{Utils.BodyPart.GeneticShuffler,        0},
+	};
 	
 	// Category for each upgradable thing - clone, brain, tank
 		// save the currently active upgrades attached to the thing

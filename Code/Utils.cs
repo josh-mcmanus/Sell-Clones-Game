@@ -1,8 +1,10 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #pragma warning disable CS0162 // Unreachable code detected
+
 
 public partial class Utils : Node
 {
@@ -93,6 +95,43 @@ public partial class Utils : Node
 	};
 	
 	
+	public static string GetBodyPartDirectory(BodyPart bodyPart)
+	{
+		if (!bodyPartsDictionary.ContainsKey(bodyPart))
+		{
+			throw new ArgumentNullException($"Key: {bodyPart}, could not be found in bodyParts dictionary");
+		}
+		
+		return bodyPartsDictionary.GetValueOrDefault(bodyPart);
+	}
+	
+	
+	public static BodyPart? GetLowestLevelUpgradeInCategory(NodeType type)
+	{
+		int minimum = int.MaxValue;
+		BodyPart? lowestPart = null;
+		
+		foreach (var part in Enum.GetValues<BodyPart>())
+		{
+			if(part == BodyPart.Torso)
+				continue;
+			
+			if (bodyPartCategories[part] != type)
+				continue;
+				
+			int currentValue = DataManager.saveData.UnlockedUpgrades[part];
+			
+			if (currentValue < minimum)
+			{
+				minimum = currentValue;
+				lowestPart = part;
+			}
+		}
+		
+		return lowestPart;
+	}
+	
+	
 	// For adding new body parts
 	// File locations for body parts to load from
 	public static readonly Dictionary<BodyPart, string> bodyPartsDictionary = new()
@@ -109,8 +148,6 @@ public partial class Utils : Node
 		{BodyPart.Liver,	"res://Scenes/Body Parts/liver.tscn"},
 		{BodyPart.Kidney,	"res://Scenes/Body Parts/kidneys.tscn"},
 		{BodyPart.Spine,	"res://Scenes/Body Parts/spine.tscn"},
-		
-		{BodyPart.Torso, 	"res://Scenes/Body Parts/torso.tscn"},
 		
 		
 	};
@@ -138,6 +175,7 @@ public partial class Utils : Node
 	
 	public static readonly Dictionary<UpgradeTier, float> bodyPartUpgradeMultipler = new()
 	{
+		{UpgradeTier.Level0, 0.0f},
 		{UpgradeTier.Level1, 1.0f},
 		{UpgradeTier.Level2, 1.5f},
 		{UpgradeTier.Level3, 2.5f},
@@ -149,6 +187,7 @@ public partial class Utils : Node
 	
 	public static readonly Dictionary<UpgradeTier, string> upgradeTierDescriptions = new()
 	{
+		{UpgradeTier.Level0, "Upgrade locked"},
 		{UpgradeTier.Level1, "99% organically grown"},
 		{UpgradeTier.Level2, "A simple prosthetic replacement, increases worker efficiency by up to 20%*\n*compared to workers with no limbs."},
 		{UpgradeTier.Level3, "Advanced mechanical parts are here!\nUsers may be prone to violent uncontrollable outbursts."},
@@ -158,6 +197,46 @@ public partial class Utils : Node
 		
 	};
 	
+	
+	// All possible upgrades and their category
+	public static readonly Dictionary<BodyPart, NodeType> bodyPartCategories = new()
+	{
+		{BodyPart.Shoulder, NodeType.Limbs},
+		{BodyPart.Forearm,  NodeType.Limbs},
+		{BodyPart.Hand,     NodeType.Limbs},
+		{BodyPart.Thigh,    NodeType.Limbs},
+		{BodyPart.Calf,     NodeType.Limbs},
+		{BodyPart.Foot,     NodeType.Limbs},
+		
+		{BodyPart.Heart,  NodeType.Organs},
+		{BodyPart.Lung,   NodeType.Organs},
+		{BodyPart.Liver,  NodeType.Organs},
+		{BodyPart.Kidney, NodeType.Organs},
+		{BodyPart.Spine,  NodeType.Organs},
+		
+		{BodyPart.Processor,         NodeType.Brain},
+		{BodyPart.MemoryEnhancer,    NodeType.Brain},
+		{BodyPart.NeuralInterface,   NodeType.Brain},
+		{BodyPart.PredictionEngine,  NodeType.Brain},
+		{BodyPart.NeuronCompressor,  NodeType.Brain},
+		{BodyPart.PatternRecognizer, NodeType.Brain},
+		{BodyPart.EmotionSupressor,  NodeType.Brain},
+		{BodyPart.AICoprocessor,     NodeType.Brain},
+		{BodyPart.QuantumFluctuator, NodeType.Brain},
+		
+		{BodyPart.GrowthAccelerator,      NodeType.Tank},
+		{BodyPart.TimeDilationField,      NodeType.Tank},
+		{BodyPart.MutationFilter,         NodeType.Tank},
+		{BodyPart.IncompleteCloning,      NodeType.Tank},
+		{BodyPart.WeakGenetics,           NodeType.Tank},
+		{BodyPart.ReducedLifespan,        NodeType.Tank},
+		{BodyPart.ImmuneRejection,        NodeType.Tank},
+		{BodyPart.OverclockedCellDivider, NodeType.Tank},
+		{BodyPart.MutationEngine,         NodeType.Tank},
+		{BodyPart.RandomizedGrowth,       NodeType.Tank},
+		{BodyPart.GeneticShuffler,        NodeType.Tank},
+		
+	};
 	
 	
 	// --- Body Parts ---
@@ -194,7 +273,7 @@ public partial class Utils : Node
 		PatternRecognizer,
 		EmotionSupressor,
 		AICoprocessor,
-		QuantumFluctuation,
+		QuantumFluctuator,
 		
 		// Clone Tank
 		GrowthAccelerator,
@@ -207,11 +286,12 @@ public partial class Utils : Node
 		OverclockedCellDivider,
 		MutationEngine,
 		RandomizedGrowth,
-		GeneticShuffle,
+		GeneticShuffler,
 	}
 	
 	public enum UpgradeTier
 	{
+		Level0,
 		Level1,
 		Level2,
 		Level3,

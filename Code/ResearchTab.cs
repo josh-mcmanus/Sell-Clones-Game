@@ -21,6 +21,7 @@ public partial class ResearchTab : Control
 	PackedScene bodyPartScene = GD.Load<PackedScene>("res://Scenes/generic_node.tscn");
 	
 	double nodeCost = 0;
+	double nodeCostMultiplier = 1.5f;
 	
 	float spriteWidth = 0;
 	float spriteHeight = 0;
@@ -277,7 +278,7 @@ public partial class ResearchTab : Control
 		researchNodeCounter++;
 		
 		// Update cost
-		nodeCost = Math.Round(nodeCost * 1.5, 2);
+		nodeCost = Math.Round(nodeCost * nodeCostMultiplier, 2);
 		
 		
 		// Update hover label message with new price
