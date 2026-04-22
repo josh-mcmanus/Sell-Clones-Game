@@ -14,8 +14,9 @@ public partial class Main : Control
 	private CloneManager cloneManager;
 	
 	private double timer = 0;
-	private double researchCost = 10;
 	private double nodeCostMultiplier = 1.5f;
+	
+	private List<UpgradeProgressBar> progressBars = [];
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -26,6 +27,14 @@ public partial class Main : Control
 			if (node is ListUpgrade button)
 			{
 				button.BodyPartListItemClicked += AddBodyPart;
+			}
+		}
+		
+		foreach (Node node in GetTree().GetNodesInGroup("UpgradeProgressBar"))
+		{
+			if (node is UpgradeProgressBar bar)
+			{
+				progressBars.Add(bar);
 			}
 		}
 	}
@@ -47,7 +56,6 @@ public partial class Main : Control
 	
 	
 	
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		timer += delta;
@@ -57,6 +65,12 @@ public partial class Main : Control
 			CheckUpgradeStatus();
 			
 			timer -= 1.0;
+		}
+
+		foreach (var bar in progressBars)
+		{
+			var progress = GetUpgradeProgress(bar.progressBarType);
+			bar.progressBar.Value = Mathf.Lerp(bar.progressBar.Value, progress, 0.15f);
 		}
 	}
 	
@@ -76,24 +90,14 @@ public partial class Main : Control
 				continue;
 			
 			// Enough points
-			if (DataManager.saveData.ResearchPoints[nodeType] >= researchCost)
+			var cost = CalculateUpgradeCost(nodeType);
+			
+			if (DataManager.saveData.ResearchPoints[nodeType] >= CalculateUpgradeCost(nodeType))
 			{
-				Utils.Log(TAG, $"Type: {nodeType}");
-				Utils.Log(TAG, $"points: {DataManager.saveData.ResearchPoints[nodeType]}");
-				Utils.Log(TAG, $"Research Cost: {researchCost}");
-				
-				
-				DataManager.saveData.ResearchPoints[nodeType] -= researchCost;
+				DataManager.saveData.ResearchPoints[nodeType] -= cost;
 				DataManager.saveData.UnlockedUpgrades[lowestLevelBodyPart.Value] += 1;
 				
-				researchCost = Math.Round(researchCost * nodeCostMultiplier);
-				
-				Utils.Log(TAG, $"New Points: {DataManager.saveData.ResearchPoints[nodeType]}");
-				Utils.Log(TAG, $"New upgrade unlocked! {lowestLevelBodyPart} level {DataManager.saveData.UnlockedUpgrades[lowestLevelBodyPart.Value]}");
-				
 				UpdateUpgradesTab(nodeType);
-				
-				Utils.Log(TAG, "=========================\n");
 			}
 		}
 	}
@@ -113,22 +117,61 @@ public partial class Main : Control
 			
 			tab.InitializeUpgradesTab();
 		}
+		
+		// Reconnect buttons
+		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
+		{
+			if (node is ListUpgrade button)
+			{
+				button.BodyPartListItemClicked += AddBodyPart;
+			}
+		}
 	}
 	
 	
 	// calculates the next upgrade cost from the current number unlocked
-	private int CalculateUpgradeCost(int numberOfUpgradesUnlocked)
+	// Cost is the same for all upgrades in a tier
+	private double CalculateUpgradeCost(Utils.NodeType type)
 	{
-		return -1;
+		double baseCost = 10;
+		List<Utils.BodyPart> parts = [];
+
+		foreach (var part in Enum.GetValues<Utils.BodyPart>())
+		{
+			if(part == Utils.BodyPart.Torso)
+				continue;
+			
+			if (Utils.bodyPartCategories[part] == type)
+			{
+				parts.Add(part);
+			}
+		}
+		
+		var partToUpgrade = Utils.GetLowestLevelUpgradeInCategory(type);
+		int level = DataManager.saveData.UnlockedUpgrades[partToUpgrade.Value];
+		int index = parts.IndexOf(partToUpgrade.Value);
+		
+		double cost = Math.Round(
+			baseCost * 
+			Math.Pow(nodeCostMultiplier, level) * 
+			(1 + index * 0.2)
+		);
+		
+		return cost;
 	}
 	
 	
-	// Torso never unlock
 	
-	// look through all types
-	
-	
-	
+	private double GetUpgradeProgress(Utils.NodeType type)
+	{
+		double current = DataManager.saveData.ResearchPoints[type];
+		double cost = CalculateUpgradeCost(type);
+
+		if (cost <= 0)
+			return 0;
+		
+		return Math.Clamp(current / cost, 0.0, 1.0);
+	}
 	
 	
 	
