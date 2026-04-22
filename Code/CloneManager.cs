@@ -30,6 +30,7 @@ public partial class CloneManager : Node2D
 	private bool isTorsoMenuOpen = false;
 	
 	private int zIndex = 0;
+	private float offsetPosition;
 	
 	
 	
@@ -69,12 +70,6 @@ public partial class CloneManager : Node2D
 		}
 		
 		
-		// Detect if held body part is overlapping body part area
-		// if (moveObject && currentBodyPart == null)
-		// {
-		// 	return;
-		// }
-		
 		var overlap = currentBodyPart.GetOverlappingAreas();
 		
 		isAttachmentOk = false;
@@ -83,14 +78,6 @@ public partial class CloneManager : Node2D
 		// Get all body parts in the overlapping area
 		foreach (var area in overlap)
 		{
-			// if (area is BodyParts attachmentPart)
-			// {
-			// 	GD.Print(attachmentPart.bodyPart);
-			// 	GD.Print(currentBodyPart.bodyPart);
-				
-			// }
-			
-			// GD.Print("===========================");
 			// overlapping area is valid
 			if (area is BodyParts attachmentPart 
 				&& attachmentPart.isAttachmentArea 
@@ -101,6 +88,18 @@ public partial class CloneManager : Node2D
 				attachmentArea = attachmentPart;
 				break;
 			}
+		}
+		
+		// Set side based on mouse position
+		if (currentGlobalMousePosition.X < 960) // mouse is left of center
+		{
+			currentBodyPart.side = Utils.Side.Left;
+			currentBodyPart.Scale = new Vector2(1, 1);
+		}
+		else
+		{
+			currentBodyPart.side = Utils.Side.Right;
+			currentBodyPart.Scale = new Vector2(-1, 1);
 		}
 	}
 	
@@ -208,6 +207,8 @@ public partial class CloneManager : Node2D
 			attachmentArea.QueueFree();
 			attachmentArea = null;
 		}
+		
+		currentBodyPart = null;
 	}
 	
 	
