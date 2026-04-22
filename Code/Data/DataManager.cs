@@ -38,6 +38,15 @@ public partial class DataManager : Node
 		Load();		
 	}
 	
+	public override void _Input(InputEvent @event)
+	{	
+		if (@event.IsActionPressed("save"))
+		{
+			Utils.Log(TAG, "Manual Save");
+			Save();
+		}
+	}
+	
 	
 	// Autosave every minute
 	private void AutoSave()
