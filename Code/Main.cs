@@ -121,7 +121,7 @@ public partial class Main : Control
 	}
 	
 	
-	// Update drop upgrades tab UI with new unlocked upgrades
+	// Update dropdown upgrades tab UI with newly unlocked upgrades
 	private void UpdateUpgradesTab(Utils.NodeType type)
 	{
 		foreach (var tab in upgradeTabs)
@@ -143,7 +143,7 @@ public partial class Main : Control
 	}
 	
 	
-	// calculates the next upgrade cost from the current number unlocked
+	// Calculate the next upgrade cost from the current number unlocked
 	// Cost is the same for all upgrades in a tier
 	private double CalculateUpgradeCost(Utils.NodeType type)
 	{
@@ -174,7 +174,7 @@ public partial class Main : Control
 	}
 	
 	
-	
+	// Calculate the current progress of the specified progress bar
 	private double GetUpgradeProgress(Utils.NodeType type)
 	{
 		double current = DataManager.saveData.ResearchPoints[type];

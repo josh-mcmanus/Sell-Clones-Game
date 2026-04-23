@@ -61,7 +61,7 @@ layout_mode = 2
 [node name="Money" type="ColorRect" parent="MarginContainer/VBoxContainer/Top Bar" unique_id=14956316]
 custom_minimum_size = Vector2(280, 60)
 layout_mode = 2
-color = Color(0.1611835, 0.5982908, 0, 1)
+color = Color(0.161, 0.6, 0, 1)
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Top Bar/Money" unique_id=1433241204]
 layout_mode = 0

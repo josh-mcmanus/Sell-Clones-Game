@@ -18,7 +18,7 @@ public partial class GenericNode : Node2D
 	
 	
 	[Signal]
-	public delegate void ResearchUnitCompleteEventHandler();
+	public delegate void ResearchUnitCompleteEventHandler(GenericNode node);
 	
 	
 	
@@ -32,7 +32,7 @@ public partial class GenericNode : Node2D
 	private async void OnTimerTimout()
 	{
 		// Complete 1 research unit
-		EmitSignal(SignalName.ResearchUnitComplete);
+		EmitSignal(SignalName.ResearchUnitComplete, this);
 		
 		// Finished research, play complete animation
 		complete.Visible = true;

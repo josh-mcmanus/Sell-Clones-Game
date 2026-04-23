@@ -9,6 +9,7 @@ public partial class HoverInfoLabel : Label
 	public enum LabelType
 	{
 		InfoLabel,
-		WarningLabel
+		WarningLabel,
+		PointsLabel
 	}
 }

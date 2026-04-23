@@ -124,36 +124,13 @@ public partial class ResearchTab : Control
 			// Warning on click
 			if (label.labelType == HoverInfoLabel.LabelType.WarningLabel)
 			{
-				// Move down
-				label.Position += new Vector2(0, 0.4f);
-				
-				var settings = (LabelSettings)label.LabelSettings.Duplicate();
-				
-				float multiplier = 0.995f;
-				
-				Color prevFont = settings.FontColor;
-				settings.FontColor = new Color(
-					prevFont.R, 
-					prevFont.G, 
-					prevFont.B, 
-					prevFont.A * multiplier
-				);
-				
-				Color prevOutline = settings.OutlineColor;
-				settings.OutlineColor = new Color(
-					prevOutline.R, 
-					prevOutline.G, 
-					prevOutline.B, 
-					prevOutline.A * multiplier
-				);
-				
-				label.LabelSettings = settings;
-				
-				// Remove label
-				if (prevFont.A < 0.2)
-				{
-					label.QueueFree();
-				}
+				AddFadeOutLabel(false, label);
+			}
+			
+			// Points added on node timout
+			if (label.labelType == HoverInfoLabel.LabelType.PointsLabel)
+			{
+				AddFadeOutLabel(true, label);
 			}
 		}
 		
@@ -163,12 +140,6 @@ public partial class ResearchTab : Control
 		{
 			AddGenericNode();
 		}
-		
-		// Testing, add research nodes to all possible positions
-		// if (researchNodeCounter < (columns * rows))
-		// {
-		// 	AddGenericNode();
-		// }
 	}
 	
 	
@@ -184,7 +155,7 @@ public partial class ResearchTab : Control
 		string msg = $"${Utils.FormatNumber(nodeCost)}";
 		Color color = Colors.White;
 		
-		AddTempLabel(msg, color, HoverInfoLabel.LabelType.InfoLabel);
+		AddTempLabel(msg, color, HoverInfoLabel.LabelType.InfoLabel, null);
 	}
 	
 	
@@ -211,7 +182,7 @@ public partial class ResearchTab : Control
 			var text = "All research nodes purchased";
 			var color = Colors.SkyBlue;
 			
-			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel);
+			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel, null);
 			
 			return;
 		}
@@ -222,7 +193,7 @@ public partial class ResearchTab : Control
 			var text = "Not enough money";
 			var color = Colors.Red;
 			
-			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel);
+			AddTempLabel(text, color, HoverInfoLabel.LabelType.WarningLabel, null);
 			
 			return;
 		}
@@ -289,51 +260,46 @@ public partial class ResearchTab : Control
 				label.Text = $"${Utils.FormatNumber(nodeCost)}";
 			}
 		}
-		
-		
-		
-		// Set clone tank specific details
-		// if (nodeTypeEnum == Utils.NodeTypeEnum.Clone)
-		// {
-		// 	node.sprite.Texture = GD.Load<CompressedTexture2D>("res://Assets/Clone Node.png");
-			
-		// 	// size and position set as clone sprite is a circle, by default is a square, so it fits inside
-		// 	var size = new Vector2(14, 14);
-		// 	var pos = new Vector2(-7, -7);
-			
-		// 	node.nodeColor.Size = size;
-		// 	node.nodeColor.Position = pos;
-			
-		// 	node.complete.Size = size;
-		// 	node.complete.Position = pos;
-		// }
 	}
 	
 	
 	// Activated when a research units timer times out
 	// For adding 1 research unit to the global counter
-	private void AddPoints()
+	private void AddPoints(GenericNode node)
 	{
 		double modifier = 0;
 		double multiplier = 1;
 		
+		double cloneBase = 10;
+		double researchBase = 1;
+		double points;
+		
+		Color color;
 		
 		// TODO: Add calculation based on equiped upgrades
 		// tank, brain
 		
 		
+		// Add to player data
 		if (nodeType == Utils.NodeType.Clone)
 		{
-			DataManager.saveData.Money += (10 + modifier) * multiplier;
-			return;
+			color = new Color(0.161f, 0.6f, 0.0f);
+			points = (cloneBase + modifier) * multiplier;
+			DataManager.saveData.Money += points;
+		}
+		else
+		{
+			color = Colors.SkyBlue;
+			points = (researchBase + modifier) * multiplier;
+			DataManager.saveData.ResearchPoints[nodeType] += points;
 		}
 		
-		// Add to player data
-		DataManager.saveData.ResearchPoints[nodeType] += (1 + modifier) * multiplier;
+		// Display point increase
+		AddTempLabel($"+{points}", color, HoverInfoLabel.LabelType.PointsLabel, node);
 	}
 	
 	
-	private void AddTempLabel(string labelContent, Color textColor, HoverInfoLabel.LabelType type)
+	private void AddTempLabel(string labelContent, Color textColor, HoverInfoLabel.LabelType type, GenericNode? node)
 	{
 		HoverInfoLabel label = new()
 		{
@@ -359,10 +325,70 @@ public partial class ResearchTab : Control
 		var rng = new Random();
 		int deviation = rng.Next(-5,5);
 		
-		var mousePos = GetLocalMousePosition() + new Vector2(deviation, 0);
+		var position = Vector2.Zero;
 		
-		label.Position = isLeftSide ? mousePos: mousePos - label.Size;
+		if (type == HoverInfoLabel.LabelType.WarningLabel)
+		{
+			position = GetLocalMousePosition() + new Vector2(deviation, 0);
+			
+		}
+		else if (type == HoverInfoLabel.LabelType.PointsLabel && node != null)
+		{
+			position = node.Position;
+		}
+		
+		label.Position = isLeftSide ? position: position - label.Size;
 		label.ZIndex = 1;
 	}
+	
+	
+	// Fades out and up / down a specified label
+	// Run inside of Process
+	private void AddFadeOutLabel(bool floatUp, HoverInfoLabel label)
+	{
+		float multiplier = 0.995f;
+		
+		if(label.labelType == HoverInfoLabel.LabelType.PointsLabel)
+		{
+			multiplier = 0.95f;
+		}
+		
+		if (floatUp)
+		{
+			label.Position -= new Vector2(0, 0.4f);
+		}
+		else
+		{
+			label.Position += new Vector2(0, 0.4f);
+		}
+		
+		
+		var settings = (LabelSettings)label.LabelSettings.Duplicate();
+		
+		Color prevFont = settings.FontColor;
+		settings.FontColor = new Color(
+			prevFont.R, 
+			prevFont.G, 
+			prevFont.B, 
+			prevFont.A * multiplier
+		);
+		
+		Color prevOutline = settings.OutlineColor;
+		settings.OutlineColor = new Color(
+			prevOutline.R, 
+			prevOutline.G, 
+			prevOutline.B, 
+			prevOutline.A * multiplier
+		);
+		
+		label.LabelSettings = settings;
+		
+		// Remove label
+		if (prevFont.A < 0.2)
+		{
+			label.QueueFree();
+		}
+	}
+	
 	
 }
