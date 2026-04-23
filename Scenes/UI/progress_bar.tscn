@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b3chmqyys4fvr"]
+
+[ext_resource type="Script" uid="uid://cb6sqgqk2uji1" path="res://Code/UI/Upgrades List/UpgradeProgressBar.cs" id="1_gsm4l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gsm4l"]
+bg_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5tkt"]
+
+[node name="ProgressBar" type="Control" unique_id=1811981207 node_paths=PackedStringArray("progressBar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_gsm4l")
+progressBar = NodePath("ProgressBar")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1513181940]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 10.0
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_gsm4l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_r5tkt")
+max_value = 1.0
+show_percentage = false

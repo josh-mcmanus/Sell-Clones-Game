@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cawfyal7qobkd"]
+
+[ext_resource type="PackedScene" uid="uid://c62828eojfvde" path="res://Scenes/Clone/clone.tscn" id="1_dm6bm"]
+[ext_resource type="Script" uid="uid://bw50xk1u1k6ca" path="res://Code/Clone/CloneManager.cs" id="1_q61i5"]
+
+[node name="Clone Upgrade" type="Node2D" unique_id=1280454857 node_paths=PackedStringArray("clone")]
+script = ExtResource("1_q61i5")
+clone = NodePath("Clone")
+
+[node name="Clone" parent="." unique_id=397786538 instance=ExtResource("1_dm6bm")]

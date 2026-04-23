@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c61ipkr6a03s2"]
+
+[ext_resource type="Texture2D" uid="uid://b05lcgimol5hy" path="res://Assets/Clone/Foot.png" id="1_0n6tk"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_n0ebc"]
+
+[node name="Foot" type="Area2D" unique_id=266955170]
+script = ExtResource("1_n0ebc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=490010230]
+position = Vector2(0.5, 0)
+texture = ExtResource("1_0n6tk")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=292958010]
+polygon = PackedVector2Array(15, -11, 24, 0, 16, 12, 10, 13, 2, 5, -10, 0, -23, -7, -23, -11, -20, -13, -13, -12, -5, -8, 5, -7, 9, -8, 13, -11)

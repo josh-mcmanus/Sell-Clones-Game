@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bd0k7i0uu18yi"]
+
+[ext_resource type="Texture2D" uid="uid://bbhnodw8uu7j2" path="res://Assets/Clone/Thigh.png" id="1_syi2o"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_x06fk"]
+
+[node name="Thigh" type="Area2D" unique_id=1637191600]
+script = ExtResource("1_x06fk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=397664184]
+position = Vector2(0.5, 0)
+texture = ExtResource("1_syi2o")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1887391288]
+polygon = PackedVector2Array(-1, -42, 2, -42, 10, -34, 24, -25, 12, 3, -1, 22, -8, 42, -23, 33, -23, 19, -17, 9, -15, -4, -5, -28)

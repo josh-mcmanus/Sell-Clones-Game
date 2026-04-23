@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ly5s6js1liai"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_kja5x"]
+[ext_resource type="Texture2D" uid="uid://c8krunqkkudpq" path="res://Assets/Clone/Torso.png" id="1_t4yc0"]
+
+[node name="Torso" type="Area2D" unique_id=1868132030]
+script = ExtResource("1_kja5x")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1410202672]
+texture = ExtResource("1_t4yc0")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=680250608]
+polygon = PackedVector2Array(-10, -63, 10, -63, 25, -53, 33, -39, 33, -27, 26, -15, 21, 3, 23, 10, 29, 32, 29, 46, 6, 63, -7, 63, -21, 53, -29, 46, -29, 32, -23, 10, -21, 3, -26, -15, -33, -27, -33, -39, -25, -53)
