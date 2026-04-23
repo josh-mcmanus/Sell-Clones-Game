@@ -25,6 +25,7 @@ public partial class Utils : Node
 	}
 	
 	
+	// --- Money Number Formatting ---
 	
 	// 8_900 -> 8,900
 	// 10_500_000 -> 10.5M
@@ -68,14 +69,15 @@ public partial class Utils : Node
 	};
 	
 	
+	
 	public static string GetBodyPartDirectory(BodyPart bodyPart)
 	{
-		if (!bodyPartsDictionary.ContainsKey(bodyPart))
+		if (!bodyPartsFileLocation.ContainsKey(bodyPart))
 		{
 			throw new ArgumentNullException($"Key: {bodyPart}, could not be found in bodyParts dictionary");
 		}
 		
-		return bodyPartsDictionary.GetValueOrDefault(bodyPart);
+		return bodyPartsFileLocation.GetValueOrDefault(bodyPart);
 	}
 	
 	
@@ -105,20 +107,21 @@ public partial class Utils : Node
 	}
 	
 	
-	// For adding new body parts
-	// File locations for body parts to load from
-	public static readonly Dictionary<BodyPart, string> bodyPartsDictionary = new()
+	// TODO: Maybe later get rid of this and replace the limbs new sprite instead of different color?
+	public static readonly Dictionary<UpgradeTier, Color> bodyPartUpgradeTierColors = new()
 	{
-		{BodyPart.Shoulder, "res://Scenes/Clone/Body Parts/shoulder.tscn"},
-		{BodyPart.Forearm,	"res://Scenes/Clone/Body Parts/forearm.tscn"}, 
-		{BodyPart.Hand,	 	"res://Scenes/Clone/Body Parts/hand.tscn"},
-		{BodyPart.Thigh,	"res://Scenes/Clone/Body Parts/thigh.tscn"},
-		{BodyPart.Calf,	 	"res://Scenes/Clone/Body Parts/calf.tscn"},
-		{BodyPart.Foot,	 	"res://Scenes/Clone/Body Parts/foot.tscn"},
+		{UpgradeTier.Level0, new Color()},
+		{UpgradeTier.Level1, Colors.White}, 	// White
+		{UpgradeTier.Level2, Colors.Blue}, 		// Blue
+		{UpgradeTier.Level3, Colors.Red}, 		// Red
+		{UpgradeTier.Level4, Colors.Purple}, 	// Purple
+		{UpgradeTier.Level5, Colors.Black},		// Black
+		{UpgradeTier.Level6, Colors.PeachPuff}, // Skin
 	};
 	
 	
-	public static readonly Dictionary<NodeType, Color> colorDictionary = new()
+	// Color of all nodes, research and clone
+	public static readonly Dictionary<NodeType, Color> nodeColors = new()
 	{
 		{NodeType.Limbs,  new Color(0.877f, 0.781f, 0.0f)},
 		{NodeType.Organs, new Color(0.792f, 0.553f, 0.286f)},
@@ -128,42 +131,19 @@ public partial class Utils : Node
 	};
 	
 	
-	public static readonly Dictionary<NodeType, int> nodeCostDictionary = new()
+	// Base node purchase cost for all nodes, research and clone
+	public static readonly Dictionary<NodeType, int> baseNodePurchaseCost = new()
 	{
 		{NodeType.Limbs,  10},
-		{NodeType.Organs, 1000},
-		{NodeType.Brain,  100000}, // 10m
-		{NodeType.Tank,   10000000}, // 1b
+		{NodeType.Organs, 1_000},
+		{NodeType.Brain,  100_000},   // 100K
+		{NodeType.Tank,   10_000_000}, // 10M
 		{NodeType.Clone,  100},
 	};
 	
 	
-	public static readonly Dictionary<UpgradeTier, float> bodyPartUpgradeMultipler = new()
-	{
-		{UpgradeTier.Level0, 0.0f},
-		{UpgradeTier.Level1, 1.0f},
-		{UpgradeTier.Level2, 1.5f},
-		{UpgradeTier.Level3, 2.5f},
-		{UpgradeTier.Level4, 3.0f},
-		{UpgradeTier.Level5, 5.0f},
-		{UpgradeTier.Level6, 10.0f},
-	};
 	
-	
-	public static readonly Dictionary<UpgradeTier, string> upgradeTierDescriptions = new()
-	{
-		{UpgradeTier.Level0, "Upgrade locked"},
-		{UpgradeTier.Level1, "99% organically grown"},
-		{UpgradeTier.Level2, "A simple prosthetic replacement, increases worker efficiency by up to 20%*\n*compared to workers with no limbs."},
-		{UpgradeTier.Level3, "Advanced mechanical parts are here!\nUsers may be prone to violent uncontrollable outbursts."},
-		{UpgradeTier.Level4, "Synthetic"},
-		{UpgradeTier.Level5, "Cybernetic may control the user in some cases."},
-		{UpgradeTier.Level6, "Nanomachines"},
-		
-	};
-	
-	
-	// All possible upgrades and their category
+	// Maps upgrades with their corresponding node type category
 	public static readonly Dictionary<BodyPart, NodeType> bodyPartCategories = new()
 	{
 		{BodyPart.Shoulder, NodeType.Limbs},
@@ -200,8 +180,35 @@ public partial class Utils : Node
 		{BodyPart.MutationEngine,         NodeType.Tank},
 		{BodyPart.RandomizedGrowth,       NodeType.Tank},
 		{BodyPart.GeneticShuffler,        NodeType.Tank},
-		
 	};
+	
+	
+	// For adding new body parts
+	// File locations for body parts to load from
+	public static readonly Dictionary<BodyPart, string> bodyPartsFileLocation = new()
+	{
+		{BodyPart.Shoulder, "res://Scenes/Clone/Body Parts/shoulder.tscn"},
+		{BodyPart.Forearm,	"res://Scenes/Clone/Body Parts/forearm.tscn"}, 
+		{BodyPart.Hand,	 	"res://Scenes/Clone/Body Parts/hand.tscn"},
+		{BodyPart.Thigh,	"res://Scenes/Clone/Body Parts/thigh.tscn"},
+		{BodyPart.Calf,	 	"res://Scenes/Clone/Body Parts/calf.tscn"},
+		{BodyPart.Foot,	 	"res://Scenes/Clone/Body Parts/foot.tscn"},
+	};
+	
+	
+	// Flavour text, upgrade tier descriptions
+	// TODO: Maybe replace this later, so each item has its own flavour text instead of generic "level" for all in that tier
+	public static readonly Dictionary<UpgradeTier, string> upgradeTierDescriptions = new()
+	{
+		{UpgradeTier.Level0, "Upgrade locked"},
+		{UpgradeTier.Level1, "organically grown"},
+		{UpgradeTier.Level2, "A simple prosthetic replacement, increases worker efficiency by up to 20%*\n*compared to workers with no limbs."},
+		{UpgradeTier.Level3, "Advanced mechanical parts are here!\nUsers may be prone to violent uncontrollable outbursts."},
+		{UpgradeTier.Level4, "Synthetic"},
+		{UpgradeTier.Level5, "Cybernetic may control the user in some cases."},
+		{UpgradeTier.Level6, "Nanomachines"},
+	};
+	
 	
 	
 	// --- Body Parts ---
@@ -212,6 +219,8 @@ public partial class Utils : Node
 		None
 	}
 	
+	// TODO: Add more upgrades for all categories
+	// All possible bodyparts / upgrades (anything that could be draggable / placed into an upgrade slot - excluding torso)
 	public enum BodyPart
 	{
 		Shoulder,

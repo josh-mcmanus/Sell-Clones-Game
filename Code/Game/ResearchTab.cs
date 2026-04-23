@@ -67,7 +67,7 @@ public partial class ResearchTab : Control
 			columns = 30;
 		}
 		
-		nodeCost = Utils.nodeCostDictionary[nodeType];
+		nodeCost = Utils.baseNodePurchaseCost[nodeType];
 		
 		
 		
@@ -227,13 +227,13 @@ public partial class ResearchTab : Control
 		
 		
 		// Set color based on type
-		if (!Utils.colorDictionary.ContainsKey(nodeType))
+		if (!Utils.nodeColors.ContainsKey(nodeType))
 		{
 			throw new ArgumentNullException($"Key: {nodeType}, could not be found in colorDictionary");
 		}
 		else
 		{
-			Color typeColor = Utils.colorDictionary.GetValueOrDefault(nodeType);
+			Color typeColor = Utils.nodeColors.GetValueOrDefault(nodeType);
 			node.nodeColor.Color = typeColor;
 		}
 		

@@ -40,7 +40,7 @@ public partial class Main : Control
 				
 				StyleBoxFlat style = new()
 				{
-					BgColor = Utils.colorDictionary[barParent.progressBarType]
+					BgColor = Utils.nodeColors[barParent.progressBarType]
 				};
 				
 				barParent.progressBar.AddThemeStyleboxOverride("fill", style);

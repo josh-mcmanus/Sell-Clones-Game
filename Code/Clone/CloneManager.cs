@@ -7,9 +7,6 @@ public partial class CloneManager : Node2D
 	[Export]
 	private Node2D clone;
 	
-	[Export]
-	private TorsoMenu torsoMenu;
-	
 	private const string TAG = "CloneManager";
 	
 	// Mouse position and offset
