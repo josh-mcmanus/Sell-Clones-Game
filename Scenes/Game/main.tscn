@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://uc8tujwqq0o0" path="res://Code/Game/Main.cs" id="1_ka2qr"]
 [ext_resource type="Script" uid="uid://bun1go8h6w2vl" path="res://Code/UI/Labels/MoneyLabel.cs" id="2_twscm"]
-[ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/UI/research_tab.tscn" id="3_wrqr2"]
+[ext_resource type="PackedScene" uid="uid://dwxmxqqf8ybgl" path="res://Scenes/Game/research_tab.tscn" id="3_wrqr2"]
 [ext_resource type="PackedScene" uid="uid://bxs3dgbm404h8" path="res://Scenes/UI/Upgrades List/upgrades_tab.tscn" id="4_veifj"]
-[ext_resource type="PackedScene" uid="uid://b3chmqyys4fvr" path="res://Scenes/UI/progress_bar.tscn" id="5_wnnnj"]
+[ext_resource type="PackedScene" uid="uid://b3chmqyys4fvr" path="res://Scenes/UI/Upgrades List/upgrade_progress_bar.tscn" id="5_wnnnj"]
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/Clone/clone_upgrade.tscn" id="6_5fdju"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8gbba"]
