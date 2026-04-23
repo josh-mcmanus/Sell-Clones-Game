@@ -13,7 +13,7 @@ script = ExtResource("1_kick5")
 listArea = NodePath("ScrollContainer/VBoxContainer")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1294564796]
-custom_minimum_size = Vector2(200, 373)
+custom_minimum_size = Vector2(200, 390)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0

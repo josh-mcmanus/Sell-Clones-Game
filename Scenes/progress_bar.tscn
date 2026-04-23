@@ -20,10 +20,9 @@ script = ExtResource("1_gsm4l")
 progressBar = NodePath("ProgressBar")
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=1513181940]
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 0
 offset_right = 200.0
-offset_bottom = 27.0
+offset_bottom = 10.0
 size_flags_horizontal = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_gsm4l")
 theme_override_styles/fill = SubResource("StyleBoxFlat_r5tkt")

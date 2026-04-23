@@ -132,14 +132,15 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 0
 
-[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts/VBoxContainer" unique_id=1811981207 instance=ExtResource("5_21xkr")]
-custom_minimum_size = Vector2(200, 27)
-layout_mode = 2
-progressBarType = 2
-
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts/VBoxContainer" unique_id=1084771400 instance=ExtResource("3_kry3j")]
+custom_minimum_size = Vector2(200, 390)
 layout_mode = 2
 areaType = 2
+
+[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts/VBoxContainer" unique_id=1811981207 instance=ExtResource("5_21xkr")]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+progressBarType = 2
 
 [node name="Brain" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff" unique_id=417502621]
 custom_minimum_size = Vector2(292, 0)
@@ -168,12 +169,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 0
 
-[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts/VBoxContainer" unique_id=1831194646 instance=ExtResource("5_21xkr")]
-custom_minimum_size = Vector2(200, 27)
+[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts/VBoxContainer" unique_id=398265188 instance=ExtResource("3_kry3j")]
+custom_minimum_size = Vector2(0, 390)
 layout_mode = 2
 
-[node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts/VBoxContainer" unique_id=398265188 instance=ExtResource("3_kry3j")]
-custom_minimum_size = Vector2(0, 373)
+[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Limb Parts/Limb Parts/Limb Parts/VBoxContainer" unique_id=1831194646 instance=ExtResource("5_21xkr")]
+custom_minimum_size = Vector2(200, 10)
 layout_mode = 2
 
 [node name="Middle" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content" unique_id=2033708145]
@@ -226,14 +227,15 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 0
 
-[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts/VBoxContainer" unique_id=437168110 instance=ExtResource("5_21xkr")]
-custom_minimum_size = Vector2(200, 27)
-layout_mode = 2
-progressBarType = 1
-
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts/VBoxContainer" unique_id=98618967 instance=ExtResource("3_kry3j")]
+custom_minimum_size = Vector2(200, 390)
 layout_mode = 2
 areaType = 1
+
+[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Parts/Organ Parts/Organ Parts/VBoxContainer" unique_id=437168110 instance=ExtResource("5_21xkr")]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+progressBarType = 1
 
 [node name="Right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right" unique_id=1076959492]
 layout_mode = 2
@@ -268,14 +270,15 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 0
 
-[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts/VBoxContainer" unique_id=82740978 instance=ExtResource("5_21xkr")]
-custom_minimum_size = Vector2(200, 27)
-layout_mode = 2
-progressBarType = 3
-
 [node name="Upgrades Tab" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts/VBoxContainer" unique_id=808624688 instance=ExtResource("3_kry3j")]
+custom_minimum_size = Vector2(200, 390)
 layout_mode = 2
 areaType = 3
+
+[node name="ProgressBar" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts/VBoxContainer" unique_id=82740978 instance=ExtResource("5_21xkr")]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+progressBarType = 3
 
 [node name="Window" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right" unique_id=390985245]
 custom_minimum_size = Vector2(496, 192)

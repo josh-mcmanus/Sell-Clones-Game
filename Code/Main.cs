@@ -19,7 +19,6 @@ public partial class Main : Control
 	
 	private List<UpgradeProgressBar> progressBars = [];
 	private List<UpgradesTab> upgradeTabs = [];
-	private List<ListUpgrade> upgradeTabButtons = [];
 	
 	
 	
@@ -35,9 +34,16 @@ public partial class Main : Control
 		
 		foreach (Node node in GetTree().GetNodesInGroup("UpgradeProgressBar"))
 		{
-			if (node is UpgradeProgressBar bar)
+			if (node is UpgradeProgressBar barParent)
 			{
-				progressBars.Add(bar);
+				progressBars.Add(barParent);
+				
+				StyleBoxFlat style = new()
+				{
+					BgColor = Utils.colorDictionary[barParent.progressBarType]
+				};
+				
+				barParent.progressBar.AddThemeStyleboxOverride("fill", style);
 			}
 		}
 		
@@ -46,14 +52,6 @@ public partial class Main : Control
 			if (node is UpgradesTab tab)
 			{
 				upgradeTabs.Add(tab);
-			}
-		}
-		
-		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
-		{
-			if (node is ListUpgrade button)
-			{
-				upgradeTabButtons.Add(button);
 			}
 		}
 	}
@@ -85,7 +83,8 @@ public partial class Main : Control
 			
 			timer -= 1.0;
 		}
-
+		
+		// Update progress bar progress
 		foreach (var bar in progressBars)
 		{
 			var progress = GetUpgradeProgress(bar.progressBarType);
@@ -134,9 +133,12 @@ public partial class Main : Control
 		}
 		
 		// Reconnect buttons
-		foreach (var button in upgradeTabButtons)
+		foreach (Node node in GetTree().GetNodesInGroup("UpgradeTabButtons"))
 		{
-			button.BodyPartListItemClicked += AddBodyPart;
+			if (node is ListUpgrade button)
+			{
+				button.BodyPartListItemClicked += AddBodyPart;
+			}
 		}
 	}
 	

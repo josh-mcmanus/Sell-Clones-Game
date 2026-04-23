@@ -3,8 +3,6 @@ using System;
 
 public partial class UpgradeProgressBar : Control
 {
-	private Tween tween;
-	
 	[Export]
 	public Utils.NodeType progressBarType;
 	
