@@ -60,6 +60,7 @@ public partial class Main : Control
 	// Add body part on list item click
 	private void AddBodyPart(ListUpgrade listUpgrade)
 	{
+		GD.Print("part added from list");
 		var partDirectory = Utils.GetBodyPartDirectory(listUpgrade.bodyPart);
 		
 		// TODO: add something to vary the placement,
@@ -67,7 +68,7 @@ public partial class Main : Control
 		// randomly variate by some amount inside of total area
 		// set side based on position
 		// Do inside of the main addbodyparttoscene function maybe
-		BodyParts part = cloneManager.AddBodyPartToScene(partDirectory, Utils.Side.Left);
+		BodyParts part = cloneManager.AddBodyPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
 		part.bodyPart = listUpgrade.bodyPart;
 	}
 	
@@ -137,6 +138,7 @@ public partial class Main : Control
 		{
 			if (node is ListUpgrade button)
 			{
+				button.BodyPartListItemClicked -= AddBodyPart;
 				button.BodyPartListItemClicked += AddBodyPart;
 			}
 		}

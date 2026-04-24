@@ -9,6 +9,9 @@ public partial class RemovalBounds : Area2D
 	[Export]
 	public Utils.Side side;
 	
+	[Export]
+	public Utils.UpgradeTier tier;
+	
 	
 	[Signal]
 	public delegate void MouseExitedBoundsEventHandler(RemovalBounds removalBounds);

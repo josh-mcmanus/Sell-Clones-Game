@@ -68,7 +68,7 @@ public partial class UpgradesTab : Control
 					listUpgrade.label.Text = $"Lvl {i} {unlockedUpgrade.Key}";
 					
 					listUpgrade.bodyPart = unlockedUpgrade.Key;
-					listUpgrade.level = (Utils.UpgradeTier) i;
+					listUpgrade.tier = (Utils.UpgradeTier) i;
 					listUpgrade.AddToGroup("UpgradeTabButtons");
 					
 					foldableList.listContainer.AddChild(listUpgradeInstance);

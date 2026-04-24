@@ -13,7 +13,7 @@ public partial class ListUpgrade : Button
 	public Label label;
 	
 	public Utils.BodyPart bodyPart;
-	public Utils.UpgradeTier level;
+	public Utils.UpgradeTier tier;
 	
 
 	public override void _Pressed()

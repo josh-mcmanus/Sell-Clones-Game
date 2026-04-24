@@ -86,18 +86,23 @@ public partial class CloneManager : Node2D
 				break;
 			}
 		}
+
+		if (moveObject && currentBodyPart != null)
+		{
+			// Set side based on mouse position
+			if (currentGlobalMousePosition.X < 960) // mouse is left of center
+			{
+				currentBodyPart.side = Utils.Side.Left;
+				currentBodyPart.Scale = new Vector2(1, 1);
+			}
+			else
+			{
+				currentBodyPart.side = Utils.Side.Right;
+				currentBodyPart.Scale = new Vector2(-1, 1);
+			}
+		}
 		
-		// Set side based on mouse position
-		if (currentGlobalMousePosition.X < 960) // mouse is left of center
-		{
-			currentBodyPart.side = Utils.Side.Left;
-			currentBodyPart.Scale = new Vector2(1, 1);
-		}
-		else
-		{
-			currentBodyPart.side = Utils.Side.Right;
-			currentBodyPart.Scale = new Vector2(-1, 1);
-		}
+		
 	}
 	
 	
@@ -149,6 +154,7 @@ public partial class CloneManager : Node2D
 		removalBounds.GlobalPosition = currentGlobalMousePosition;
 		removalBounds.bodyPart = bodyPart.bodyPart;
 		removalBounds.side = bodyPart.side;
+		removalBounds.tier = bodyPart.tier;
 		removalBounds.MouseExitedBounds += BodyPartRemovalBoundsExit;
 	}
 	
@@ -264,8 +270,9 @@ public partial class CloneManager : Node2D
 		
 		
 		// Create new body part object
-		BodyParts bodyPart = AddBodyPartToScene(partDirectory, removalBounds.side);
+		BodyParts bodyPart = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
 		bodyPart.bodyPart = removalBounds.bodyPart;
+		bodyPart.tier = removalBounds.tier;
 		
 		// Delete old body part and removalbounds
 		currentBodyPart.QueueFree();
@@ -284,13 +291,14 @@ public partial class CloneManager : Node2D
 		
 		
 		// Create bounds area for attaching new body part
-		BodyParts attachmentArea = AddBodyPartToScene(partDirectory, removalBounds.side);
+		BodyParts attachmentArea = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
 		attachmentArea.GlobalPosition = initialPosition;
 		attachmentArea.sprite2D.Visible = false;
 		
 		attachmentArea.isAttachmentArea = true;
 		attachmentArea.bodyPart = removalBounds.bodyPart;
 		attachmentArea.side = removalBounds.side;
+		attachmentArea.tier = removalBounds.tier;
 		
 	}
 	
@@ -299,7 +307,7 @@ public partial class CloneManager : Node2D
 	
 	// Adds a draggable body part to the scene
 	// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "shoulder.tscn" > Copy Path > paste as sceneDirectory
-	public BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side)
+	public BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side, Utils.UpgradeTier tier)
 	{
 		// Load and add to scene
 		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
@@ -313,7 +321,10 @@ public partial class CloneManager : Node2D
 		}
 		
 		part.side = side;
+		part.tier = tier;
 		
+		var sprite = part.GetNode<Sprite2D>("Sprite2D");
+		sprite.Modulate = Utils.bodyPartUpgradeTierColors[tier];
 		
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
