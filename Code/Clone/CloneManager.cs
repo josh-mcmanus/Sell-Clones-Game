@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class CloneManager : Node2D
 {
@@ -56,6 +57,36 @@ public partial class CloneManager : Node2D
 				part.TorsoHoverExit += OnTorsoHoverExit;
 			}
 		}
+		
+		
+		// Add previously attached parts
+		// NOTE: Loops over copy of list to prevent adding the existing parts again
+			// Because OnBodyPartReleased adds the current part to attachedPartsList
+			// Prevents error from adding to a list while enumerating over it
+			// Prevents adding the same existing part again
+		foreach (AttachedPartData attachedPart in DataManager.saveData.AttachedParts.ToList())
+		{
+			var existing = FindMatchingPart(attachedPart.Part, attachedPart.Side);
+			
+			if(existing == null)
+				continue;
+			
+			// Add attached part
+			currentBodyPart = AddBodyPartToScene(
+				Utils.bodyPartsFileLocation[attachedPart.Part], 
+				attachedPart.Side, 
+				attachedPart.Tier
+			);
+			
+			attachmentArea = existing;
+			isAttachmentOk = true;
+			
+			OnBodyPartReleased();
+			
+			// Delete placeholder
+			existing.QueueFree();
+		}
+		
 	}
 	
 	
@@ -397,6 +428,23 @@ public partial class CloneManager : Node2D
 			&& p.Side == part.side
 			&& p.Tier == part.tier
 		);
+	}
+	
+	
+	private BodyParts FindMatchingPart(Utils.BodyPart part, Utils.Side side)
+	{
+		foreach (Node node in clone.GetChildren())
+		{
+			if (node is BodyParts bodyPart)
+			{
+				if (bodyPart.bodyPart == part && bodyPart.side == side)
+				{
+					return bodyPart;
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 }

@@ -31,12 +31,12 @@ public class PlayerData
 	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new()
 	{
 		// Unlocked by default
-		{Utils.BodyPart.Shoulder, 1},
-		{Utils.BodyPart.Forearm,  1},
-		{Utils.BodyPart.Hand,     1},
-		{Utils.BodyPart.Thigh,    1},
-		{Utils.BodyPart.Calf,     1},
-		{Utils.BodyPart.Foot,     1},
+		{Utils.BodyPart.Shoulder, 0},
+		{Utils.BodyPart.Forearm,  0},
+		{Utils.BodyPart.Hand,     0},
+		{Utils.BodyPart.Thigh,    0},
+		{Utils.BodyPart.Calf,     0},
+		{Utils.BodyPart.Foot,     0},
 		
 		// Not unlocked
 		{Utils.BodyPart.Heart,  0},
