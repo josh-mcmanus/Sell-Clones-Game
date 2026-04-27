@@ -131,6 +131,20 @@ public partial class Utils : Node
 	};
 	
 	
+	// Value of upgrade tiers
+	public static readonly Dictionary<UpgradeTier, int> bodyPartUpgradeTierValues = new()
+	{
+		{UpgradeTier.Level0, 0},
+		{UpgradeTier.Level1, 1},
+		{UpgradeTier.Level2, 2},
+		{UpgradeTier.Level3, 5},
+		{UpgradeTier.Level4, 10},
+		{UpgradeTier.Level5, 20},
+		{UpgradeTier.Level6, 50},
+	};
+	
+	
+	
 	// Base node purchase cost for all nodes, research and clone
 	public static readonly Dictionary<NodeType, int> baseNodePurchaseCost = new()
 	{

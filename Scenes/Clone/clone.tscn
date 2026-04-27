@@ -22,22 +22,26 @@ side = 2
 [node name="Left Shoulder" parent="." unique_id=1102634326 instance=ExtResource("3_r8xe5")]
 position = Vector2(-50, -44)
 tier = 1
+isAttachmentArea = true
 
 [node name="Left Forearm" parent="." unique_id=388970580 instance=ExtResource("4_kupc7")]
 position = Vector2(-99, -44)
 bodyPart = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Left Hand" parent="." unique_id=708350074 instance=ExtResource("5_kupc7")]
 position = Vector2(-136, -47)
 bodyPart = 2
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Shoulder" parent="." unique_id=1982743177 instance=ExtResource("3_r8xe5")]
 position = Vector2(50, -44)
 scale = Vector2(-1, 1)
 side = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Forearm" parent="." unique_id=1387088945 instance=ExtResource("4_kupc7")]
 position = Vector2(99, -44)
@@ -45,6 +49,7 @@ scale = Vector2(-1, 1)
 bodyPart = 1
 side = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Hand" parent="." unique_id=1284699470 instance=ExtResource("5_kupc7")]
 position = Vector2(136, -47)
@@ -52,21 +57,25 @@ scale = Vector2(-1, 1)
 bodyPart = 2
 side = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Left Thigh" parent="." unique_id=1637191600 instance=ExtResource("6_w2qdl")]
 position = Vector2(-29, 87)
 bodyPart = 3
 tier = 1
+isAttachmentArea = true
 
 [node name="Left Calf" parent="." unique_id=432236767 instance=ExtResource("7_o1i2x")]
 position = Vector2(-59, 146)
 bodyPart = 4
 tier = 1
+isAttachmentArea = true
 
 [node name="Left Foot" parent="." unique_id=266955170 instance=ExtResource("8_m6ruh")]
 position = Vector2(-94, 173)
 bodyPart = 5
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Thigh" parent="." unique_id=1023821560 instance=ExtResource("6_w2qdl")]
 position = Vector2(29, 87)
@@ -74,6 +83,7 @@ scale = Vector2(-1, 1)
 bodyPart = 3
 side = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Calf" parent="." unique_id=578519206 instance=ExtResource("7_o1i2x")]
 position = Vector2(59, 146)
@@ -81,6 +91,7 @@ scale = Vector2(-1, 1)
 bodyPart = 4
 side = 1
 tier = 1
+isAttachmentArea = true
 
 [node name="Right Foot" parent="." unique_id=1514508949 instance=ExtResource("8_m6ruh")]
 position = Vector2(94, 173)
@@ -88,3 +99,4 @@ scale = Vector2(-1, 1)
 bodyPart = 5
 side = 1
 tier = 1
+isAttachmentArea = true

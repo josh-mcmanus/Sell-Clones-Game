@@ -68,6 +68,11 @@ public class PlayerData
 		{Utils.BodyPart.GeneticShuffler,        0},
 	};
 	
+	// New parts are added when attached, deleted when removed
+	[JsonInclude]
+	public List<AttachedPartData> AttachedParts = [];
+	
+	
 	// Category for each upgradable thing - clone, brain, tank
 		// save the currently active upgrades attached to the thing
 		// do not save the positions and what is currently not attached

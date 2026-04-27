@@ -14,8 +14,8 @@ public partial class Main : Control
 	private CloneManager cloneManager;
 	
 	private double timer = 0;
-	private double baseCost = 20;
-	private double nodeCostMultiplier = 1.5f;
+	private double baseCost = 50;
+	private double nodeCostMultiplier = 1.8f;
 	
 	private List<UpgradeProgressBar> progressBars = [];
 	private List<UpgradesTab> upgradeTabs = [];

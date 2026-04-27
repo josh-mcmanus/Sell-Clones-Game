@@ -28,6 +28,7 @@ public partial class CloneManager : Node2D
 	
 	private int zIndex = 0;
 	private float offsetPosition;
+	private float centerPosition;
 	
 	
 	
@@ -38,14 +39,18 @@ public partial class CloneManager : Node2D
 		GetViewport().PhysicsObjectPickingSort = true;
 		GetViewport().PhysicsObjectPickingFirstOnly = true;
 		
+		centerPosition = GetViewport().GetVisibleRect().Size.X / 2;
 		
 		// Links all children signals in BodyParts.cs
 		foreach (Node node in clone.GetChildren())
 		{
 			if (node is BodyParts part)
 			{
+				if (part.isAttachmentArea)
+				{
+					part.sprite2D.Visible = false; // Attachment area default to hidden
+				}
 				part.UpgradeSiteClicked += OnUpgradeSiteClicked;
-				// part.TorsoClick += OnTorsoClick;
 				
 				part.TorsoHover += OnTorsoHover;
 				part.TorsoHoverExit += OnTorsoHoverExit;
@@ -66,16 +71,20 @@ public partial class CloneManager : Node2D
 			currentBodyPart.GlobalPosition = currentGlobalMousePosition + localMouseOffset;
 		}
 		
-		
+		HandleAttachment();
+		HandleFlipping();
+	}
+	
+	private void HandleAttachment()
+	{
 		var overlap = currentBodyPart.GetOverlappingAreas();
 		
 		isAttachmentOk = false;
 		attachmentArea = null;
 		
-		// Get all body parts in the overlapping area
 		foreach (var area in overlap)
 		{
-			// overlapping area is valid
+			// Valid
 			if (area is BodyParts attachmentPart 
 				&& attachmentPart.isAttachmentArea 
 				&& attachmentPart.bodyPart == currentBodyPart.bodyPart
@@ -86,11 +95,15 @@ public partial class CloneManager : Node2D
 				break;
 			}
 		}
-
+	}
+	
+	
+	// Set side based on mouse position
+	private void HandleFlipping()
+	{
 		if (moveObject && currentBodyPart != null)
 		{
-			// Set side based on mouse position
-			if (currentGlobalMousePosition.X < 960) // mouse is left of center
+			if (currentGlobalMousePosition.X < centerPosition) // mouse is left of center
 			{
 				currentBodyPart.side = Utils.Side.Left;
 				currentBodyPart.Scale = new Vector2(1, 1);
@@ -101,8 +114,6 @@ public partial class CloneManager : Node2D
 				currentBodyPart.Scale = new Vector2(-1, 1);
 			}
 		}
-		
-		
 	}
 	
 	
@@ -161,7 +172,8 @@ public partial class CloneManager : Node2D
 	
 	// Activates when a body part is clicked on
 	// For moving the selected body part around
-	// NOTE: OnUpgradeSiteClicked is similar, and also calls this function, but also does other things relevant for ONLY the upgrade sites. e.g. the sites on the body where you can add upgrades to
+		// NOTE: OnUpgradeSiteClicked is similar, and also calls this function, but also does other things relevant for ONLY the upgrade sites. 
+		// e.g. the sites on the body where you can add upgrades to
 	private void OnBodyPartClicked(BodyParts area)
 	{
 		Utils.Log(TAG, $"Clicked object type: {area.bodyPart}");
@@ -329,6 +341,9 @@ public partial class CloneManager : Node2D
 		// link signals to functions
 		part.UpgradeSiteClicked += OnBodyPartClicked;
 		part.UpgradeSiteReleased += OnBodyPartReleased;
+		
+		zIndex++;
+		part.ZIndex = zIndex;
 		
 		return part;
 	}

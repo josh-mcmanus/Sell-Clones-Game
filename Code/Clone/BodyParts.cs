@@ -18,6 +18,9 @@ public partial class BodyParts : Area2D
 	[Export]
 	public Utils.UpgradeTier tier;
 	
+	[Export]
+	public bool isAttachmentArea = false;
+	
 	
 	// On Click
 	[Signal]
@@ -47,7 +50,6 @@ public partial class BodyParts : Area2D
 	
 	
 	private bool isHovering = false;
-	public bool isAttachmentArea = false;
 	
 	public Sprite2D sprite2D;
 	private Area2D torsoArea;
