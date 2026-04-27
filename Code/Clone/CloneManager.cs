@@ -209,6 +209,8 @@ public partial class CloneManager : Node2D
 		{
 			Utils.Log(TAG, "Attachment is ok");
 			
+			AddSaveDataAttachedPart(currentBodyPart);
+			
 			// Move held body part into correct position
 			currentBodyPart.GlobalPosition = attachmentArea.GlobalPosition;
 			
@@ -287,6 +289,7 @@ public partial class CloneManager : Node2D
 		bodyPart.tier = removalBounds.tier;
 		
 		// Delete old body part and removalbounds
+		RemoveSaveDataAttachedPart(currentBodyPart);
 		currentBodyPart.QueueFree();
 		currentBodyPart = null;
 		activeRemovalBounds.QueueFree();
@@ -378,5 +381,22 @@ public partial class CloneManager : Node2D
 		activeRemovalBounds = null;
 	}
 	
+	
+	
+	private void AddSaveDataAttachedPart(BodyParts part)
+	{
+		var attachmentPart = new AttachedPartData(part.bodyPart, part.side, part.tier);
+		
+		DataManager.saveData.AttachedParts.Add(attachmentPart);
+	}
+	
+	private void RemoveSaveDataAttachedPart(BodyParts part)
+	{
+		DataManager.saveData.AttachedParts.RemoveAll( p 
+			=> p.Part == part.bodyPart
+			&& p.Side == part.side
+			&& p.Tier == part.tier
+		);
+	}
 	
 }

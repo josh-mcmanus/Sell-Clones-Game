@@ -263,7 +263,7 @@ public partial class ResearchTab : Control
 	}
 	
 	
-	// Activated when a research units timer times out
+	// Activated when a generic node timer times out
 	// For adding 1 research unit to the global counter
 	private void AddPoints(GenericNode node)
 	{
@@ -284,6 +284,14 @@ public partial class ResearchTab : Control
 		if (nodeType == Utils.NodeType.Clone)
 		{
 			color = new Color(0.161f, 0.6f, 0.0f);
+			
+			// Add modifier based on attached parts level, see Utils.bodyPartUpgradeTierValues
+			foreach (AttachedPartData attachedPart in DataManager.saveData.AttachedParts)
+			{
+				modifier += Utils.bodyPartUpgradeTierValues[attachedPart.Tier];
+			}
+			
+			
 			points = (cloneBase + modifier) * multiplier;
 			DataManager.saveData.Money += points;
 		}

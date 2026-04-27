@@ -11,15 +11,15 @@ public partial class AttachedPartData
 	
 	public Utils.BodyPart Part {get; set;}
 	public Utils.Side Side {get; set;}
-	public Utils.UpgradeTier Level {get; set;}
+	public Utils.UpgradeTier Tier {get; set;}
 	
 	public AttachedPartData(){}
 	
-	public AttachedPartData(Utils.BodyPart part, Utils.Side side, Utils.UpgradeTier level)
+	public AttachedPartData(Utils.BodyPart part, Utils.Side side, Utils.UpgradeTier tier)
 	{
 		Part = part;
 		Side = side;
-		Level = level;
+		Tier = tier;
 	}
 	
 	
