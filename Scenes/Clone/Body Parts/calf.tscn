@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://2vw5f0vy2ycj"]
 
-[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_p57gw"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Game/GenericPart.cs" id="1_p57gw"]
 [ext_resource type="Texture2D" uid="uid://b1oibu6e1yu86" path="res://Assets/Clone/Calf.png" id="1_xdyyq"]
 
 [node name="Calf" type="Area2D" unique_id=432236767]

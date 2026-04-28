@@ -6,7 +6,7 @@ using System;
 // Making up the main internal and external body parts
 // Functions run on clicking on / hovering over a body part
 
-public partial class BodyParts : Area2D
+public partial class GenericPart : Area2D
 {
 	
 	[Export]
@@ -24,7 +24,7 @@ public partial class BodyParts : Area2D
 	
 	// On Click
 	[Signal]
-	public delegate void UpgradeSiteClickedEventHandler(BodyParts bodyPart);
+	public delegate void UpgradeSiteClickedEventHandler(GenericPart bodyPart);
 	
 	[Signal]
 	public delegate void UpgradeSiteReleasedEventHandler();
@@ -34,10 +34,10 @@ public partial class BodyParts : Area2D
 	
 	// On Hover
 	[Signal]
-	public delegate void BodyPartHoverEventHandler(BodyParts bodyPart);
+	public delegate void BodyPartHoverEventHandler(GenericPart bodyPart);
 	
 	[Signal]
-	public delegate void BodyPartHoverExitEventHandler(BodyParts bodyPart);
+	public delegate void BodyPartHoverExitEventHandler(GenericPart bodyPart);
 	
 	[Signal]
 	public delegate void TorsoHoverEventHandler();

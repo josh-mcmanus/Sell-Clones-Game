@@ -68,7 +68,7 @@ public partial class Main : Control
 		// randomly variate by some amount inside of total area
 		// set side based on position
 		// Do inside of the main addbodyparttoscene function maybe
-		BodyParts part = cloneManager.AddBodyPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
+		GenericPart part = cloneManager.AddBodyPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
 		part.bodyPart = listUpgrade.bodyPart;
 	}
 	

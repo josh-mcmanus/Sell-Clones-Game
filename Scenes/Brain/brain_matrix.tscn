@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://diom8dbaaftlp"]
+
+[ext_resource type="Texture2D" uid="uid://b2rljabp2dw64" path="res://Assets/Brain/Brain new.png" id="1_rqekm"]
+[ext_resource type="PackedScene" uid="uid://dylwk2ofqal8k" path="res://Scenes/Brain/generic_brain_upgrade.tscn" id="2_ci3dw"]
+
+[node name="Brain Matrix" type="Control" unique_id=1337901008]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1814683578]
+texture = ExtResource("1_rqekm")
+
+[node name="Generic Brain Upgrade" parent="." unique_id=1045581721 instance=ExtResource("2_ci3dw")]
+position = Vector2(5, -135)
+
+[node name="Generic Brain Upgrade2" parent="." unique_id=1804725089 instance=ExtResource("2_ci3dw")]
+position = Vector2(-73, -52)
+
+[node name="Generic Brain Upgrade3" parent="." unique_id=657902475 instance=ExtResource("2_ci3dw")]
+position = Vector2(2, -45)
+
+[node name="Generic Brain Upgrade4" parent="." unique_id=25986850 instance=ExtResource("2_ci3dw")]
+position = Vector2(74, -2)
+
+[node name="Generic Brain Upgrade5" parent="." unique_id=1316689230 instance=ExtResource("2_ci3dw")]
+position = Vector2(-45, 36)
+
+[node name="Generic Brain Upgrade6" parent="." unique_id=685489172 instance=ExtResource("2_ci3dw")]
+position = Vector2(48, 79)
+
+[node name="Generic Brain Upgrade7" parent="." unique_id=2047271385 instance=ExtResource("2_ci3dw")]
+position = Vector2(-41, 128)

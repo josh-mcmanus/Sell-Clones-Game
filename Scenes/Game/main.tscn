@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxs3dgbm404h8" path="res://Scenes/UI/Upgrades List/upgrades_tab.tscn" id="4_veifj"]
 [ext_resource type="PackedScene" uid="uid://b3chmqyys4fvr" path="res://Scenes/UI/Upgrades List/upgrade_progress_bar.tscn" id="5_wnnnj"]
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/Clone/clone_upgrade.tscn" id="6_5fdju"]
-[ext_resource type="PackedScene" uid="uid://diom8dbaaftlp" path="res://Scenes/brain_matrix.tscn" id="6_twscm"]
+[ext_resource type="PackedScene" uid="uid://diom8dbaaftlp" path="res://Scenes/Brain/brain_matrix.tscn" id="6_twscm"]
 [ext_resource type="PackedScene" uid="uid://b2vw5pm6kemy1" path="res://Scenes/tank.tscn" id="8_wrqr2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8gbba"]

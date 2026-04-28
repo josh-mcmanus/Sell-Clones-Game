@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c61ipkr6a03s2"]
 
 [ext_resource type="Texture2D" uid="uid://b05lcgimol5hy" path="res://Assets/Clone/Foot.png" id="1_0n6tk"]
-[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_n0ebc"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Game/GenericPart.cs" id="1_n0ebc"]
 
 [node name="Foot" type="Area2D" unique_id=266955170]
 script = ExtResource("1_n0ebc")

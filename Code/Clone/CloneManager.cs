@@ -16,8 +16,8 @@ public partial class CloneManager : Node2D
 	private Vector2 initialPosition = Vector2.Zero;
 	
 	// Body part removal
-	private BodyParts currentBodyPart = null;
-	private BodyParts attachmentArea = null;
+	private GenericPart currentPart = null;
+	private GenericPart attachmentArea = null;
 	private RemovalBounds activeRemovalBounds = null;
 	
 	// Movement checks
@@ -25,7 +25,6 @@ public partial class CloneManager : Node2D
 	private bool isAttachedPartSelected = false;
 	private bool isSelectedBodyPartAttached = false;
 	private bool isAttachmentOk = false;
-	private bool isTorsoMenuOpen = false;
 	
 	private int zIndex = 0;
 	private float offsetPosition;
@@ -45,16 +44,14 @@ public partial class CloneManager : Node2D
 		// Links all children signals in BodyParts.cs
 		foreach (Node node in clone.GetChildren())
 		{
-			if (node is BodyParts part)
+			if (node is GenericPart part)
 			{
 				if (part.isAttachmentArea)
 				{
-					part.sprite2D.Visible = false; // Attachment area default to hidden
+					part.sprite2D.Visible = false; // Attachment area hidden by default
 				}
-				part.UpgradeSiteClicked += DetatchBodyPart;
 				
-				part.TorsoHover += OnTorsoHover;
-				part.TorsoHoverExit += OnTorsoHoverExit;
+				part.UpgradeSiteClicked += DetatchBodyPart;
 			}
 		}
 		
@@ -68,13 +65,13 @@ public partial class CloneManager : Node2D
 				continue;
 			
 			// Add attached part
-			currentBodyPart = AddBodyPartToScene(
+			currentPart = AddBodyPartToScene(
 				Utils.bodyPartsFileLocation[attachedPart.Part], 
 				attachedPart.Side, 
 				attachedPart.Tier
 			);
 			
-			currentBodyPart.bodyPart = attachedPart.Part;
+			currentPart.bodyPart = attachedPart.Part;
 			attachmentArea = existing;
 			isAttachmentOk = true;
 			
@@ -89,14 +86,14 @@ public partial class CloneManager : Node2D
 	
 	public override void _Process(double delta)
 	{
-		if (currentBodyPart == null)
+		if (currentPart == null)
 		{
 			return;
 		}
 		
 		if (moveObject)
 		{
-			currentBodyPart.GlobalPosition = currentGlobalMousePosition + localMouseOffset;
+			currentPart.GlobalPosition = currentGlobalMousePosition + localMouseOffset;
 		}
 		
 		HandleAttachment();
@@ -114,10 +111,6 @@ public partial class CloneManager : Node2D
 		// Mouse stops clicking on the upgrade site / attached body part
 		if (@event.IsActionReleased("left_click"))
 		{
-			// Only allow movement when the torso menu is closed
-			if (isTorsoMenuOpen)
-				return;
-			
 			// Only trigger when object is being actively moved (clicked on), prevent unnecessary calls
 			if (moveObject)
 			{
@@ -133,7 +126,7 @@ public partial class CloneManager : Node2D
 	// Checks for body part attachment to clone
 	private void HandleAttachment()
 	{
-		var overlap = currentBodyPart.GetOverlappingAreas();
+		var overlap = currentPart.GetOverlappingAreas();
 		
 		isAttachmentOk = false;
 		attachmentArea = null;
@@ -141,10 +134,10 @@ public partial class CloneManager : Node2D
 		foreach (var area in overlap)
 		{
 			// Valid
-			if (area is BodyParts attachmentPart 
+			if (area is GenericPart attachmentPart 
 				&& attachmentPart.isAttachmentArea 
-				&& attachmentPart.bodyPart == currentBodyPart.bodyPart
-				&& attachmentPart.side == currentBodyPart.side)
+				&& attachmentPart.bodyPart == currentPart.bodyPart
+				&& attachmentPart.side == currentPart.side)
 			{
 				isAttachmentOk = true;
 				attachmentArea = attachmentPart;
@@ -157,17 +150,17 @@ public partial class CloneManager : Node2D
 	// Set selected held body part side based on mouse position
 	private void HandlePartFlipping()
 	{
-		if (moveObject && currentBodyPart != null)
+		if (moveObject && currentPart != null)
 		{
 			if (currentGlobalMousePosition.X < centerPosition) // mouse is left of center
 			{
-				currentBodyPart.side = Utils.Side.Left;
-				currentBodyPart.Scale = new Vector2(1, 1);
+				currentPart.side = Utils.Side.Left;
+				currentPart.Scale = new Vector2(1, 1);
 			}
 			else
 			{
-				currentBodyPart.side = Utils.Side.Right;
-				currentBodyPart.Scale = new Vector2(-1, 1);
+				currentPart.side = Utils.Side.Right;
+				currentPart.Scale = new Vector2(-1, 1);
 			}
 		}
 	}
@@ -181,11 +174,11 @@ public partial class CloneManager : Node2D
 		{
 			Utils.Log(TAG, "Attachment is ok");
 			
-			AddSaveDataAttachedPart(currentBodyPart);
+			AddSaveDataAttachedPart(currentPart);
 			
 			// Properties
-			currentBodyPart.GlobalPosition = attachmentArea.GlobalPosition;
-			currentBodyPart.UpgradeSiteClicked += DetatchBodyPart;
+			currentPart.GlobalPosition = attachmentArea.GlobalPosition;
+			currentPart.UpgradeSiteClicked += DetatchBodyPart;
 			
 			// Reset
 			isAttachmentOk = false;
@@ -193,14 +186,14 @@ public partial class CloneManager : Node2D
 			attachmentArea = null;
 		}
 		
-		currentBodyPart = null;
+		currentPart = null;
 	}
 	
 	
 	// Activates when an attached body part is clicked
 	// For removing body parts from the clone
 		// NOTE: The same as MoveBodyPart, but also initializes the removal process
-	private void DetatchBodyPart(BodyParts bodyPart)
+	private void DetatchBodyPart(GenericPart bodyPart)
 	{
 		MoveBodyPart(bodyPart);
 		bodyPart.ZIndex = 0;
@@ -208,7 +201,7 @@ public partial class CloneManager : Node2D
 		isAttachedPartSelected = true;
 		isSelectedBodyPartAttached = true;
 		initialPosition = bodyPart.GlobalPosition;
-		currentBodyPart = bodyPart;
+		currentPart = bodyPart;
 		
 		// Initialize new area2d, for body part removal bounds
 		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/Clone/removal_bounds.tscn");
@@ -228,7 +221,7 @@ public partial class CloneManager : Node2D
 	// Activates when a body part is clicked on
 	// For allowing mouse dragging movement of the selected body part
 		// NOTE: DetatchBodyPart is similar, and also calls this function, but does other things relevant for ONLY the upgrade sites. 
-	private void MoveBodyPart(BodyParts area)
+	private void MoveBodyPart(GenericPart area)
 	{
 		Utils.Log(TAG, $"Clicked object type: {area.bodyPart}");
 		
@@ -236,49 +229,20 @@ public partial class CloneManager : Node2D
 		if (area.bodyPart == Utils.BodyPart.Torso)
 			return;
 		
-		if (currentBodyPart == null)
+		if (currentPart == null)
 		{
-			currentBodyPart = area;
-			currentBodyPart.ZIndex = zIndex;
+			currentPart = area;
+			currentPart.ZIndex = zIndex;
 		}
 		
 		localMouseOffset = area.GlobalPosition - currentGlobalMousePosition;
-		currentBodyPart = area;
+		currentPart = area;
 		moveObject = true;
 		isSelectedBodyPartAttached = false;
-		currentBodyPart.InputPickable = false;
+		currentPart.InputPickable = false;
 		
 		zIndex++;
-		currentBodyPart.ZIndex = zIndex;
-	}
-	
-	
-	
-	
-	
-	
-	private void OnTorsoHover()
-	{
-		if (isTorsoMenuOpen)
-		{
-			return;
-		}
-		
-		Utils.Log(TAG, "Enter Torso");
-		
-		// Play torso opening animation
-	}
-	
-	private void OnTorsoHoverExit()
-	{
-		if (isTorsoMenuOpen)
-		{
-			return;
-		}
-		
-		Utils.Log(TAG, "Exit Torso");
-		
-		// Play torso closing animation
+		currentPart.ZIndex = zIndex;
 	}
 	
 	
@@ -311,16 +275,16 @@ public partial class CloneManager : Node2D
 		
 		
 		// Create new body part object
-		BodyParts bodyPart = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
+		GenericPart bodyPart = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
 		bodyPart.bodyPart = removalBounds.bodyPart;
 		bodyPart.tier = removalBounds.tier;
 		
 		GD.Print(removalBounds.bodyPart);
 		
 		// Delete old body part and removalbounds
-		RemoveSaveDataAttachedPart(currentBodyPart);
-		currentBodyPart.QueueFree();
-		currentBodyPart = null;
+		RemoveSaveDataAttachedPart(currentPart);
+		currentPart.QueueFree();
+		currentPart = null;
 		activeRemovalBounds.QueueFree();
 		activeRemovalBounds = null;
 		
@@ -328,14 +292,14 @@ public partial class CloneManager : Node2D
 		bodyPart.GlobalPosition = currentGlobalMousePosition - localMouseOffset;
 		
 		// Follow the mouse until unclick signal
-		currentBodyPart = bodyPart;
+		currentPart = bodyPart;
 		moveObject = true;
 		isAttachedPartSelected = false;
 		isSelectedBodyPartAttached = false;
 		
 		
 		// Create bounds area for attaching new body part
-		BodyParts attachmentArea = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
+		GenericPart attachmentArea = AddBodyPartToScene(partDirectory, removalBounds.side, removalBounds.tier);
 		attachmentArea.GlobalPosition = initialPosition;
 		attachmentArea.sprite2D.Visible = false;
 		
@@ -351,11 +315,11 @@ public partial class CloneManager : Node2D
 	
 	// Adds a draggable body part to the scene
 		// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "shoulder.tscn" > Copy Path > paste as sceneDirectory
-	public BodyParts AddBodyPartToScene(string sceneDirectory, Utils.Side side, Utils.UpgradeTier tier)
+	public GenericPart AddBodyPartToScene(string sceneDirectory, Utils.Side side, Utils.UpgradeTier tier)
 	{
 		// Load and add to scene
 		var bodyPartScene = GD.Load<PackedScene>(sceneDirectory);
-		var part = bodyPartScene.Instantiate<BodyParts>();
+		var part = bodyPartScene.Instantiate<GenericPart>();
 		AddChild(part);
 		
 		// Flip on right
@@ -385,9 +349,9 @@ public partial class CloneManager : Node2D
 		moveObject = false;
 		isAttachedPartSelected = false;
 		
-		if (currentBodyPart != null)
+		if (currentPart != null)
 		{
-			currentBodyPart.InputPickable = true; // restore movement
+			currentPart.InputPickable = true; // restore movement
 		}
 		
 		if (!isSelectedBodyPartAttached)
@@ -396,8 +360,8 @@ public partial class CloneManager : Node2D
 		}
 		
 		// Position
-		currentBodyPart.GlobalPosition = initialPosition;
-		currentBodyPart = null;
+		currentPart.GlobalPosition = initialPosition;
+		currentPart = null;
 		initialPosition = Vector2.Zero;
 		
 		// Mouse
@@ -410,7 +374,7 @@ public partial class CloneManager : Node2D
 	
 	
 	// Adds newly attached part to save data list of attached parts
-	private static void AddSaveDataAttachedPart(BodyParts part)
+	private static void AddSaveDataAttachedPart(GenericPart part)
 	{
 		// Remove existing part if it exists
 		DataManager.saveData.AttachedParts.RemoveAll(p => p.Part == part.bodyPart && p.Side == part.side);
@@ -421,7 +385,7 @@ public partial class CloneManager : Node2D
 	
 	
 	// Removes detached parts from save data list of attached parts
-	private static void RemoveSaveDataAttachedPart(BodyParts part)
+	private static void RemoveSaveDataAttachedPart(GenericPart part)
 	{
 		DataManager.saveData.AttachedParts.RemoveAll( p 
 			=> p.Part == part.bodyPart
@@ -432,11 +396,11 @@ public partial class CloneManager : Node2D
 	
 	
 	// Finds specified matching body part in scene, or null
-	private BodyParts FindMatchingPart(Utils.BodyPart part, Utils.Side side)
+	private GenericPart FindMatchingPart(Utils.BodyPart part, Utils.Side side)
 	{
 		foreach (Node node in clone.GetChildren())
 		{
-			if (node is BodyParts bodyPart)
+			if (node is GenericPart bodyPart)
 			{
 				if (bodyPart.bodyPart == part && bodyPart.side == side)
 				{

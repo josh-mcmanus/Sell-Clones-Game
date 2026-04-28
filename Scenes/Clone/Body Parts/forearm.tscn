@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjwofwt0q4mm7"]
 
-[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_401sj"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Game/GenericPart.cs" id="1_401sj"]
 [ext_resource type="Texture2D" uid="uid://dygmg0dtrvca4" path="res://Assets/Clone/Forearm.png" id="1_n557m"]
 
 [node name="Forearm" type="Area2D" unique_id=388970580]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ly5s6js1liai"]
 
-[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Clone/BodyParts.cs" id="1_kja5x"]
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Game/GenericPart.cs" id="1_kja5x"]
 [ext_resource type="Texture2D" uid="uid://c8krunqkkudpq" path="res://Assets/Clone/Torso.png" id="1_t4yc0"]
 
 [node name="Torso" type="Area2D" unique_id=1868132030]
