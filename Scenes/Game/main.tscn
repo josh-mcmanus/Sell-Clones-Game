@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bxs3dgbm404h8" path="res://Scenes/UI/Upgrades List/upgrades_tab.tscn" id="4_veifj"]
 [ext_resource type="PackedScene" uid="uid://b3chmqyys4fvr" path="res://Scenes/UI/Upgrades List/upgrade_progress_bar.tscn" id="5_wnnnj"]
 [ext_resource type="PackedScene" uid="uid://cawfyal7qobkd" path="res://Scenes/Clone/clone_upgrade.tscn" id="6_5fdju"]
+[ext_resource type="PackedScene" uid="uid://diom8dbaaftlp" path="res://Scenes/brain_matrix.tscn" id="6_twscm"]
+[ext_resource type="PackedScene" uid="uid://b2vw5pm6kemy1" path="res://Scenes/tank.tscn" id="8_wrqr2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8gbba"]
 font_size = 44
@@ -147,6 +149,16 @@ custom_minimum_size = Vector2(292, 0)
 layout_mode = 2
 color = Color(1, 0.68235296, 1, 1)
 
+[node name="Brain Matrix" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain" unique_id=138555959 instance=ExtResource("6_twscm")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Black Hole" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left" unique_id=98350758]
 custom_minimum_size = Vector2(496, 192)
 layout_mode = 2
@@ -187,7 +199,7 @@ mouse_filter = 2
 color = Color(0.6431373, 1, 1, 1)
 
 [node name="Clone Upgrade" parent="MarginContainer/VBoxContainer/Main Content/Middle/Clone" unique_id=1280454857 instance=ExtResource("6_5fdju")]
-position = Vector2(248, 236)
+position = Vector2(250, 250)
 scale = Vector2(1.5, 1.5)
 
 [node name="Right Side" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content" unique_id=1438270217]
@@ -258,6 +270,16 @@ layout_mode = 2
 custom_minimum_size = Vector2(292, 0)
 layout_mode = 2
 color = Color(0.627451, 0.7882353, 1, 1)
+
+[node name="Tank" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank" unique_id=901374914 instance=ExtResource("8_wrqr2")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Tank Parts" type="ColorRect" parent="MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff" unique_id=1943333167]
 custom_minimum_size = Vector2(200, 400)

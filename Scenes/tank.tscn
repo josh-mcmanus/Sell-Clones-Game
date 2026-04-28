@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b2vw5pm6kemy1"]
+
+[ext_resource type="Texture2D" uid="uid://dhfmg8sxkmshi" path="res://Assets/Tank/Tank.png" id="1_0ys04"]
+
+[node name="Tank" type="Control" unique_id=1651263565]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1938071106]
+texture = ExtResource("1_0ys04")

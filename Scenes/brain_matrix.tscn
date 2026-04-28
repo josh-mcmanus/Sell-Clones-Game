@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://diom8dbaaftlp"]
+
+[ext_resource type="Texture2D" uid="uid://b2rljabp2dw64" path="res://Assets/Brain/Brain new.png" id="1_rqekm"]
+
+[node name="Brain Matrix" type="Control" unique_id=1337901008]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1814683578]
+texture = ExtResource("1_rqekm")
