@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://diom8dbaaftlp"]
 
+[ext_resource type="Script" uid="uid://ct5ued6p2qptq" path="res://Code/Game/UpgradeManager.cs" id="1_mobqn"]
 [ext_resource type="Texture2D" uid="uid://b2rljabp2dw64" path="res://Assets/Brain/Brain new.png" id="1_rqekm"]
-[ext_resource type="PackedScene" uid="uid://dylwk2ofqal8k" path="res://Scenes/Brain/generic_brain_upgrade.tscn" id="2_ci3dw"]
+[ext_resource type="PackedScene" uid="uid://dylwk2ofqal8k" path="res://Scenes/Game/generic_upgrade.tscn" id="2_ci3dw"]
 
-[node name="Brain Matrix" type="Control" unique_id=1337901008]
-layout_mode = 3
-anchors_preset = 0
+[node name="Brain Matrix" type="Node2D" unique_id=788132065]
+script = ExtResource("1_mobqn")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1814683578]
 texture = ExtResource("1_rqekm")

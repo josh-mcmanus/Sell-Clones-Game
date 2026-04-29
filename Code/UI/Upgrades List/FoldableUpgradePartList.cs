@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class FoldableBodyPartList : FoldableContainer
+public partial class FoldableUpgradePartList : FoldableContainer
 {
 	[Export]
 	public VBoxContainer listContainer;

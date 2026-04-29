@@ -70,28 +70,28 @@ public partial class Utils : Node
 	
 	
 	
-	public static string GetBodyPartDirectory(BodyPart bodyPart)
+	public static string GetUpgradePartDirectory(UpgradePart upgradePart)
 	{
-		if (!bodyPartsFileLocation.ContainsKey(bodyPart))
+		if (!UpgradePartsFileLocation.ContainsKey(upgradePart))
 		{
-			throw new ArgumentNullException($"Key: {bodyPart}, could not be found in bodyParts dictionary");
+			throw new ArgumentNullException($"Key: {upgradePart}, could not be found in UpgradeParts dictionary");
 		}
 		
-		return bodyPartsFileLocation.GetValueOrDefault(bodyPart);
+		return UpgradePartsFileLocation.GetValueOrDefault(upgradePart);
 	}
 	
 	
-	public static BodyPart? GetLowestLevelUpgradeInCategory(NodeType type)
+	public static UpgradePart? GetLowestLevelUpgradeInCategory(NodeType type)
 	{
 		int minimum = int.MaxValue;
-		BodyPart? lowestPart = null;
+		UpgradePart? lowestPart = null;
 		
-		foreach (var part in Enum.GetValues<BodyPart>())
+		foreach (var part in Enum.GetValues<UpgradePart>())
 		{
-			if(part == BodyPart.Torso)
+			if(part == UpgradePart.Torso)
 				continue;
 			
-			if (bodyPartCategories[part] != type)
+			if (UpgradePartCategories[part] != type)
 				continue;
 				
 			int currentValue = DataManager.saveData.UnlockedUpgrades[part];
@@ -108,7 +108,7 @@ public partial class Utils : Node
 	
 	
 	// TODO: Maybe later get rid of this and replace the limbs new sprite instead of different color?
-	public static readonly Dictionary<UpgradeTier, Color> bodyPartUpgradeTierColors = new()
+	public static readonly Dictionary<UpgradeTier, Color> UpgradePartUpgradeTierColors = new()
 	{
 		{UpgradeTier.Level0, new Color()},
 		{UpgradeTier.Level1, Colors.White}, 	// White
@@ -132,7 +132,7 @@ public partial class Utils : Node
 	
 	
 	// Value of upgrade tiers
-	public static readonly Dictionary<UpgradeTier, int> bodyPartUpgradeTierValues = new()
+	public static readonly Dictionary<UpgradeTier, int> UpgradePartUpgradeTierValues = new()
 	{
 		{UpgradeTier.Level0, 0},
 		{UpgradeTier.Level1, 1},
@@ -158,55 +158,55 @@ public partial class Utils : Node
 	
 	
 	// Maps upgrades with their corresponding node type category
-	public static readonly Dictionary<BodyPart, NodeType> bodyPartCategories = new()
+	public static readonly Dictionary<UpgradePart, NodeType> UpgradePartCategories = new()
 	{
-		{BodyPart.Shoulder, NodeType.Limbs},
-		{BodyPart.Forearm,  NodeType.Limbs},
-		{BodyPart.Hand,     NodeType.Limbs},
-		{BodyPart.Thigh,    NodeType.Limbs},
-		{BodyPart.Calf,     NodeType.Limbs},
-		{BodyPart.Foot,     NodeType.Limbs},
+		{UpgradePart.Shoulder, NodeType.Limbs},
+		{UpgradePart.Forearm,  NodeType.Limbs},
+		{UpgradePart.Hand,     NodeType.Limbs},
+		{UpgradePart.Thigh,    NodeType.Limbs},
+		{UpgradePart.Calf,     NodeType.Limbs},
+		{UpgradePart.Foot,     NodeType.Limbs},
 		
-		{BodyPart.Heart,  NodeType.Organs},
-		{BodyPart.Lung,   NodeType.Organs},
-		{BodyPart.Liver,  NodeType.Organs},
-		{BodyPart.Kidney, NodeType.Organs},
-		{BodyPart.Spine,  NodeType.Organs},
+		{UpgradePart.Heart,  NodeType.Organs},
+		{UpgradePart.Lung,   NodeType.Organs},
+		{UpgradePart.Liver,  NodeType.Organs},
+		{UpgradePart.Kidney, NodeType.Organs},
+		{UpgradePart.Spine,  NodeType.Organs},
 		
-		{BodyPart.Processor,         NodeType.Brain},
-		{BodyPart.MemoryEnhancer,    NodeType.Brain},
-		{BodyPart.NeuralInterface,   NodeType.Brain},
-		{BodyPart.PredictionEngine,  NodeType.Brain},
-		{BodyPart.NeuronCompressor,  NodeType.Brain},
-		{BodyPart.PatternRecognizer, NodeType.Brain},
-		{BodyPart.EmotionSupressor,  NodeType.Brain},
-		{BodyPart.AICoprocessor,     NodeType.Brain},
-		{BodyPart.QuantumFluctuator, NodeType.Brain},
+		{UpgradePart.Processor,         NodeType.Brain},
+		{UpgradePart.MemoryEnhancer,    NodeType.Brain},
+		{UpgradePart.NeuralInterface,   NodeType.Brain},
+		{UpgradePart.PredictionEngine,  NodeType.Brain},
+		{UpgradePart.NeuronCompressor,  NodeType.Brain},
+		{UpgradePart.PatternRecognizer, NodeType.Brain},
+		{UpgradePart.EmotionSupressor,  NodeType.Brain},
+		{UpgradePart.AICoprocessor,     NodeType.Brain},
+		{UpgradePart.QuantumFluctuator, NodeType.Brain},
 		
-		{BodyPart.GrowthAccelerator,      NodeType.Tank},
-		{BodyPart.TimeDilationField,      NodeType.Tank},
-		{BodyPart.MutationFilter,         NodeType.Tank},
-		{BodyPart.IncompleteCloning,      NodeType.Tank},
-		{BodyPart.WeakGenetics,           NodeType.Tank},
-		{BodyPart.ReducedLifespan,        NodeType.Tank},
-		{BodyPart.ImmuneRejection,        NodeType.Tank},
-		{BodyPart.OverclockedCellDivider, NodeType.Tank},
-		{BodyPart.MutationEngine,         NodeType.Tank},
-		{BodyPart.RandomizedGrowth,       NodeType.Tank},
-		{BodyPart.GeneticShuffler,        NodeType.Tank},
+		{UpgradePart.GrowthAccelerator,      NodeType.Tank},
+		{UpgradePart.TimeDilationField,      NodeType.Tank},
+		{UpgradePart.MutationFilter,         NodeType.Tank},
+		{UpgradePart.IncompleteCloning,      NodeType.Tank},
+		{UpgradePart.WeakGenetics,           NodeType.Tank},
+		{UpgradePart.ReducedLifespan,        NodeType.Tank},
+		{UpgradePart.ImmuneRejection,        NodeType.Tank},
+		{UpgradePart.OverclockedCellDivider, NodeType.Tank},
+		{UpgradePart.MutationEngine,         NodeType.Tank},
+		{UpgradePart.RandomizedGrowth,       NodeType.Tank},
+		{UpgradePart.GeneticShuffler,        NodeType.Tank},
 	};
 	
 	
 	// For adding new body parts
 	// File locations for body parts to load from
-	public static readonly Dictionary<BodyPart, string> bodyPartsFileLocation = new()
+	public static readonly Dictionary<UpgradePart, string> UpgradePartsFileLocation = new()
 	{
-		{BodyPart.Shoulder, "res://Scenes/Clone/Body Parts/shoulder.tscn"},
-		{BodyPart.Forearm,	"res://Scenes/Clone/Body Parts/forearm.tscn"}, 
-		{BodyPart.Hand,	 	"res://Scenes/Clone/Body Parts/hand.tscn"},
-		{BodyPart.Thigh,	"res://Scenes/Clone/Body Parts/thigh.tscn"},
-		{BodyPart.Calf,	 	"res://Scenes/Clone/Body Parts/calf.tscn"},
-		{BodyPart.Foot,	 	"res://Scenes/Clone/Body Parts/foot.tscn"},
+		{UpgradePart.Shoulder, "res://Scenes/Clone/Body Parts/shoulder.tscn"},
+		{UpgradePart.Forearm,	"res://Scenes/Clone/Body Parts/forearm.tscn"}, 
+		{UpgradePart.Hand,	 	"res://Scenes/Clone/Body Parts/hand.tscn"},
+		{UpgradePart.Thigh,	"res://Scenes/Clone/Body Parts/thigh.tscn"},
+		{UpgradePart.Calf,	 	"res://Scenes/Clone/Body Parts/calf.tscn"},
+		{UpgradePart.Foot,	 	"res://Scenes/Clone/Body Parts/foot.tscn"},
 	};
 	
 	
@@ -234,8 +234,8 @@ public partial class Utils : Node
 	}
 	
 	// TODO: Add more upgrades for all categories
-	// All possible bodyparts / upgrades (anything that could be draggable / placed into an upgrade slot - excluding torso)
-	public enum BodyPart
+	// All possible UpgradeParts / upgrades (anything that could be draggable / placed into an upgrade slot - excluding torso)
+	public enum UpgradePart
 	{
 		Shoulder,
 		Forearm,
@@ -297,7 +297,7 @@ public partial class Utils : Node
 		Clone
 	}
 	
-	// public enum BodyPartUpgradeTier
+	// public enum UpgradePartUpgradeTier
 	// {
 	// 	Natural,
 	// 	Prosthetic,

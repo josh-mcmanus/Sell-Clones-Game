@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dylwk2ofqal8k"]
+
+[ext_resource type="Script" uid="uid://cb165c35n5yie" path="res://Code/Game/GenericPart.cs" id="1_1vc0i"]
+[ext_resource type="Texture2D" uid="uid://b7jd8qscxd448" path="res://Assets/Brain/brain upgrade temp.png" id="2_x6orv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_et0a8"]
+size = Vector2(50, 50)
+
+[node name="Generic Upgrade" type="Area2D" unique_id=1045581721]
+script = ExtResource("1_1vc0i")
+side = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=938815928]
+texture = ExtResource("2_x6orv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1265258370]
+shape = SubResource("RectangleShape2D_et0a8")

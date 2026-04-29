@@ -28,44 +28,44 @@ public class PlayerData
 	};
 	
 	[JsonInclude]
-	public Dictionary<Utils.BodyPart, int> UnlockedUpgrades = new()
+	public Dictionary<Utils.UpgradePart, int> UnlockedUpgrades = new()
 	{
 		// Unlocked by default
-		{Utils.BodyPart.Shoulder, 0},
-		{Utils.BodyPart.Forearm,  0},
-		{Utils.BodyPart.Hand,     0},
-		{Utils.BodyPart.Thigh,    0},
-		{Utils.BodyPart.Calf,     0},
-		{Utils.BodyPart.Foot,     0},
+		{Utils.UpgradePart.Shoulder, 0},
+		{Utils.UpgradePart.Forearm,  0},
+		{Utils.UpgradePart.Hand,     0},
+		{Utils.UpgradePart.Thigh,    0},
+		{Utils.UpgradePart.Calf,     0},
+		{Utils.UpgradePart.Foot,     0},
 		
 		// Not unlocked
-		{Utils.BodyPart.Heart,  0},
-		{Utils.BodyPart.Lung,   0},
-		{Utils.BodyPart.Liver,  0},
-		{Utils.BodyPart.Kidney, 0},
-		{Utils.BodyPart.Spine,  0},
+		{Utils.UpgradePart.Heart,  0},
+		{Utils.UpgradePart.Lung,   0},
+		{Utils.UpgradePart.Liver,  0},
+		{Utils.UpgradePart.Kidney, 0},
+		{Utils.UpgradePart.Spine,  0},
 		
-		{Utils.BodyPart.Processor,         0},
-		{Utils.BodyPart.MemoryEnhancer,    0},
-		{Utils.BodyPart.NeuralInterface,   0},
-		{Utils.BodyPart.PredictionEngine,  0},
-		{Utils.BodyPart.NeuronCompressor,  0},
-		{Utils.BodyPart.PatternRecognizer, 0},
-		{Utils.BodyPart.EmotionSupressor,  0},
-		{Utils.BodyPart.AICoprocessor,     0},
-		{Utils.BodyPart.QuantumFluctuator, 0},
+		{Utils.UpgradePart.Processor,         0},
+		{Utils.UpgradePart.MemoryEnhancer,    0},
+		{Utils.UpgradePart.NeuralInterface,   0},
+		{Utils.UpgradePart.PredictionEngine,  0},
+		{Utils.UpgradePart.NeuronCompressor,  0},
+		{Utils.UpgradePart.PatternRecognizer, 0},
+		{Utils.UpgradePart.EmotionSupressor,  0},
+		{Utils.UpgradePart.AICoprocessor,     0},
+		{Utils.UpgradePart.QuantumFluctuator, 0},
 		
-		{Utils.BodyPart.GrowthAccelerator,      0},
-		{Utils.BodyPart.TimeDilationField,      0},
-		{Utils.BodyPart.MutationFilter,         0},
-		{Utils.BodyPart.IncompleteCloning,      0},
-		{Utils.BodyPart.WeakGenetics,           0},
-		{Utils.BodyPart.ReducedLifespan,        0},
-		{Utils.BodyPart.ImmuneRejection,        0},
-		{Utils.BodyPart.OverclockedCellDivider, 0},
-		{Utils.BodyPart.MutationEngine,         0},
-		{Utils.BodyPart.RandomizedGrowth,       0},
-		{Utils.BodyPart.GeneticShuffler,        0},
+		{Utils.UpgradePart.GrowthAccelerator,      0},
+		{Utils.UpgradePart.TimeDilationField,      0},
+		{Utils.UpgradePart.MutationFilter,         0},
+		{Utils.UpgradePart.IncompleteCloning,      0},
+		{Utils.UpgradePart.WeakGenetics,           0},
+		{Utils.UpgradePart.ReducedLifespan,        0},
+		{Utils.UpgradePart.ImmuneRejection,        0},
+		{Utils.UpgradePart.OverclockedCellDivider, 0},
+		{Utils.UpgradePart.MutationEngine,         0},
+		{Utils.UpgradePart.RandomizedGrowth,       0},
+		{Utils.UpgradePart.GeneticShuffler,        0},
 	};
 	
 	// New parts are added when attached, deleted when removed
@@ -80,7 +80,7 @@ public class PlayerData
 	
 	// figure out saving clone data later
 	// also maybe need to save the position of all active body parts
-	// public Utils.BodyPartEnum shoulder {get; set;} = Utils.BodyPartEnum.LShoulder;
+	// public Utils.UpgradePartEnum shoulder {get; set;} = Utils.UpgradePartEnum.LShoulder;
 	
 	// clone details
 		// json list of part names - shoulder, forearm, hand, foot, etc.

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://o4rx5eifrvtd"]
 
-[ext_resource type="Script" uid="uid://0cwq6hvqa0yk" path="res://Code/UI/Upgrades List/FoldableBodyPartList.cs" id="1_8a38y"]
+[ext_resource type="Script" uid="uid://0cwq6hvqa0yk" path="res://Code/UI/Upgrades List/FoldableUpgradePartList.cs" id="1_8a38y"]
 [ext_resource type="StyleBox" uid="uid://bb5lfph5o3afp" path="res://Style/foldable_list.tres" id="1_65aca"]
 
 [node name="FoldableContainer" type="FoldableContainer" unique_id=2143296842 node_paths=PackedStringArray("listContainer")]

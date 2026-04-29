@@ -16,7 +16,7 @@ public partial class UpgradesTab : Control
 	
 	public override void _Ready()
 	{
-		foldableListScene = GD.Load<PackedScene>("res://Scenes/UI/Upgrades List/foldable_body_part_list.tscn");
+		foldableListScene = GD.Load<PackedScene>("res://Scenes/UI/Upgrades List/foldable_upgrade_part_list.tscn");
 		listUpgradeScene = GD.Load<PackedScene>("res://Scenes/UI/Upgrades List/list_upgrade.tscn");
 		
 		AddToGroup("UpgradesTabs");
@@ -38,18 +38,17 @@ public partial class UpgradesTab : Control
 		// Setup list
 		foreach(var unlockedUpgrade in DataManager.saveData.UnlockedUpgrades)
 		{
-			var upgradeType = Utils.bodyPartCategories[unlockedUpgrade.Key];
+			var upgradeType = Utils.UpgradePartCategories[unlockedUpgrade.Key];
 			
 			if (upgradeType != areaType)
 				continue;
 			
 			if (unlockedUpgrade.Value > 0)
 			{
-				// Initialize new foldable body part list
-				// var foldableListScene = GD.Load<PackedScene>("res://Scenes/foldable_body_part_list.tscn");
+				// Initialize new foldable upgrade part list
 				var foldableListInstance = foldableListScene.Instantiate();
 				
-				var foldableList = (FoldableBodyPartList) foldableListInstance;
+				var foldableList = (FoldableUpgradePartList) foldableListInstance;
 				foldableList.Title = $"{unlockedUpgrade.Key}";
 				
 				
@@ -67,7 +66,7 @@ public partial class UpgradesTab : Control
 					// TODO: Change lvl to flavour text. e.g. Syntetic part, cybernetic part. instead of lvl 1,2...
 					listUpgrade.label.Text = $"Lvl {i} {unlockedUpgrade.Key}";
 					
-					listUpgrade.bodyPart = unlockedUpgrade.Key;
+					listUpgrade.part = unlockedUpgrade.Key;
 					listUpgrade.tier = (Utils.UpgradeTier) i;
 					listUpgrade.AddToGroup("UpgradeTabButtons");
 					

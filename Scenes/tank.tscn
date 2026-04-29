@@ -1,10 +1,32 @@
 [gd_scene format=3 uid="uid://b2vw5pm6kemy1"]
 
 [ext_resource type="Texture2D" uid="uid://dhfmg8sxkmshi" path="res://Assets/Tank/Tank.png" id="1_0ys04"]
+[ext_resource type="Script" uid="uid://ct5ued6p2qptq" path="res://Code/Game/UpgradeManager.cs" id="1_r30pj"]
+[ext_resource type="PackedScene" uid="uid://dylwk2ofqal8k" path="res://Scenes/Game/generic_upgrade.tscn" id="3_7f80w"]
 
-[node name="Tank" type="Control" unique_id=1651263565]
-layout_mode = 3
-anchors_preset = 0
+[node name="Tank" type="Node2D" unique_id=647802401]
+script = ExtResource("1_r30pj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1938071106]
 texture = ExtResource("1_0ys04")
+
+[node name="Generic Upgrade" parent="." unique_id=1045581721 instance=ExtResource("3_7f80w")]
+position = Vector2(-50, -127)
+
+[node name="Generic Upgrade2" parent="." unique_id=1326694631 instance=ExtResource("3_7f80w")]
+position = Vector2(50, -100)
+
+[node name="Generic Upgrade3" parent="." unique_id=1970116192 instance=ExtResource("3_7f80w")]
+position = Vector2(-51, -47)
+
+[node name="Generic Upgrade4" parent="." unique_id=2056513528 instance=ExtResource("3_7f80w")]
+position = Vector2(50, -20)
+
+[node name="Generic Upgrade5" parent="." unique_id=388670145 instance=ExtResource("3_7f80w")]
+position = Vector2(-51, 35)
+
+[node name="Generic Upgrade6" parent="." unique_id=1920415417 instance=ExtResource("3_7f80w")]
+position = Vector2(50, 64)
+
+[node name="Generic Upgrade7" parent="." unique_id=1739911667 instance=ExtResource("3_7f80w")]
+position = Vector2(-1, 131)

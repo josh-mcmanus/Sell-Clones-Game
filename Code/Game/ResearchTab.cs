@@ -18,7 +18,7 @@ public partial class ResearchTab : Control
 	
 	private const string TAG = "ResearchTab";
 	
-	PackedScene bodyPartScene = GD.Load<PackedScene>("res://Scenes/Game/generic_node.tscn");
+	PackedScene upgradePartScene = GD.Load<PackedScene>("res://Scenes/Game/generic_node.tscn");
 	
 	double nodeCost = 0;
 	double nodeCostMultiplier = 1.5f;
@@ -43,7 +43,7 @@ public partial class ResearchTab : Control
 	public override void _Ready()
 	{
 		// Initialize research node
-		var node = bodyPartScene.Instantiate<Node2D>();
+		var node = upgradePartScene.Instantiate<Node2D>();
 		
 		// Save dimensions for margin
 		Sprite2D researchSprite = node.GetNode<Sprite2D>("Sprite2D");
@@ -217,7 +217,7 @@ public partial class ResearchTab : Control
 		int columnIndex = researchNodeCounter / rows;
 		
 		// Load and add body part to scene
-		var part = bodyPartScene.Instantiate<Node2D>();
+		var part = upgradePartScene.Instantiate<Node2D>();
 		AddChild(part);
 		
 		
@@ -285,10 +285,10 @@ public partial class ResearchTab : Control
 		{
 			color = new Color(0.161f, 0.6f, 0.0f);
 			
-			// Add modifier based on attached parts level, see Utils.bodyPartUpgradeTierValues
+			// Add modifier based on attached parts level, see Utils.upgradePartUpgradeTierValues
 			foreach (AttachedPartData attachedPart in DataManager.saveData.AttachedParts)
 			{
-				modifier += Utils.bodyPartUpgradeTierValues[attachedPart.Tier];
+				modifier += Utils.UpgradePartUpgradeTierValues[attachedPart.Tier];
 			}
 			
 			

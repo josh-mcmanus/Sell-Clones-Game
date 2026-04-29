@@ -28,7 +28,7 @@ public partial class Main : Control
 		{
 			if (node is ListUpgrade button)
 			{
-				button.BodyPartListItemClicked += AddBodyPart;
+				button.UpgradePartListItemClicked += AddUpgradePart;
 			}
 		}
 		
@@ -58,18 +58,18 @@ public partial class Main : Control
 	
 	
 	// Add body part on list item click
-	private void AddBodyPart(ListUpgrade listUpgrade)
+	private void AddUpgradePart(ListUpgrade listUpgrade)
 	{
 		GD.Print("part added from list");
-		var partDirectory = Utils.GetBodyPartDirectory(listUpgrade.bodyPart);
+		var partDirectory = Utils.GetUpgradePartDirectory(listUpgrade.part);
 		
 		// TODO: add something to vary the placement,
 		// set starting position to somewhere at bottom of tab
 		// randomly variate by some amount inside of total area
 		// set side based on position
-		// Do inside of the main addbodyparttoscene function maybe
-		GenericPart part = cloneManager.AddBodyPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
-		part.bodyPart = listUpgrade.bodyPart;
+		// Do inside of the main addUpgradeParttoscene function maybe
+		GenericPart part = cloneManager.AddPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
+		part.part = listUpgrade.part;
 	}
 	
 	
@@ -103,9 +103,9 @@ public partial class Main : Control
 			if (nodeType == Utils.NodeType.Clone)
 				continue;
 			
-			var lowestLevelBodyPart = Utils.GetLowestLevelUpgradeInCategory(nodeType);
+			var lowestLevelUpgradePart = Utils.GetLowestLevelUpgradeInCategory(nodeType);
 			
-			if(lowestLevelBodyPart == null)
+			if(lowestLevelUpgradePart == null)
 				continue;
 			
 			// Enough points
@@ -114,7 +114,7 @@ public partial class Main : Control
 			if (DataManager.saveData.ResearchPoints[nodeType] >= cost)
 			{
 				DataManager.saveData.ResearchPoints[nodeType] -= cost;
-				DataManager.saveData.UnlockedUpgrades[lowestLevelBodyPart.Value] += 1;
+				DataManager.saveData.UnlockedUpgrades[lowestLevelUpgradePart.Value] += 1;
 				
 				UpdateUpgradesTab(nodeType);
 			}
@@ -138,8 +138,8 @@ public partial class Main : Control
 		{
 			if (node is ListUpgrade button)
 			{
-				button.BodyPartListItemClicked -= AddBodyPart;
-				button.BodyPartListItemClicked += AddBodyPart;
+				button.UpgradePartListItemClicked -= AddUpgradePart;
+				button.UpgradePartListItemClicked += AddUpgradePart;
 			}
 		}
 	}
@@ -149,14 +149,14 @@ public partial class Main : Control
 	// Cost is the same for all upgrades in a tier
 	private double CalculateUpgradeCost(Utils.NodeType type)
 	{
-		List<Utils.BodyPart> parts = [];
+		List<Utils.UpgradePart> parts = [];
 
-		foreach (var part in Enum.GetValues<Utils.BodyPart>())
+		foreach (var part in Enum.GetValues<Utils.UpgradePart>())
 		{
-			if(part == Utils.BodyPart.Torso)
+			if(part == Utils.UpgradePart.Torso)
 				continue;
 			
-			if (Utils.bodyPartCategories[part] == type)
+			if (Utils.UpgradePartCategories[part] == type)
 			{
 				parts.Add(part);
 			}

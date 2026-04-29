@@ -10,7 +10,7 @@ public partial class GenericPart : Area2D
 {
 	
 	[Export]
-	public Utils.BodyPart bodyPart;
+	public Utils.UpgradePart part;
 	
 	[Export]
 	public Utils.Side side;
@@ -24,7 +24,7 @@ public partial class GenericPart : Area2D
 	
 	// On Click
 	[Signal]
-	public delegate void UpgradeSiteClickedEventHandler(GenericPart bodyPart);
+	public delegate void UpgradeSiteClickedEventHandler(GenericPart part);
 	
 	[Signal]
 	public delegate void UpgradeSiteReleasedEventHandler();
@@ -34,10 +34,10 @@ public partial class GenericPart : Area2D
 	
 	// On Hover
 	[Signal]
-	public delegate void BodyPartHoverEventHandler(GenericPart bodyPart);
+	public delegate void UpgradePartHoverEventHandler(GenericPart part);
 	
 	[Signal]
-	public delegate void BodyPartHoverExitEventHandler(GenericPart bodyPart);
+	public delegate void UpgradePartHoverExitEventHandler(GenericPart part);
 	
 	[Signal]
 	public delegate void TorsoHoverEventHandler();
@@ -46,7 +46,7 @@ public partial class GenericPart : Area2D
 	public delegate void TorsoHoverExitEventHandler();
 	
 	
-	private const string TAG = "BodyParts";
+	private const string TAG = "GenericPart";
 	
 	
 	private bool isHovering = false;
@@ -79,7 +79,7 @@ public partial class GenericPart : Area2D
 			if (isAttachmentArea)
 				return;
 			
-			if(bodyPart == Utils.BodyPart.Torso)
+			if(part == Utils.UpgradePart.Torso)
 			{
 				EmitSignal(SignalName.TorsoClick);
 				return;

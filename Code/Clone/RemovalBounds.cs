@@ -4,7 +4,7 @@ using System;
 public partial class RemovalBounds : Area2D
 {
 	[Export]
-	public Utils.BodyPart bodyPart;
+	public Utils.UpgradePart part;
 	
 	[Export]
 	public Utils.Side side;

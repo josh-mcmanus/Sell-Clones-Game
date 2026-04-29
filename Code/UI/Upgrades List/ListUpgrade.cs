@@ -4,7 +4,7 @@ using System;
 public partial class ListUpgrade : Button
 {
 	[Signal]
-	public delegate void BodyPartListItemClickedEventHandler(ListUpgrade item);
+	public delegate void UpgradePartListItemClickedEventHandler(ListUpgrade item);
 	
 	[Export]
 	public TextureRect icon;
@@ -12,13 +12,13 @@ public partial class ListUpgrade : Button
 	[Export]
 	public Label label;
 	
-	public Utils.BodyPart bodyPart;
+	public Utils.UpgradePart part;
 	public Utils.UpgradeTier tier;
 	
 
 	public override void _Pressed()
 	{
-		EmitSignal(SignalName.BodyPartListItemClicked, this);
+		EmitSignal(SignalName.UpgradePartListItemClicked, this);
 	}
 
 	
