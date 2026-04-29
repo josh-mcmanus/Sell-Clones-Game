@@ -202,11 +202,13 @@ public partial class Utils : Node
 	public static readonly Dictionary<UpgradePart, string> UpgradePartsFileLocation = new()
 	{
 		{UpgradePart.Shoulder, "res://Scenes/Clone/Body Parts/shoulder.tscn"},
-		{UpgradePart.Forearm,	"res://Scenes/Clone/Body Parts/forearm.tscn"}, 
-		{UpgradePart.Hand,	 	"res://Scenes/Clone/Body Parts/hand.tscn"},
-		{UpgradePart.Thigh,	"res://Scenes/Clone/Body Parts/thigh.tscn"},
-		{UpgradePart.Calf,	 	"res://Scenes/Clone/Body Parts/calf.tscn"},
-		{UpgradePart.Foot,	 	"res://Scenes/Clone/Body Parts/foot.tscn"},
+		{UpgradePart.Forearm,  "res://Scenes/Clone/Body Parts/forearm.tscn"}, 
+		{UpgradePart.Hand,     "res://Scenes/Clone/Body Parts/hand.tscn"},
+		{UpgradePart.Thigh,    "res://Scenes/Clone/Body Parts/thigh.tscn"},
+		{UpgradePart.Calf,     "res://Scenes/Clone/Body Parts/calf.tscn"},
+		{UpgradePart.Foot,     "res://Scenes/Clone/Body Parts/foot.tscn"},
+		
+		
 	};
 	
 	

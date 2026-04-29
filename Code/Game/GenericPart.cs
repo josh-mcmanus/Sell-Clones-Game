@@ -32,9 +32,10 @@ public partial class GenericPart : Area2D
 	[Signal]
 	public delegate void TorsoClickEventHandler();
 	
+	
 	// On Hover
 	[Signal]
-	public delegate void UpgradePartHoverEventHandler(GenericPart part);
+	public delegate void UpgradePartHoverEnterEventHandler(GenericPart part);
 	
 	[Signal]
 	public delegate void UpgradePartHoverExitEventHandler(GenericPart part);
@@ -66,6 +67,9 @@ public partial class GenericPart : Area2D
 				sprite2D = sprite;
 			}
 		}
+		
+		MouseEntered += OnAreaEntered;
+		MouseExited += OnAreaExited;
 	}
 	
 	
@@ -94,6 +98,22 @@ public partial class GenericPart : Area2D
 		}
 	}
 	
+	
+	
+	// For displaying label of hovered area
+	private void OnAreaEntered()
+	{
+		GD.Print("Area entered");
+		
+		EmitSignal(SignalName.UpgradePartHoverEnter, this);
+	}
+	
+	private void OnAreaExited()
+	{
+		GD.Print("Area exited");
+		
+		EmitSignal(SignalName.UpgradePartHoverExit, this);
+	}
 	
 	
 }

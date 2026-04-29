@@ -85,6 +85,8 @@ public partial class UpgradeManager : Node2D
 	
 	public override void _Process(double delta)
 	{
+		HandleLabelMovement();
+		
 		if (currentPart == null)
 		{
 			return;
@@ -115,6 +117,16 @@ public partial class UpgradeManager : Node2D
 			{
 				ResetAndDisableMovement();
 			}
+		}
+	}
+	
+	
+	// Part info on hover
+	private void HandleLabelMovement()
+	{
+		foreach (var label in GetChildren().OfType<UpgradePartHoverLabel>())
+		{
+			label.GlobalPosition = GetGlobalMousePosition();
 		}
 	}
 	
@@ -205,7 +217,7 @@ public partial class UpgradeManager : Node2D
 		// Initialize new area2d, for body part removal bounds
 		var removalBoundsScene = GD.Load<PackedScene>("res://Scenes/Clone/removal_bounds.tscn");
 		RemovalBounds removalBounds = removalBoundsScene.Instantiate<RemovalBounds>();
-		AddChild(removalBounds);
+		partsRoot.AddChild(removalBounds);
 		
 		// Properties
 		activeRemovalBounds = removalBounds;
@@ -316,7 +328,7 @@ public partial class UpgradeManager : Node2D
 		// Load and add to scene
 		var upgradePartScene = GD.Load<PackedScene>(sceneDirectory);
 		var part = upgradePartScene.Instantiate<GenericPart>();
-		AddChild(part);
+		partsRoot.AddChild(part);
 		
 		// Flip on right
 		if (side == Utils.Side.Right)
@@ -331,6 +343,8 @@ public partial class UpgradeManager : Node2D
 		// link signals to functions
 		part.UpgradeSiteClicked += MovePart;
 		part.UpgradeSiteReleased += AttachPart;
+		part.UpgradePartHoverEnter += CreateHoverLabel;
+		part.UpgradePartHoverExit += DeleteHoverLabel;
 		
 		zIndex++;
 		part.ZIndex = zIndex;
@@ -370,6 +384,7 @@ public partial class UpgradeManager : Node2D
 	}
 	
 	
+	// --- Attaching Parts ---
 	
 	// Adds newly attached part to save data list of attached parts
 	private static void AddSaveDataAttachedPart(GenericPart part)
@@ -411,6 +426,69 @@ public partial class UpgradeManager : Node2D
 	}
 	
 	
+	// --- Labels ---
+	
+	// Mostly copied from ResearchTab AddTempLabel, because it wouldnt let me put it inside of Utils
+	// Or use it calling the function from here as its not static
+	// TODO: Fix this not displaying the labels on top
+	// TODO: Fix the scale being off, it is way bigger than it should be, look at button hover info for correct size
+		// might be because the clone is scaled up 1.5x?
+	private void CreateHoverLabel(GenericPart part)
+	{
+		// Dont display label if dragging
+		if(moveObject)
+			return;
+		
+		GD.Print("Signal go");
+		
+		
+		PackedScene labelScene = GD.Load<PackedScene>("res://Scenes/UI/upgrade_part_hover_label.tscn");
+		UpgradePartHoverLabel label = labelScene.Instantiate<UpgradePartHoverLabel>();
+		
+		label.MouseFilter = Control.MouseFilterEnum.Ignore;
+		label.Text = "Hello";
+		
+		var settings = new LabelSettings
+		{
+			FontSize = 20,
+			FontColor = Colors.White,
+			
+			OutlineSize = 8,
+			OutlineColor = Colors.Black,
+		};
+		
+		label.LabelSettings = settings;
+		label.HoverTimerTimeout += DisplayHoverLabel;
+		
+		AddChild(label);
+		
+		label.Position = Vector2.Zero;
+		label.Visible = false;
+		label.ZIndex = 1;
+		
+		GD.Print("label created");
+	}
+	
+	
+	// Mostly Copied from ResearchTab OnMouseExitedButton
+	private void DeleteHoverLabel(Area2D area)
+	{
+		foreach (var label in GetChildren().OfType<UpgradePartHoverLabel>())
+		{
+			GD.Print("label deleted");
+			
+			label.QueueFree();
+		}
+	}
+	
+	
+	// Displays the hover label after its timer times out
+	// The player has to hover for x seconds before info is displayed
+	private void DisplayHoverLabel(UpgradePartHoverLabel label)
+	{
+		GD.Print("label displayed");
+		label.Visible = true;
+	}
 	
 	
 	
