@@ -13,6 +13,7 @@
 [node name="Clone" type="Node2D" unique_id=397786538 node_paths=PackedStringArray("partsRoot")]
 script = ExtResource("1_8dv1k")
 partsRoot = NodePath(".")
+type = 4
 
 [node name="Head" type="Sprite2D" parent="." unique_id=1194362875]
 position = Vector2(0, -79)

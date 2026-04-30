@@ -321,6 +321,12 @@ public partial class UpgradeManager : Node2D
 	}
 	
 	
+	
+	// TODO: add something to vary the placement,
+		// set starting position to somewhere at bottom of tab
+		// randomly variate by some amount inside of total area
+		// set side based on position
+	
 	// Adds a draggable body part to the scene
 		// NOTE: To get "sceneDirectory" - right click on body part scene in the file system in Godot, e.g. "shoulder.tscn" > Copy Path > paste as sceneDirectory
 	public GenericPart AddPartToScene(string sceneDirectory, Utils.Side side, Utils.UpgradeTier tier)
@@ -329,6 +335,7 @@ public partial class UpgradeManager : Node2D
 		var upgradePartScene = GD.Load<PackedScene>(sceneDirectory);
 		var part = upgradePartScene.Instantiate<GenericPart>();
 		partsRoot.AddChild(part);
+		part.GlobalPosition = partsRoot.GlobalPosition;
 		
 		// Flip on right
 		if (side == Utils.Side.Right)
@@ -446,7 +453,7 @@ public partial class UpgradeManager : Node2D
 		UpgradePartHoverLabel label = labelScene.Instantiate<UpgradePartHoverLabel>();
 		
 		label.MouseFilter = Control.MouseFilterEnum.Ignore;
-		label.Text = "Hello";
+		label.Text = $"{part.tier}";
 		
 		var settings = new LabelSettings
 		{

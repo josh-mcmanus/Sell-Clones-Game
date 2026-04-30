@@ -10,6 +10,9 @@ public partial class UpgradesTab : Control
 	[Export]
 	public VBoxContainer listArea;
 	
+	[Export]
+	public Utils.NodeType type;
+	
 	private PackedScene foldableListScene;
 	private PackedScene listUpgradeScene;
 	

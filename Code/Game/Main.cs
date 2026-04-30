@@ -11,7 +11,7 @@ public partial class Main : Control
 	private const string TAG = "Main";
 	
 	[Export]
-	private CloneManager cloneManager;
+	private Godot.Collections.Dictionary<UpgradesTab, UpgradeManager> upgradeManagers {get; set;} = new();
 	
 	private double timer = 0;
 	private double baseCost = 50;
@@ -58,18 +58,33 @@ public partial class Main : Control
 	
 	
 	// Add body part on list item click
-	private void AddUpgradePart(ListUpgrade listUpgrade)
+	private void AddUpgradePart(ListUpgrade upgradeToAdd)
 	{
-		GD.Print("part added from list");
-		var partDirectory = Utils.GetUpgradePartDirectory(listUpgrade.part);
+		Utils.Log(TAG, "Part added from list");
 		
-		// TODO: add something to vary the placement,
-		// set starting position to somewhere at bottom of tab
-		// randomly variate by some amount inside of total area
-		// set side based on position
-		// Do inside of the main addUpgradeParttoscene function maybe
-		GenericPart part = cloneManager.AddPartToScene(partDirectory, Utils.Side.Left, listUpgrade.tier);
-		part.part = listUpgrade.part;
+		foreach (var manager in upgradeManagers)
+		{
+			Utils.Log(TAG, $"Key: {manager.Key}, Value: {manager.Value}");
+		}
+		
+		var partDirectory = Utils.GetUpgradePartDirectory(upgradeToAdd.part);
+		
+		GenericPart part;
+		
+		// Add upgrade only to matching area type
+		foreach (var upgradeManager in upgradeManagers)
+		{
+			if (Utils.UpgradePartCategories[upgradeToAdd.part] != upgradeManager.Key.type)
+				continue;
+			
+			part = upgradeManager.Value.AddPartToScene(
+				partDirectory, 
+				Utils.Side.None, 
+				upgradeToAdd.tier
+			);
+			
+			part.part = upgradeToAdd.part;
+		}
 	}
 	
 	

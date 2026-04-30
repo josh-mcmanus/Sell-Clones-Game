@@ -208,7 +208,34 @@ public partial class Utils : Node
 		{UpgradePart.Calf,     "res://Scenes/Clone/Body Parts/calf.tscn"},
 		{UpgradePart.Foot,     "res://Scenes/Clone/Body Parts/foot.tscn"},
 		
+		// TODO: Temp placeholder
+		{UpgradePart.Heart,  "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.Lung,   "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.Liver,  "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.Kidney, "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.Spine,  "res://Scenes/Game/generic_upgrade.tscn"},
 		
+		{UpgradePart.Processor,         "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.MemoryEnhancer,    "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.NeuralInterface,   "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.PredictionEngine,  "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.NeuronCompressor,  "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.PatternRecognizer, "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.EmotionSupressor,  "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.AICoprocessor,     "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.QuantumFluctuator, "res://Scenes/Game/generic_upgrade.tscn"},
+		
+		{UpgradePart.GrowthAccelerator,      "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.TimeDilationField,      "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.MutationFilter,         "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.IncompleteCloning,      "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.WeakGenetics,           "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.ReducedLifespan,        "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.ImmuneRejection,        "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.OverclockedCellDivider, "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.MutationEngine,         "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.RandomizedGrowth,       "res://Scenes/Game/generic_upgrade.tscn"},
+		{UpgradePart.GeneticShuffler,        "res://Scenes/Game/generic_upgrade.tscn"},
 	};
 	
 	
