@@ -17,7 +17,7 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 0.6392157)
 shadow_offset = Vector2(3, 3)
 
-[node name="Main" type="Control" unique_id=260101406 node_paths=PackedStringArray("upgradeManagers")]
+[node name="Main" type="Control" unique_id=260101406 node_paths=PackedStringArray("upgradeManagers", "canvasLayer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +32,7 @@ NodePath("MarginContainer/VBoxContainer/Main Content/Right Side/Right/Organ Part
 NodePath("MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain Parts/VBoxContainer/Brain Upgrades Tab"): NodePath("MarginContainer/VBoxContainer/Main Content/Left Side/Left/Left/Brain Stuff/Brain/Brain Matrix"),
 NodePath("MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank Parts/VBoxContainer/Tank Upgrades Tab"): NodePath("MarginContainer/VBoxContainer/Main Content/Right Side/Right/Right/Tank Stuff/Tank/Tank")
 }
+canvasLayer = NodePath("CanvasLayer")
 
 [node name="Background Color" type="ColorRect" parent="." unique_id=2016027142]
 layout_mode = 1
@@ -227,7 +228,7 @@ color = Color(0.6431373, 1, 1, 1)
 
 [node name="Clone" parent="MarginContainer/VBoxContainer/Main Content/Middle/Clone" unique_id=397786538 instance=ExtResource("7_wrqr2")]
 position = Vector2(250, 250)
-type = 0
+enableHoverLabels = true
 
 [node name="Right Side" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Main Content" unique_id=1438270217]
 layout_mode = 2
@@ -361,3 +362,5 @@ offset_right = -908.0
 offset_bottom = -396.0
 mouse_filter = 2
 nodeType = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1311548097]

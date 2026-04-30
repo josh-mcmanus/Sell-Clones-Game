@@ -13,6 +13,9 @@ public partial class Main : Control
 	[Export]
 	private Godot.Collections.Dictionary<UpgradesTab, UpgradeManager> upgradeManagers {get; set;} = new();
 	
+	[Export]
+	private CanvasLayer canvasLayer;
+	
 	private double timer = 0;
 	private double baseCost = 50;
 	private double nodeCostMultiplier = 1.8f;

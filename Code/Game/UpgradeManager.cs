@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class UpgradeManager : Node2D
@@ -7,7 +8,16 @@ public partial class UpgradeManager : Node2D
 	[Export]
 	private Node2D partsRoot;
 	
+	[Export]
+	private bool enableHoverLabels = false; 
+	// NOTE: ONLY set for clone manager, do NOT set brain or tank
+	// It doesnt work for them and causes duplicate labels
+	
 	private const string TAG = "UpgradeManager";
+	
+	// Label
+	private GenericPart currentHover;
+	private UpgradePartHoverLabel currentLabel;
 	
 	// Mouse position and offset
 	private Vector2 currentGlobalMousePosition = Vector2.Zero;
@@ -85,6 +95,7 @@ public partial class UpgradeManager : Node2D
 	
 	public override void _Process(double delta)
 	{
+		HandleLabelOnHover();
 		HandleLabelMovement();
 		
 		if (currentPart == null)
@@ -121,12 +132,59 @@ public partial class UpgradeManager : Node2D
 	}
 	
 	
-	// Part info on hover
+	// --- Label Handling ---
+	
+	// Move label to follow mouse
 	private void HandleLabelMovement()
 	{
-		foreach (var label in GetChildren().OfType<UpgradePartHoverLabel>())
+		if (currentLabel != null)
 		{
-			label.GlobalPosition = GetGlobalMousePosition();
+			currentLabel.GlobalPosition = GetGlobalMousePosition();
+		}
+	}
+	
+	
+	// Display label if mouse is hovering over generic part
+	private void HandleLabelOnHover()
+	{
+		if(!enableHoverLabels)
+			return;
+		
+		var state = GetWorld2D().DirectSpaceState;
+		
+		PhysicsPointQueryParameters2D query = new()
+		{
+			CollideWithAreas = true,
+			CollideWithBodies = false,
+			Position = GetGlobalMousePosition()
+		};
+		
+		var intersect = state.IntersectPoint(query);
+		
+		GenericPart foundPart = null;
+		
+		foreach (var area in intersect)
+		{
+			var obj = (GodotObject)area["collider"];
+			
+			if (obj is GenericPart part)
+			{
+				foundPart = part;
+				break;
+			}
+		}
+		
+		// Hovering over new area
+		if (foundPart != currentHover)
+		{
+			// Delete old label
+			if (currentHover != null)
+				DeleteHoverLabel();
+			
+			currentHover = foundPart;
+			
+			if(currentHover != null)
+				CreateHoverLabel(currentHover);
 		}
 	}
 	
@@ -350,8 +408,6 @@ public partial class UpgradeManager : Node2D
 		// link signals to functions
 		part.UpgradeSiteClicked += MovePart;
 		part.UpgradeSiteReleased += AttachPart;
-		part.UpgradePartHoverEnter += CreateHoverLabel;
-		part.UpgradePartHoverExit += DeleteHoverLabel;
 		
 		zIndex++;
 		part.ZIndex = zIndex;
@@ -438,22 +494,20 @@ public partial class UpgradeManager : Node2D
 	// Mostly copied from ResearchTab AddTempLabel, because it wouldnt let me put it inside of Utils
 	// Or use it calling the function from here as its not static
 	// TODO: Fix this not displaying the labels on top
-	// TODO: Fix the scale being off, it is way bigger than it should be, look at button hover info for correct size
-		// might be because the clone is scaled up 1.5x?
 	private void CreateHoverLabel(GenericPart part)
 	{
 		// Dont display label if dragging
 		if(moveObject)
 			return;
 		
-		GD.Print("Signal go");
-		
+		if(currentLabel != null)
+			return;
 		
 		PackedScene labelScene = GD.Load<PackedScene>("res://Scenes/UI/upgrade_part_hover_label.tscn");
-		UpgradePartHoverLabel label = labelScene.Instantiate<UpgradePartHoverLabel>();
+		currentLabel = labelScene.Instantiate<UpgradePartHoverLabel>();
 		
-		label.MouseFilter = Control.MouseFilterEnum.Ignore;
-		label.Text = $"{part.tier}";
+		currentLabel.MouseFilter = Control.MouseFilterEnum.Ignore;
+		currentLabel.Text = $"{part.tier}";
 		
 		var settings = new LabelSettings
 		{
@@ -464,28 +518,29 @@ public partial class UpgradeManager : Node2D
 			OutlineColor = Colors.Black,
 		};
 		
-		label.LabelSettings = settings;
-		label.HoverTimerTimeout += DisplayHoverLabel;
+		currentLabel.LabelSettings = settings;
+		currentLabel.HoverTimerTimeout += DisplayHoverLabel;
 		
-		AddChild(label);
+		AddChild(currentLabel);
 		
-		label.Position = Vector2.Zero;
-		label.Visible = false;
-		label.ZIndex = 1;
+		currentLabel.Position = GetGlobalMousePosition();
+		currentLabel.Visible = false;
+		currentLabel.ZIndex = zIndex;
 		
-		GD.Print("label created");
+		Utils.Log(TAG, "Label Created, hidden until timeout");
 	}
 	
 	
 	// Mostly Copied from ResearchTab OnMouseExitedButton
-	private void DeleteHoverLabel(Area2D area)
+	private void DeleteHoverLabel()
 	{
-		foreach (var label in GetChildren().OfType<UpgradePartHoverLabel>())
+		if (currentLabel != null)
 		{
-			GD.Print("label deleted");
-			
-			label.QueueFree();
+			currentLabel.QueueFree();
+			currentLabel = null;
 		}
+		
+		Utils.Log(TAG, "Label Deleted");
 	}
 	
 	
@@ -493,8 +548,9 @@ public partial class UpgradeManager : Node2D
 	// The player has to hover for x seconds before info is displayed
 	private void DisplayHoverLabel(UpgradePartHoverLabel label)
 	{
-		GD.Print("label displayed");
 		label.Visible = true;
+		
+		Utils.Log(TAG, "Label Displayed");
 	}
 	
 	
