@@ -17,7 +17,9 @@ public partial class UpgradeManager : Node2D
 	
 	// Label
 	private GenericPart currentHover;
-	private UpgradePartHoverLabel currentLabel;
+	private Label hoverLabel;
+	private Timer hoverTimer;
+	private bool isHoverUnlocked = false;
 	
 	// Mouse position and offset
 	private Vector2 currentGlobalMousePosition = Vector2.Zero;
@@ -137,9 +139,9 @@ public partial class UpgradeManager : Node2D
 	// Move label to follow mouse
 	private void HandleLabelMovement()
 	{
-		if (currentLabel != null)
+		if (hoverLabel != null)
 		{
-			currentLabel.GlobalPosition = GetGlobalMousePosition();
+			hoverLabel.GlobalPosition = GetGlobalMousePosition();
 		}
 	}
 	
@@ -186,6 +188,9 @@ public partial class UpgradeManager : Node2D
 			if(currentHover != null)
 				CreateHoverLabel(currentHover);
 		}
+		
+		if(foundPart == null)
+			isHoverUnlocked = false;
 	}
 	
 	
@@ -497,17 +502,17 @@ public partial class UpgradeManager : Node2D
 	private void CreateHoverLabel(GenericPart part)
 	{
 		// Dont display label if dragging
-		if(moveObject)
+		if (moveObject)
 			return;
 		
-		if(currentLabel != null)
+		if (hoverLabel != null)
 			return;
 		
-		PackedScene labelScene = GD.Load<PackedScene>("res://Scenes/UI/upgrade_part_hover_label.tscn");
-		currentLabel = labelScene.Instantiate<UpgradePartHoverLabel>();
-		
-		currentLabel.MouseFilter = Control.MouseFilterEnum.Ignore;
-		currentLabel.Text = $"{part.tier}";
+		hoverLabel = new Label
+		{
+			MouseFilter = Control.MouseFilterEnum.Ignore,
+			Text = $"{part.tier}"
+		};
 		
 		var settings = new LabelSettings
 		{
@@ -518,26 +523,47 @@ public partial class UpgradeManager : Node2D
 			OutlineColor = Colors.Black,
 		};
 		
-		currentLabel.LabelSettings = settings;
-		currentLabel.HoverTimerTimeout += DisplayHoverLabel;
+		hoverLabel.LabelSettings = settings;
 		
-		AddChild(currentLabel);
+		AddChild(hoverLabel);
 		
-		currentLabel.Position = GetGlobalMousePosition();
-		currentLabel.Visible = false;
-		currentLabel.ZIndex = zIndex;
+		hoverLabel.Position = GetGlobalMousePosition();
+		hoverLabel.Visible = false;
+		hoverLabel.ZIndex = zIndex;
 		
-		Utils.Log(TAG, "Label Created, hidden until timeout");
+		hoverTimer = new Timer
+		{
+			OneShot = true,
+			WaitTime = 1
+		};
+		
+		hoverTimer.Timeout += DisplayHoverLabel;
+		
+		AddChild(hoverTimer);
+		hoverTimer.Start();
+		
+		
+		if (isHoverUnlocked)
+		{
+			DisplayHoverLabel();
+		}
+		else
+		{
+			Utils.Log(TAG, "Label Created, hidden until timeout");
+		}
 	}
 	
 	
 	// Mostly Copied from ResearchTab OnMouseExitedButton
 	private void DeleteHoverLabel()
 	{
-		if (currentLabel != null)
+		if (hoverLabel != null)
 		{
-			currentLabel.QueueFree();
-			currentLabel = null;
+			hoverTimer.QueueFree();
+			hoverTimer = null;
+			
+			hoverLabel.QueueFree();
+			hoverLabel = null;
 		}
 		
 		Utils.Log(TAG, "Label Deleted");
@@ -546,9 +572,10 @@ public partial class UpgradeManager : Node2D
 	
 	// Displays the hover label after its timer times out
 	// The player has to hover for x seconds before info is displayed
-	private void DisplayHoverLabel(UpgradePartHoverLabel label)
+	private void DisplayHoverLabel()
 	{
-		label.Visible = true;
+		hoverLabel.Visible = true;
+		isHoverUnlocked = true;
 		
 		Utils.Log(TAG, "Label Displayed");
 	}
